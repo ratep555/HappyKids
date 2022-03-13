@@ -1,0 +1,64 @@
+
+<div class="container mt-5">
+    <div class="row" *ngIf="childrenItem">
+        <div class="col-6">
+            <img src="{{childrenItem.picture || './assets/kids.jpg'}}" alt="{{childrenItem.name}}" class="zagi img-fluid w-100">
+        </div>
+        <div class="col-6">
+          <h3>{{childrenItem.name}}</h3>
+          <ng-container>
+            <div id="wrapper" *ngIf="childrenItem?.discountedPrice !== null" >
+              <p id="first" style="font-size: 2em;">{{childrenItem.price | number: "1.2-2" }} kn</p>
+              <p id="second" style="font-size: 1em;">new price</p>
+              <p id="third" style="font-size: 2em;">{{childrenItem.discountedPrice | number: "1.2-2" }} kn</p>
+              <span class="sale">{{childrenItem?.discountSum}}%</span>
+            </div>
+            <div *ngIf="childrenItem?.discountedPrice === null" >
+              <p style="font-size: 2em;">{{childrenItem.price | number: "1.2-2" }} kn</p>
+            </div>
+          </ng-container>
+            <ng-container>
+              <div *ngIf="childrenItem?.stockQuantity > 0; else elseBlock" 
+              class="d-flex justify-content-start align-items-center">
+                <i  
+                class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>              
+                <span class="font-weight-bold" style="font-size: 1.5em;">{{quantity}}</span>
+                <i class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>              
+                <button class="btn btn-outline-primary btn-lg ml-4">Add to Cart</button>          
+                <p class="pip mt-3" 
+                *ngIf="childrenItem?.stockQuantity < 3 && childrenItem?.stockQuantity > null">
+                {{childrenItem?.stockQuantity}} item(s) remaining </p>      
+              </div>
+              <ng-template #elseBlock>
+                <h3 style="color: red;" class="mt-3" 
+                *ngIf="childrenItem?.stockQuantity < 1">
+               Out of stock! </h3>
+              </ng-template>
+  
+            </ng-container>
+              <p class="kiki">
+                Average vote: {{ childrenItem.averageVote }} | Your vote:
+                {{ childrenItem.userVote }}
+              </p>
+            <!--   <ng-container>
+                <app-rating
+                  (nonRating)="onRating($event)"
+                  [selectedRate]="item.userVote"
+                ></app-rating>
+              </ng-container> -->
+              <div class="kiki1" *ngFor="let discount of childrenItem.discounts">
+                <li>{{discount.name}} {{discount.discountPercentage}} % valid untill {{discount.endDate | date: "dd.MM.yyyy"}}</li>
+              </div>
+            </div>
+      </div>
+        <div>
+     </div>     
+     <div>
+      <h4 class="mt-3">Description:</h4>
+      <p>{{childrenItem?.description}}</p> {{childrenItem?.stockQuantity}}
+      <p>{{childrenItem?.discountedPrice}}</p>
+      <p>{{childrenItem?.stockQuantity - quantity}}</p>
+     </div>
+  </div>
+  
+  

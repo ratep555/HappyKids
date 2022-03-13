@@ -1,0 +1,29 @@
+[
+    {
+      "CountryId": 1,
+      "City": "Zagreb",
+      "Street": "Petrova 77",
+      "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+      "Phone": "003851345797",
+      "Email": "happykids.zagreb@gmail.com",
+      "WorkingHours": "Monday - Sunday: 09:00 - 21:00"
+    },
+    {
+      "CountryId": 2,
+      "City": "Ljubljana",
+      "Street": "Prešernova 77",
+      "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+      "Phone": "003861297783",
+      "Email": "happykids.ljubljana@gmail.com",
+      "WorkingHours": "Monday - Sunday: 09:00 - 21:00"
+    },
+    {
+      "CountryId": 1,
+      "City": "Rijeka",
+      "Street": "Riječka 77",
+      "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+      "Phone": "0038551257345",
+      "Email": "happykids.rijeka@gmail.com",
+      "WorkingHours": "Monday - Sunday: 09:00 - 21:00"
+    }
+  ]

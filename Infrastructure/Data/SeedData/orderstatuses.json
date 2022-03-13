@@ -1,0 +1,26 @@
+[
+    {
+        "Name": "Order Accepted"
+    },
+    {
+        "Name": "Order Rejected"
+    },
+    {
+      "Name": "Pending Payment"
+    },
+    {
+      "Name": "Received Payment"
+    },
+    {
+      "Name": "Failed Payment"
+    },
+    {
+      "Name": "Not yet Shipped"
+    },
+    {
+      "Name": "Shipped"
+    },
+    {
+      "Name": "Delivered"
+    }
+  ]
