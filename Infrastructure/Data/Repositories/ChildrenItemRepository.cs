@@ -77,6 +77,11 @@ namespace Infrastructure.Data.Repositories
                 .Include(x => x.ChildrenItemTags).ThenInclude(x => x.Tag).
             FirstOrDefaultAsync(x => x.Id == id);
         }
+        
+        public async Task<ChildrenItem> GetChildrenItemByIdWithoutInclude(int id)
+        {
+            return await _context.ChildrenItems.FirstOrDefaultAsync(x => x.Id == id);
+        }
 
         public async Task AddChildernItem(ChildrenItem childrenItem)
         {

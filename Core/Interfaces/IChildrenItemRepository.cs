@@ -12,6 +12,7 @@ namespace Core.Interfaces
         Task<List<ChildrenItem>> GetAllChildrenItems(QueryParameters queryParameters);
         Task<int> GetCountForChildrenItems();
         Task<ChildrenItem> GetChildrenItemById(int id);
+        Task<ChildrenItem> GetChildrenItemByIdWithoutInclude(int id);
         Task AddChildernItem(ChildrenItem childrenItem);
         Task UpdateChildrenItem(ChildrenItem childrenItem);
         Task<List<Category>> GetAllCategories();

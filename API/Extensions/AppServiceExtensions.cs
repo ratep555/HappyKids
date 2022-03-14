@@ -19,7 +19,13 @@ namespace API.Extensions
             IConfiguration config)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPdfService, PdfService>();
             services.AddScoped<ITokenService, TokenService>();
+            
             services.AddScoped<IFileStorageService, StoreInApplicationService>();
             services.AddHttpContextAccessor();
             

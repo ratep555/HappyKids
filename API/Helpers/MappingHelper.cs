@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Core.Dtos;
+using Core.Dtos.BasketsDtos;
 using Core.Dtos.ChildrenItemsDtos;
 using Core.Dtos.DiscountsDto;
 using Core.Dtos.Identity;
+using Core.Dtos.OrdersDtos;
 using Core.Entities;
 using Core.Entities.ChildrenItems;
+using Core.Entities.ClientBaskets;
 using Core.Entities.Discounts;
 using Core.Entities.Identity;
+using Core.Entities.Orders;
 using NetTopologySuite.Geometries;
 
 namespace API.Helpers
@@ -18,6 +22,9 @@ namespace API.Helpers
         {
             CreateMap<RegisterDto, ApplicationUser>()
                 .ForMember(d => d.UserName, o => o.MapFrom(s => s.DisplayName));
+            
+            CreateMap<BasketChildrenItemDto, BasketChildrenItem>();
+            CreateMap<ClientBasketDto, ClientBasket>();
             
             CreateMap<Category, CategoryDto>().ReverseMap();
 
@@ -33,13 +40,15 @@ namespace API.Helpers
                 .ForMember(x => x.ChildrenItemDiscounts, options => options.MapFrom(MapItemDiscounts))
                 .ForMember(x => x.ChildrenItemManufacturers, options => options.MapFrom(MapChildrenItemManufacturers))
                 .ForMember(x => x.ChildrenItemTags, options => options.MapFrom(MapChildrenItemTags));
-
+                
             CreateMap<Discount, DiscountDto>()
                 .ForMember(d => d.ChildrenItems, o => o.MapFrom(MapForChildrenItems))
                 .ForMember(d => d.Categories, o => o.MapFrom(MapForCategories1))
                 .ForMember(d => d.Manufacturers, o => o.MapFrom(MapForManufacturers));
 
             CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
+
+            CreateMap<ShippingAddressDto, ShippingAddress>().ReverseMap();
 
             CreateMap<Tag, TagDto>().ReverseMap();
 

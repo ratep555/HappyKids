@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
+
 namespace Core.Interfaces
 {
-    public class IEmailService
+    public interface IEmailService
     {
-        
+        Task SendEmail(string toEmail, string subject, string content);
+        Task SendEmailForGeneralCardSlip(string toEmail, string subject, string content, int orderNo);
     }
 }

@@ -35,6 +35,17 @@ namespace Infrastructure.Data
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
             
+            modelBuilder.Entity<ClientOrder>()
+                .HasMany(x => x.OrderChildrenItems)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<ClientOrder>()
+                .OwnsOne(s => s.ShippingAddress, a => {a.WithOwner();});
+
+            modelBuilder.Entity<OrderChildrenItem>()
+                .OwnsOne(s => s.BasketChildrenItemOrdered, io => {io.WithOwner();});
+            
             modelBuilder.Entity<CategoryDiscount>()
                 .HasKey(x => new { x.CategoryId, x.DiscountId }); 
             
@@ -69,6 +80,8 @@ namespace Infrastructure.Data
             public DbSet<ChildrenItemManufacturer> ChildrenItemManufacturers { get; set; }
             public DbSet<ChildrenItemTag> ChildrenItemTags { get; set; }
             public DbSet<ChildrenItemWarehouse> ChildrenItemWarehouses { get; set; }
+            public DbSet<ClientOrder> ClientOrders { get; set; }
+            public DbSet<OrderChildrenItem> OrderChildrenItems { get; set; }
             public DbSet<Country> Countries { get; set; }
             public DbSet<Discount> Discounts { get; set; }
             public DbSet<Manufacturer> Manufacturers { get; set; }

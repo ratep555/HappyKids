@@ -438,6 +438,68 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Manufacturers");
                 });
 
+            modelBuilder.Entity("Core.Entities.Orders.ClientOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("DateOfCreation")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("OrderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShippingOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("PaymentOptionId");
+
+                    b.HasIndex("ShippingOptionId");
+
+                    b.ToTable("ClientOrders");
+                });
+
+            modelBuilder.Entity("Core.Entities.Orders.OrderChildrenItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClientOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientOrderId");
+
+                    b.ToTable("OrderChildrenItems");
+                });
+
             modelBuilder.Entity("Core.Entities.Orders.OrderStatus", b =>
                 {
                     b.Property<int>("Id")
@@ -804,6 +866,94 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Entities.Orders.ClientOrder", b =>
+                {
+                    b.HasOne("Core.Entities.Orders.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId");
+
+                    b.HasOne("Core.Entities.Orders.PaymentOption", "PaymentOption")
+                        .WithMany()
+                        .HasForeignKey("PaymentOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Orders.ShippingOption", "ShippingOption")
+                        .WithMany()
+                        .HasForeignKey("ShippingOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Core.Entities.Orders.ShippingAddress", "ShippingAddress", b1 =>
+                        {
+                            b1.Property<int>("ClientOrderId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("City")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("CountryId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("FirstName")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("LastName")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ClientOrderId");
+
+                            b1.ToTable("ClientOrders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClientOrderId");
+                        });
+
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("PaymentOption");
+
+                    b.Navigation("ShippingAddress");
+
+                    b.Navigation("ShippingOption");
+                });
+
+            modelBuilder.Entity("Core.Entities.Orders.OrderChildrenItem", b =>
+                {
+                    b.HasOne("Core.Entities.Orders.ClientOrder", null)
+                        .WithMany("OrderChildrenItems")
+                        .HasForeignKey("ClientOrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("Core.Entities.ClientBaskets.BasketChildrenItemOrdered", "BasketChildrenItemOrdered", b1 =>
+                        {
+                            b1.Property<int>("OrderChildrenItemId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("BasketChildrenItemOrderedId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("BasketChildrenItemOrderedName")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("OrderChildrenItemId");
+
+                            b1.ToTable("OrderChildrenItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderChildrenItemId");
+                        });
+
+                    b.Navigation("BasketChildrenItemOrdered");
+                });
+
             modelBuilder.Entity("Core.Entities.Warehouse", b =>
                 {
                     b.HasOne("Core.Entities.Country", "Country")
@@ -883,6 +1033,11 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Core.Entities.Orders.ClientOrder", b =>
+                {
+                    b.Navigation("OrderChildrenItems");
                 });
 #pragma warning restore 612, 618
         }
