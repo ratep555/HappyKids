@@ -8,6 +8,10 @@ const routes: Routes = [
   () => import('./webshop/webshop.module').then(mod => mod.WebshopModule)},
   {path: 'childrenitems', loadChildren:
   () => import('./admin/childrenitems/childrenitems.module').then(mod => mod.ChildrenitemsModule)},
+  {path: 'tags', loadChildren:
+  () => import('./admin/tags/tags.module').then(mod => mod.TagsModule)},
+  {path: 'warehouses', loadChildren:
+  () => import('./admin/warehouses/warehouses.module').then(mod => mod.WarehousesModule)},
   {path: 'childrenitemwarehouses', loadChildren: () =>
   import('./admin/childrenitem-warehouses/childrenitem-warehouses.module').then(mod => mod.ChildrenitemWarehousesModule)},
   {path: 'basket', loadChildren: () => import('./basket/basket.module').then(mod => mod.BasketModule)},

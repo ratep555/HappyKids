@@ -7,5 +7,8 @@ namespace Core.Entities.ChildrenItems
 
         public int WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; }
+
+        public int StockQuantity { get; set; }
+        public int? ReservedQuantity { get; set; }
     }
 }

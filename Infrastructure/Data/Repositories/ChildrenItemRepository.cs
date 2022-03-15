@@ -172,6 +172,20 @@ namespace Infrastructure.Data.Repositories
             return tags;
         }
 
+        public async Task UpdatingChildrenItemStockQuantityBasedOnWarehousesQuantity(List<ChildrenItem> childrenItems)
+        {
+            IEnumerable<int> ids = childrenItems.Select(x => x.Id);
+
+            foreach (var item in childrenItems)
+            {
+                
+                item.StockQuantity = await _context.ChildrenItemWarehouses
+                    .Where(x => ids.Contains(x.ChildrenItemId) && x.ChildrenItemId == item.Id)
+                    .SumAsync(x => x.StockQuantity);
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

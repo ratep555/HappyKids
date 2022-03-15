@@ -7,12 +7,13 @@ using Core.Dtos.DiscountsDto;
 using Core.Dtos.Identity;
 using Core.Dtos.OrdersDtos;
 using Core.Entities;
+using Core.Entities.Discounts;
 using Core.Entities.ChildrenItems;
 using Core.Entities.ClientBaskets;
-using Core.Entities.Discounts;
 using Core.Entities.Identity;
 using Core.Entities.Orders;
 using NetTopologySuite.Geometries;
+using Core.Dtos.WarehousesDtos;
 
 namespace API.Helpers
 {
@@ -40,11 +41,20 @@ namespace API.Helpers
                 .ForMember(x => x.ChildrenItemDiscounts, options => options.MapFrom(MapItemDiscounts))
                 .ForMember(x => x.ChildrenItemManufacturers, options => options.MapFrom(MapChildrenItemManufacturers))
                 .ForMember(x => x.ChildrenItemTags, options => options.MapFrom(MapChildrenItemTags));
-                
+            
+            CreateMap<ChildrenItemWarehouse, ChildrenItemWarehouseDto>()
+                .ForMember(d => d.ChildrenItem, o => o.MapFrom(s => s.ChildrenItem.Name))
+                .ForMember(d => d.Warehouse, o => o.MapFrom(s => s.Warehouse.Name))
+                .ForMember(d => d.City, o => o.MapFrom(s => s.Warehouse.City));
+            
+            CreateMap<ChildrenItemWarehouseCreateEditDto, ChildrenItemWarehouse>();
+
             CreateMap<Discount, DiscountDto>()
                 .ForMember(d => d.ChildrenItems, o => o.MapFrom(MapForChildrenItems))
                 .ForMember(d => d.Categories, o => o.MapFrom(MapForCategories1))
                 .ForMember(d => d.Manufacturers, o => o.MapFrom(MapForManufacturers));
+
+            CreateMap<Country, CountryDto>().ReverseMap();
 
             CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
 
@@ -52,8 +62,12 @@ namespace API.Helpers
 
             CreateMap<Tag, TagDto>().ReverseMap();
 
+            CreateMap<TagCreateEditDto, Tag>();
+
             CreateMap<Warehouse, WarehouseDto>()
-                .ForMember(d => d.Country, o => o.MapFrom(s => s.Country.Name));    
+                .ForMember(d => d.Country, o => o.MapFrom(s => s.Country.Name)); 
+
+            CreateMap<WarehouseCreateEditDto, Warehouse>();
         }
 
         private List<CategoryDto> MapForCategories(ChildrenItem childrenItem, ChildrenItemDto childrenItemDto)

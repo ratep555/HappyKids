@@ -26,5 +26,7 @@ namespace Core.Interfaces
         Task<List<Category>> GetCategoriesAssociatedWithChildrenItems();
         Task<List<Manufacturer>> GetManufacturersAssociatedWithChildrenItems();
         Task<List<Tag>> GetTagsAssociatedWithChildrenItems();
+        Task UpdatingChildrenItemStockQuantityBasedOnWarehousesQuantity(List<ChildrenItem> childrenItems);
+
     }
 }

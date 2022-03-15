@@ -66,8 +66,6 @@ namespace Infrastructure.Data
             
             modelBuilder.Entity<ManufacturerDiscount>()
                 .HasKey(x => new { x.ManufacturerId, x.DiscountId }); 
-
-         
         }
             public DbSet<Account> Accounts { get; set; }
             public DbSet<Address> Addresses { get; set; }
@@ -76,7 +74,7 @@ namespace Infrastructure.Data
             public DbSet<CategoryDiscount> CategoryDiscounts { get; set; }
             public DbSet<ChildrenItem> ChildrenItems { get; set; }
             public DbSet<ChildrenItemCategory> ChildrenItemCategories { get; set; }
-            public DbSet<ChildrenItemDiscount> childrenItemDiscounts { get; set; }
+            public DbSet<ChildrenItemDiscount> ChildrenItemDiscounts { get; set; }
             public DbSet<ChildrenItemManufacturer> ChildrenItemManufacturers { get; set; }
             public DbSet<ChildrenItemTag> ChildrenItemTags { get; set; }
             public DbSet<ChildrenItemWarehouse> ChildrenItemWarehouses { get; set; }

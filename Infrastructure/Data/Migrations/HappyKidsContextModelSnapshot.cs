@@ -103,7 +103,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("DiscountId");
 
-                    b.ToTable("childrenItemDiscounts");
+                    b.ToTable("ChildrenItemDiscounts");
                 });
 
             modelBuilder.Entity("Core.Entities.ChildrenItems.ChildrenItem", b =>
@@ -193,6 +193,12 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReservedQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("ChildrenItemId", "WarehouseId");

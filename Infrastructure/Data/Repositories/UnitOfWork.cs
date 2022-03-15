@@ -12,10 +12,13 @@ namespace Infrastructure.Data.Repositories
         }
 
         public IChildrenItemRepository ChildrenItemRepository => new ChildrenItemRepository(_context);
+        public IChildrenItemWarehouseRepository ChildrenItemWarehouseRepository => new ChildrenItemWarehouseRepository(_context);
         public IOrderRepository OrderRepository => new OrderRepository(_context);
         public IOrderStatusRepository orderStatusRepository => new OrderStatusRepository(_context);
         public IPaymentOptionRepository PaymentOptionRepository => new PaymentOptionRepository(_context);
         public IShippingOptionRepository ShippingOptionRepository => new ShippingOptionRepository(_context);
+        public ITagRepository TagRepository => new TagRepository(_context);
+        public IWarehouseRepository WarehouseRepository => new WarehouseRepository(_context);
 
         public async Task<bool> SaveAsync()
         {
