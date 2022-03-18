@@ -1,0 +1,74 @@
+<div class="container" style="margin-top: 100px; margin-bottom: 100px">
+    <div class="d-flex justify-content-center mt-5">
+      <div class="col-6">
+        <form
+          [formGroup]="paymentOptionForm"
+          (ngSubmit)="paymentOptionForm.valid && onSubmit()"
+        >
+          <h2 class="kiki text-center text-primary">Edit Payment Form</h2>
+          <input formControlName="id" id="id" class="form-control" hidden />
+          <app-text-input
+          [formControl]="paymentOptionForm.controls['name']"
+          [label]="'Payment Form Name'"
+        ></app-text-input>  
+    <div class="form-group row">
+        <div class="col-md-12">
+          <textarea
+            type="text"
+            placeholder="Description"
+            class="form-control"
+            formControlName="description"
+            rows="10"
+          ></textarea>
+        </div>
+        <span
+          style="font-size: 14px"
+          class="text-danger ml-3"
+          *ngIf="
+            paymentOptionForm.get('description').invalid &&
+            paymentOptionForm.get('description').touched &&
+            paymentOptionForm.get('description').errors['required']
+          "
+        >
+          Please enter a Description
+        </span>
+        <span
+          style="font-size: 14px"
+          class="text-danger ml-3"
+          *ngIf="
+            paymentOptionForm.get('description').invalid &&
+            paymentOptionForm.get('description').touched &&
+            paymentOptionForm.get('description').errors['minlength']
+          "
+        >
+          Please enter at least 5 characters
+        </span>
+        <span
+          style="font-size: 14px"
+          class="text-danger ml-3"
+          *ngIf="
+            paymentOptionForm.get('description').invalid &&
+            paymentOptionForm.get('description').touched &&
+            paymentOptionForm.get('description').errors['maxlength']
+          "
+        >
+          Please enter at most 1000 characters
+        </span>
+      </div>
+          <div
+            style="margin-top: 50px; margin-bottom: 40px"
+            class="form-group text-center"
+          >
+            <button
+              [disabled]="!paymentOptionForm.valid"
+              class="btn btn-success mr-2"
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

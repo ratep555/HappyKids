@@ -1,6 +1,7 @@
 import { User } from './user';
 
 export class MyParams {
+    orderStatusId = 0;
     manufacturerId = 0;
     locationId = 0;
     sort = 'something';
@@ -12,6 +13,7 @@ export class MyParams {
 }
 
 export class UserParams {
+    orderStatusId = 0;
     manufacturerId = 0;
     sort = 'something';
     tagId = 0;

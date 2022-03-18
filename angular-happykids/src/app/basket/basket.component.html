@@ -1,1 +1,29 @@
-<p>basket works!</p>
+<div class="container text-center">
+    <div class="hello" *ngIf="(basket$ | async) === null">
+        <div><i class="fa fa-times fa-5x" style="color: red;"></i></div>
+        <h2>Your basket is empty</h2>
+         </div>
+    <div *ngIf="basket$ | async">
+        <div class="pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 py-5 mb-1">
+                        <app-basket-review
+                        (decrease)="decreaseBasketItemQuantity($event)"
+                        (increase)="increaseBasketItemQuantity($event)"
+                        (remove)="removingItemFromBasket($event)"
+                    ></app-basket-review>
+                    </div>
+                </div>      
+                <div class="row">
+                    <div class="col-5 offset-7">
+                        <app-order-sum></app-order-sum>
+               <a routerLink="/billing" class="btn btn-outline-primary py-3 btn-block">
+                            Proceed to billing
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

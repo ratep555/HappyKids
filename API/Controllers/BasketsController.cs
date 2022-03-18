@@ -27,17 +27,17 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ClientBasket>> EditClientBasket(ClientBasketDto basketDto)
+        public async Task<ActionResult<ClientBasket>> UpdateClientBasket(ClientBasketDto basketDto)
         {
             var basket = _mapper.Map<ClientBasket>(basketDto);
 
-            var editedBasket = await _basketRepository.EditClientBasket(basket);
+            var editedBasket = await _basketRepository.UpdateClientBasket(basket);
 
             return Ok(editedBasket);
         }
 
         [HttpDelete]
-        public async Task DeleteBasket(string id)
+        public async Task DeleteClientBasket(string id)
         {
             await _basketRepository.DeleteClientBasket(id);
         }

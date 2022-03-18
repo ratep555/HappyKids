@@ -184,6 +184,58 @@ namespace API.Controllers
             return response;
         }
 
+        [HttpPut("decrease/{id}/{quantity}")]
+        public async Task<ActionResult> DecreaseChildrenItemStockQuantity(int id, int quantity)
+        {
+            var item = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
+
+            if (quantity > item.StockQuantity)
+            {
+                return BadRequest("There are only " + (item.StockQuantity) + " items on stock right now.");
+            }
+
+            if (item.StockQuantity > 0)
+            {
+                item.StockQuantity = item.StockQuantity - quantity;
+
+                if (item.StockQuantity == 0)
+                {
+                    item.StockQuantity = 0;
+                }
+            }
+
+            await _unitOfWork.SaveAsync();
+
+            if (quantity <= 1)
+            {
+                await _unitOfWork.ChildrenItemWarehouseRepository
+                    .DecreasingChildrenItemWarehousesQuantity(id, quantity);
+            }
+
+            if (quantity > 1)
+            {
+                await _unitOfWork.ChildrenItemWarehouseRepository
+                    .DecreasingChildrenItemWarehousesQuantity1(id, quantity);
+            } 
+            return NoContent();               
+        }
+
+        [HttpPut("increase/{id}/{quantity}")]
+        public async Task<ActionResult> IncreaseChildrenItemStockQuantity(int id, int quantity)
+        {
+            var item = await _unitOfWork.ChildrenItemRepository.GetChildrenItemByIdWithoutInclude(id);
+
+            item.StockQuantity = item.StockQuantity + quantity;
+
+            await _unitOfWork.SaveAsync();
+
+            await _unitOfWork.ChildrenItemWarehouseRepository
+                .RemovingReservedQuantityFromChildrenItemWarehouses(id, quantity);
+
+            await _unitOfWork.ChildrenItemWarehouseRepository.IncreasingChildrenItemWarehousesQuantity(id, quantity);
+            return NoContent();
+        }
+
         [HttpGet("categories")]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {

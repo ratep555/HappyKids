@@ -11,7 +11,7 @@ import { TagsService } from '../tags.service';
 export class AddTagComponent implements OnInit {
   tagForm: FormGroup;
 
-  constructor(public tagsService: TagsService,
+  constructor(private tagsService: TagsService,
               private router: Router,
               private fb: FormBuilder) { }
 

@@ -106,10 +106,17 @@
             >
             <div class="dropdown-menu" *dropdownMenu>
               <a
+                routerLink="/orderschildrenitems"
+                class="dropdown-item"
+              >
+                <i class="fa fa-user mr-3"></i>Children Items Orders</a
+              >
+              <div class="dropdown-divider"></div>
+              <a
                 routerLink="/childrenitems"
                 class="dropdown-item"
               >
-                <i class="fa fa-user mr-3"></i>ChilrenItems</a
+                <i class="fa fa-user mr-3"></i>Chilren Items</a
               >
               <div class="dropdown-divider"></div>
               <a
@@ -117,6 +124,18 @@
                 class="dropdown-item"
               >
                 <i class="fa fa-phone mr-3"></i>Discounts</a
+              >
+              <a
+                routerLink="/categories"
+                class="dropdown-item"
+              >
+                <i class="fa fa-phone mr-3"></i>Categories</a
+              >
+              <a
+                routerLink="/manufacturers"
+                class="dropdown-item"
+              >
+                <i class="fa fa-phone mr-3"></i>Manufacturers</a
               >
               <a
                 routerLink="/tags"
@@ -135,6 +154,18 @@
                 class="dropdown-item"
               >
                 <i class="fa fa-user-md ml-1 mr-2"></i>Children Item Warehouses</a
+              >
+              <a
+                routerLink="/shippingoptions"
+                class="dropdown-item"
+              >
+                <i class="fa fa-user-md ml-1 mr-2"></i>Shipping Options</a
+              >
+              <a
+                routerLink="/paymentoptions"
+                class="dropdown-item"
+              >
+                <i class="fa fa-user-md ml-1 mr-2"></i>Payment Options</a
               >
               <a
                 routerLink="/birthdaypackages/birthdaylist"
@@ -190,8 +221,8 @@
       </ul>
       <div routerLink="/basket" class="position-relative">
         <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-<!--         <div *ngIf="(basket$ | async) as basket" class="cart-carry">{{basket.basketItems.length}}</div>
- -->      </div>
+        <div *ngIf="(basket$ | async) as basket" class="cart-carry">{{basket.basketChildrenItems.length}}</div>
+       </div>
       <ng-container *ngIf="(currentUser$ | async) === null">
         <div>
           <a routerLink="/account/login" class="btn btn-outline-secondary mr-2">Login</a>
@@ -207,26 +238,6 @@
   
         </div>
       </ng-container>
-  
-    <!--   <div *ngIf="currentUser$ | async">
-        <ul class="nav navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link">
-              Welcome {{ (currentUser$ | async).displayName | titlecase }}
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              (click)="logout()"
-              class="nav-link"
-              routerLink="/account/login"
-              routerLinkActive="active">
-              <i class="fa fa-sign-out mr-3"></i>
-              </a
-            >
-          </li>
-        </ul>
-      </div> -->
       <ng-container *ngIf="currentUser$ | async">
         <div class="dropdown mr-5" dropdown>
           <a class="dropdown-toggle text-white" style="cursor: pointer" dropdownToggle  
@@ -241,7 +252,7 @@
               <i class="fa fa-shopping-cart mr-3"></i> Basket Info</a
             >
             <a
-              routerLink="/orders"
+              routerLink="/orderschildrenitemsclient"
               class="dropdown-item"
             >
               <i class="fa fa-history mr-3 ml-1"></i>Orders Info </a

@@ -74,8 +74,7 @@ namespace Infrastructure.Services
                 };
                 await service.UpdateAsync(basket.PaymentIntentId, options);
             }
-
-            await _basketRepository.EditClientBasket(basket);
+            await _basketRepository.UpdateClientBasket(basket);
 
             return basket;
         }
@@ -86,7 +85,7 @@ namespace Infrastructure.Services
 
             if (order == null) return null;
 
-            order.OrderStatusId = _unitOfWork.orderStatusRepository.GetFailedPaymentOrderStatusId();
+            order.OrderStatusId = _unitOfWork.OrderStatusRepository.GetFailedPaymentOrderStatusId();
 
             await _unitOfWork.SaveAsync();
 
@@ -99,7 +98,7 @@ namespace Infrastructure.Services
 
             if (order == null) return null;
 
-            order.OrderStatusId = _unitOfWork.orderStatusRepository.GetReceivedPaymentOrderStatusId();
+            order.OrderStatusId = _unitOfWork.OrderStatusRepository.GetReceivedPaymentOrderStatusId();
 
             _unitOfWork.OrderRepository.UpdateClientOrder(order);
 

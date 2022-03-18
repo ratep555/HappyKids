@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Repositories
             return await _db.KeyDeleteAsync(basketId);
         }
 
-        public async Task<ClientBasket> EditClientBasket(ClientBasket basket)
+        public async Task<ClientBasket> UpdateClientBasket(ClientBasket basket)
         {
             var updated = await _db.StringSetAsync(basket.Id, 
                 JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));

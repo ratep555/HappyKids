@@ -1,0 +1,84 @@
+<div class="container" style="margin-top: 150px; margin-bottom: 100px">
+    <div class="form-inline pull-left mt-1">
+      <select
+        class="custom-select mb-4"
+        #filter
+        (change)="onOrderStatusSelected($event.target.value)"
+      >
+        <option value="" disabled selected>Filtey by order statuses</option>
+        <option *ngFor="let status of orderStatuses" [value]="status.id">
+          {{ status.name }}
+        </option>
+      </select>
+      <button (click)="onReset1()" class="btn btn-primary ml-2 mb-4">
+        <i class="fa fa-refresh mr-1"></i>
+        Reset
+      </button>
+    </div>
+    <div class="form-inline pull-right">
+      <input
+        (keyup.enter)="onSearch()"
+        type="text"
+        class="form-control mr-2"
+        #search
+        style="width: 300px"
+        placeholder="Search by Lastname"
+      />
+      <button (click)="onSearch()" class="btn btn-info my-2">
+        <i class="fa fa-search mr-1" aria-hidden="true"></i>
+        Search
+      </button>
+      <button (click)="onReset()" class="btn btn-primary ml-2">
+        <i class="fa fa-refresh mr-1"></i>
+        Reset
+      </button>
+    </div>
+    <table class="table table-bordered table-striped table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Order No.</th>
+          <th>Created</th>
+          <th>Client Name</th>
+          <th>Order Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of orders" style="color: black">
+          <td class="align-middle">{{ item.id}}</td>
+          <td class="align-middle">{{ item.dateOfCreation | date: "dd.MM.yyyy. HH:mm" }}</td>
+          <td class="align-middle">{{ item.shippingAddress.lastName }}, {{item.shippingAddress.firstName}}</td>
+          <td class="align-middle">{{ item.orderStatus }}</td>
+          <td>
+            <div class="text-center">
+                <button
+                  routerLink="/orderschildrenitems/editorderchildrenitems/{{item.id}}"
+                  type="button"
+                  class="btn btn-success d-inline mr-5"
+                >
+                <i class="fa fa-edit"></i>
+                  Edit
+                </button>
+              <button
+                routerLink="/orderschildrenitems/orderinfo/{{ item.id }}"
+                type="button"
+                class="btn btn-info mr-3"
+              >
+                <i class="fa fa-info-circle mr-1"></i>
+                Info
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+      <app-pager
+      [pageSize]="userParams.pageCount" 
+      [totalCount]="totalCount"
+      [pageNumber]="userParams.page"
+      (pageChanged)="onPageChanged($event)"
+      ></app-pager>
+    </div>
+  </div>
+  

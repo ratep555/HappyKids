@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Extensions;
 using AutoMapper;
+using Core.Dtos;
 using Core.Dtos.OrdersDtos;
 using Core.Entities.Orders;
 using Core.Interfaces;
+using Core.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +33,68 @@ namespace API.Controllers
             _config = config;
             _pdfService = pdfService;
         }
+
+        [HttpGet]
+        public async Task<ActionResult<Pagination<ClientOrderToReturnDto>>> GetAllOrdersForChildrenItems(
+                [FromQuery] QueryParameters queryParameters)
+        {
+            var count = await _unitOfWork.OrderRepository.GetCountForOrdersForChildrenItems();
+            
+            var list = await _unitOfWork.OrderRepository.GetAllOrdersForChildrenItems(queryParameters);
+
+            var data = _mapper.Map<IEnumerable<ClientOrderToReturnDto>>(list);
+
+            return Ok(new Pagination<ClientOrderToReturnDto>
+                (queryParameters.Page, queryParameters.PageCount, count, data));
+        }
+
+        [HttpGet("client")]
+        public async Task<ActionResult<Pagination<ClientOrderToReturnDto>>> GetAllOrdersForChildrenItemsForClient(
+                [FromQuery] QueryParameters queryParameters)
+        {
+            var email = User.RetrieveEmailFromPrincipal();
+
+            var count = await _unitOfWork.OrderRepository.GetCountForOrdersForChildrenItemsForClient(email);
+            
+            var list = await _unitOfWork.OrderRepository.GetOrdersForChildrenItemsForClient(queryParameters, email);
+
+            var data = _mapper.Map<IEnumerable<ClientOrderToReturnDto>>(list);
+
+            return Ok(new Pagination<ClientOrderToReturnDto>
+                (queryParameters.Page, queryParameters.PageCount, count, data));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ClientOrderToReturnDto>> GetOrderById(int id)
+        {
+            var clientOrder = await _unitOfWork.OrderRepository.GetClientOrderById(id);
+
+            if (clientOrder == null) return NotFound(/* new ServerResponse(404) */); 
+
+            var clientOrderDto = _mapper.Map<ClientOrderToReturnDto>(clientOrder);
+
+            clientOrderDto.ShippingAddress.Country = _unitOfWork.CountryRepository
+                .GetCountryName(clientOrderDto.ShippingAddress.CountryId);
+            
+            return clientOrderDto;
+        } 
+
+        [HttpGet("client/{id}")]
+        public async Task<ActionResult<ClientOrderToReturnDto>> GetOrderForSpecificClientById(int id)
+        {
+            var email = User.RetrieveEmailFromPrincipal();
+
+            var clientOrder = await _unitOfWork.OrderRepository.GetOrderForSpecificClientById(id, email);
+
+            if (clientOrder == null) return NotFound(/* new ServerResponse(404) */); 
+
+            var clientOrderDto = _mapper.Map<ClientOrderToReturnDto>(clientOrder);
+
+            clientOrderDto.ShippingAddress.Country = _unitOfWork.CountryRepository
+                .GetCountryName(clientOrderDto.ShippingAddress.CountryId);
+            
+            return clientOrderDto;
+        } 
 
         [HttpPost]
         public async Task<ActionResult<ClientOrder>> CreateOrder(ClientOrderDto orderDto)
@@ -110,6 +175,68 @@ namespace API.Controllers
            if(order == null) return BadRequest("Problem creating order");
 
            return Ok(order);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateOrderByAdmin(int id, [FromBody] OrderEditDto orderDto)
+        {
+            var order = await _unitOfWork.OrderRepository.GetClientOrderByIdWithoutInclude(id);
+
+            if (order == null) return BadRequest("Bad request!");  
+
+            order.OrderStatusId = orderDto.OrderStatusId;
+
+            await _unitOfWork.SaveAsync();
+
+            return NoContent();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("orderstatuses")]
+        public async Task<ActionResult<List<OrderStatusDto>>> GetOrderStatuses()
+        {
+            var list = await _unitOfWork.OrderStatusRepository.GetAllOrderStatusesForEditing();
+
+            return _mapper.Map<List<OrderStatusDto>>(list);
+        }
+
+        [HttpGet("orderstatusesforfiltering")]
+        public async Task<ActionResult<List<OrderStatusDto>>> GetOrderStatusesAssociatedWithOrdersForChildrenItems()
+        {
+            var list = await _unitOfWork.OrderStatusRepository.GetOrderStatusesAssociatedWithOrdersForChildrenItems();
+
+            return _mapper.Map<List<OrderStatusDto>>(list);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("shippingoptions")]
+        public async Task<ActionResult<IEnumerable<ShippingOptionDto>>> GetShippingOptions()
+        {
+            var list = await _unitOfWork.OrderRepository.GetShippingOptions();
+
+            var shippingoptions = _mapper.Map<IEnumerable<ShippingOptionDto>>(list);
+
+            return Ok(shippingoptions);        
+        }
+
+        [AllowAnonymous]
+        [HttpGet("paymentoptions")]
+        public async Task<ActionResult<IEnumerable<PaymentOptionDto>>> GetPaymentOptions()
+        {
+            var list = await _unitOfWork.OrderRepository.GetPaymentOptions();
+
+            var payingoptions = _mapper.Map<IEnumerable<PaymentOptionDto>>(list);
+
+            return Ok(payingoptions);        
+        }
+
+        [AllowAnonymous]
+        [HttpGet("stripepay")]
+        public async Task<ActionResult<PaymentOptionDto>> GetStripePaymentOption()
+        {
+            var stripe = await _unitOfWork.OrderRepository.GetStripePaymentOption();
+
+            return Ok(stripe);        
         }
     }
 }

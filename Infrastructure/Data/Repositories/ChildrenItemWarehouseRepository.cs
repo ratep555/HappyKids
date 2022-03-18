@@ -80,7 +80,120 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DecreasingChildrenItemWarehousesQuantity(int id, int quantity)
+        {
+            var list = await _context.ChildrenItemWarehouses
+                .Where(x => x.ChildrenItemId == id && x.StockQuantity > 0).ToListAsync();
 
+            foreach (var item in list)
+            {
+                int? reservedquantity  = item.ReservedQuantity;
+                    
+                if (item.StockQuantity >= quantity)
+                {
+                    item.StockQuantity = item.StockQuantity - quantity;
+                    quantity = 0;
+                }
+
+                else if(item.StockQuantity < quantity)
+                {
+                    var model = await _context.ChildrenItemWarehouses
+                        .FirstOrDefaultAsync(x => x.ChildrenItemId == item.ChildrenItemId && x.StockQuantity > 0);  
+
+                    model.StockQuantity = model.StockQuantity - quantity;
+
+                    await _context.SaveChangesAsync();          
+                }
+                quantity = 0;
+            }
+
+            var model1 = await _context.ChildrenItemWarehouses
+                .FirstOrDefaultAsync(X => X.ChildrenItemId == id && X.StockQuantity > 0);
+
+            model1.ReservedQuantity = ++model1.ReservedQuantity ?? 1;
+            
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DecreasingChildrenItemWarehousesQuantity1(int id, int quantity)
+        {
+            var list = await _context.ChildrenItemWarehouses
+                .Where(x => x.ChildrenItemId == id && x.StockQuantity > 0).ToListAsync();
+
+            foreach (var item in list)
+            {
+                int result = 0;
+
+                if (quantity > 1)
+                {
+                    if (item.StockQuantity >= 0)
+                    {
+                        if (item.StockQuantity >= quantity)
+                        {
+                            item.StockQuantity = item.StockQuantity - quantity;
+                            item.ReservedQuantity = item.ReservedQuantity + quantity ?? quantity;
+                            await _context.SaveChangesAsync();
+                        }
+                        else if (item.StockQuantity < quantity)
+                        {
+                            item.ReservedQuantity = item.ReservedQuantity + item.StockQuantity ?? item.StockQuantity;
+                            result = quantity - item.StockQuantity; 
+                            item.StockQuantity = 0;
+                            await _context.SaveChangesAsync();
+                            
+                            var model = await _context.ChildrenItemWarehouses
+                                .FirstOrDefaultAsync(x => x.StockQuantity > 0);
+                            
+                            model.StockQuantity = model.StockQuantity - result;
+                            model.ReservedQuantity = model.ReservedQuantity + result ?? result;
+                            await _context.SaveChangesAsync();
+                        }
+                        quantity = 0;
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemovingReservedQuantityFromChildrenItemWarehouses(int itemId, int quantity)
+        {
+            var list = await _context.ChildrenItemWarehouses.Where(x => x.ChildrenItemId == itemId
+                && x.ReservedQuantity != null && x.ReservedQuantity > 0).ToListAsync();
+
+            if (quantity > 1)
+            {
+                foreach (var item in list)
+                {
+                    item.StockQuantity = item.StockQuantity += (int)item.ReservedQuantity;
+                    item.ReservedQuantity = 0;
+                }
+                await _context.SaveChangesAsync();
+            }
+        }
+
+         public async Task IncreasingChildrenItemWarehousesQuantity(int id, int quantity)
+        {
+            var list = await _context.ChildrenItemWarehouses.Where(x => x.ChildrenItemId == id
+                && x.ReservedQuantity != null && x.ReservedQuantity > 0).ToListAsync();
+
+            foreach (var item in list)
+            {
+                    if (item.StockQuantity != 0)
+                    {
+                        item.StockQuantity = item.StockQuantity += quantity;
+                        item.ReservedQuantity = item.ReservedQuantity - quantity;
+                        await _context.SaveChangesAsync();
+                        
+                    }
+                    else if (item.StockQuantity == 0)
+                    {
+                        item.StockQuantity = item.StockQuantity += quantity;
+                        item.ReservedQuantity = item.ReservedQuantity - quantity;
+                        await _context.SaveChangesAsync();          
+                    }
+                    quantity = 0;
+            }
+        }
     }
 }
 

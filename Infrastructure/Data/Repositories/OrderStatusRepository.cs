@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities.Orders;
 using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +13,23 @@ namespace Infrastructure.Data.Repositories
         public OrderStatusRepository(HappyKidsContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<OrderStatus>> GetAllOrderStatusesForEditing()
+        {
+            return await _context.OrderStatuses.OrderBy(x => x.Name).ToListAsync();
+        }
+
+        public async Task<List<OrderStatus>> GetOrderStatusesAssociatedWithOrdersForChildrenItems()
+        {
+            var clientOrders = await _context.ClientOrders.ToListAsync();
+
+            IEnumerable<int?> ids = clientOrders.Select(x => x.OrderStatusId);
+
+            var orderStatuses = await _context.OrderStatuses.Where(x => ids.Contains(x.Id))
+                .OrderBy(x => x.Name).ToListAsync();
+
+            return orderStatuses;
         }
 
         public int GetPendingPaymentOrderStatusId()

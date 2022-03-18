@@ -20,11 +20,13 @@
             <ng-container>
               <div *ngIf="childrenItem?.stockQuantity > 0; else elseBlock" 
               class="d-flex justify-content-start align-items-center">
-                <i  
+              <i (click)="decreaseQuantity()" 
                 class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>              
                 <span class="font-weight-bold" style="font-size: 1.5em;">{{quantity}}</span>
-                <i class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>              
-                <button class="btn btn-outline-primary btn-lg ml-4">Add to Cart</button>          
+                <i (click)="increaseQuantity()" 
+                class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>              
+                <button [disabled]="childrenItem?.stockQuantity < 1" (click)="addingItemToBasket()" 
+                class="btn btn-outline-primary btn-lg ml-4">Add to Cart</button>          
                 <p class="pip mt-3" 
                 *ngIf="childrenItem?.stockQuantity < 3 && childrenItem?.stockQuantity > null">
                 {{childrenItem?.stockQuantity}} item(s) remaining </p>      
@@ -40,12 +42,6 @@
                 Average vote: {{ childrenItem.averageVote }} | Your vote:
                 {{ childrenItem.userVote }}
               </p>
-            <!--   <ng-container>
-                <app-rating
-                  (nonRating)="onRating($event)"
-                  [selectedRate]="item.userVote"
-                ></app-rating>
-              </ng-container> -->
               <div class="kiki1" *ngFor="let discount of childrenItem.discounts">
                 <li>{{discount.name}} {{discount.discountPercentage}} % valid untill {{discount.endDate | date: "dd.MM.yyyy"}}</li>
               </div>

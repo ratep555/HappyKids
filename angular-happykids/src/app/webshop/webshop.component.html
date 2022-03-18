@@ -53,8 +53,12 @@
                     </div>
                   <div class="form-inline pull-right mt-2" *ngIf="childrenItems">
                       <input (keyup.enter)="onSearch()" type="text" class="form-control mr-2" #search placeholder="Search">
-                      <button (click)="onSearch()" class="btn btn-primary my-2">Search</button>
-                      <button (click)="onReset()" class="btn btn-success ml-2 my-2">Reset</button>
+                      <button (click)="onSearch()" class="btn btn-info my-2">
+                        <i class="fa fa-search mr-1"></i>
+                      Search</button>
+                      <button (click)="onReset()" class="btn btn-primary ml-2 my-2">
+                        <i class="fa fa-refresh mr-1"></i>
+                        Reset</button>
                   </div>
               </div>
   

@@ -12,13 +12,21 @@ import { TextInputComponent } from './components/text-input/text-input.component
 import { PagerComponent } from './components/pager/pager.component';
 import { MultipleSelectorComponent } from './components/multiple-selector/multiple-selector.component';
 import { ImgInputComponent } from './components/img-input/img-input.component';
+import { BasketReviewComponent } from './components/basket-review/basket-review.component';
+import { OrderSumComponent } from './components/order-sum/order-sum.component';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkStepperComponent } from './components/cdk-stepper/cdk-stepper.component';
+
 
 @NgModule({
   declarations: [
     TextInputComponent,
     PagerComponent,
     MultipleSelectorComponent,
-    ImgInputComponent
+    ImgInputComponent,
+    BasketReviewComponent,
+    OrderSumComponent,
+    CdkStepperComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +38,9 @@ import { ImgInputComponent } from './components/img-input/img-input.component';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    CdkStepperModule
+
   ],
   exports: [
     BsDropdownModule,
@@ -44,7 +54,11 @@ import { ImgInputComponent } from './components/img-input/img-input.component';
     TextInputComponent,
     PagerComponent,
     MultipleSelectorComponent,
-    ImgInputComponent
-      ]
+    ImgInputComponent,
+    BasketReviewComponent,
+    OrderSumComponent,
+    CdkStepperModule,
+    CdkStepperComponent
+  ]
 })
 export class SharedModule { }

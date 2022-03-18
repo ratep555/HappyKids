@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './account/account.service';
+import { BasketService } from './basket/basket.service';
 import { User } from './shared/models/user';
 
 @Component({
@@ -10,19 +11,20 @@ import { User } from './shared/models/user';
 export class AppComponent implements OnInit {
   title = 'angular-happykids';
 
-constructor(private accountService: AccountService) {}
+constructor(private accountService: AccountService,
+            private basketService: BasketService) {}
 
   ngOnInit() {
     this.loadCurrentUser();
 
-   /*  const basketId = localStorage.getItem('basket_id');
+    const basketId = localStorage.getItem('basket_id');
     if (basketId) {
-      this.basketService.gettingBasket(basketId).subscribe(() => {
+      this.basketService.getClientBasket(basketId).subscribe(() => {
         console.log('initialised basket');
       }, error => {
         console.log(error);
       });
-    } */
+    }
   }
 
   loadCurrentUser() {

@@ -1,9 +1,12 @@
 using System.Threading.Tasks;
+using API.Extensions;
 using AutoMapper;
 using Core.Dtos;
 using Core.Dtos.Identity;
+using Core.Dtos.OrdersDtos;
 using Core.Entities.Identity;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -95,6 +98,29 @@ namespace API.Controllers
                 Email = user.Email
             };
         }
+
+        [Authorize]
+        [HttpGet("getaddress")]
+        public async Task<ActionResult<ShippingAddressDto>> GetClientAddress()
+        {
+            var user = await _userManager.FindUserWithAddressByClaims(HttpContext.User);
+      
+            return _mapper.Map<ShippingAddressDto>(user.Address);
+        }
+
+        [Authorize]
+        [HttpPut("updateaddress")]
+        public async Task<ActionResult<ShippingAddressDto>> UpdateClientAddress(ShippingAddressDto address)
+        {
+            var user = await _userManager.FindUserWithAddressByClaims(HttpContext.User);
+
+            user.Address = _mapper.Map<Address>(address);
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded) return Ok(_mapper.Map<ShippingAddressDto>(user.Address));
+
+            return BadRequest("Problem updating the user");
+        } 
 
         private async Task<bool> UserExists(string displayname)
         {

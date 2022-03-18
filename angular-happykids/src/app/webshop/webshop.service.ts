@@ -68,6 +68,14 @@ export class WebshopService {
     return this.http.get<Tag[]>(this.baseUrl + 'childrenItems/tagsassociatedwithchildrenitems');
   }
 
+  decreaseStockQuantity(id: number, quantity: number) {
+    return this.http.put(this.baseUrl + 'childrenItems/decrease/' + id + '/' + quantity, {});
+  }
+
+  increaseStockQuantity(id: number, quantity: number) {
+    return this.http.put(this.baseUrl + 'childrenItems/increase/' + id + '/' + quantity, {});
+  }
+
 }
 
 

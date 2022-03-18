@@ -16,7 +16,7 @@ export class EditWarehouseComponent implements OnInit {
   countriesList = [];
   id: number;
 
-  constructor(public warehousesService: WarehousesService,
+  constructor(private warehousesService: WarehousesService,
               private router: Router,
               private fb: FormBuilder,
               private activatedRoute: ActivatedRoute) { }

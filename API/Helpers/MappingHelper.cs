@@ -23,11 +23,17 @@ namespace API.Helpers
         {
             CreateMap<RegisterDto, ApplicationUser>()
                 .ForMember(d => d.UserName, o => o.MapFrom(s => s.DisplayName));
+
+            CreateMap<Address, ShippingAddressDto>().ReverseMap();
+
+            CreateMap<ShippingAddressDto, ShippingAddress>().ReverseMap();
             
             CreateMap<BasketChildrenItemDto, BasketChildrenItem>();
             CreateMap<ClientBasketDto, ClientBasket>();
             
             CreateMap<Category, CategoryDto>().ReverseMap();
+
+            CreateMap<CategoryCreateEditDto, Category>();
 
             CreateMap<ChildrenItem, ChildrenItemDto>()
                 .ForMember(d => d.Categories, o => o.MapFrom(MapForCategories))
@@ -49,6 +55,18 @@ namespace API.Helpers
             
             CreateMap<ChildrenItemWarehouseCreateEditDto, ChildrenItemWarehouse>();
 
+            CreateMap<ClientOrder, ClientOrderToReturnDto>()
+                .ForMember(d => d.ShippingOption, o => o.MapFrom(s => s.ShippingOption.Name))
+                .ForMember(d => d.PaymentOption, o => o.MapFrom(s => s.PaymentOption.Name))
+                .ForMember(d => d.ShippingPrice, o => o.MapFrom(s => s.ShippingOption.Price))
+                .ForMember(d => d.OrderStatus, o => o.MapFrom(s => s.OrderStatus.Name));
+
+            CreateMap<OrderChildrenItem, OrderChildrenItemDto>()
+                .ForMember(d => d.ChildrenItemId, o => o.MapFrom
+                    (s =>  s.BasketChildrenItemOrdered.BasketChildrenItemOrderedId))
+                .ForMember(d => d.ChildrenItemName, o => o.MapFrom
+                    (s =>  s.BasketChildrenItemOrdered.BasketChildrenItemOrderedName));
+
             CreateMap<Discount, DiscountDto>()
                 .ForMember(d => d.ChildrenItems, o => o.MapFrom(MapForChildrenItems))
                 .ForMember(d => d.Categories, o => o.MapFrom(MapForCategories1))
@@ -58,7 +76,19 @@ namespace API.Helpers
 
             CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
 
-            CreateMap<ShippingAddressDto, ShippingAddress>().ReverseMap();
+            CreateMap<ManufacturerCreateEditDto, Manufacturer>();
+
+            CreateMap<OrderStatus, OrderStatusDto>().ReverseMap();
+
+            CreateMap<OrderStatusCreateEditDto, OrderStatus>();
+        
+            CreateMap<PaymentOption, PaymentOptionDto>().ReverseMap();
+
+            CreateMap<PaymentOptionCreateEditDto, PaymentOption>();
+
+            CreateMap<ShippingOption, ShippingOptionDto>().ReverseMap();
+
+            CreateMap<ShippingOptionCreateEitDto, ShippingOption>();
 
             CreateMap<Tag, TagDto>().ReverseMap();
 

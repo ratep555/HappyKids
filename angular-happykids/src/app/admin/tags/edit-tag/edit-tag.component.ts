@@ -15,7 +15,7 @@ export class EditTagComponent implements OnInit {
   tag: Tag;
   id: number;
 
-  constructor(public tagsService: TagsService,
+  constructor(private tagsService: TagsService,
               private router: Router,
               private fb: FormBuilder,
               private activatedRoute: ActivatedRoute) { }

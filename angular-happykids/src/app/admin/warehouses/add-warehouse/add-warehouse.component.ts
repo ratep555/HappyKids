@@ -12,7 +12,7 @@ export class AddWarehouseComponent implements OnInit {
   warehouseForm: FormGroup;
   countriesList = [];
 
-  constructor(public warehousesService: WarehousesService,
+  constructor(private warehousesService: WarehousesService,
               private router: Router,
               private fb: FormBuilder) { }
 
