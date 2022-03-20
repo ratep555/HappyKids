@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.BirthdayOrders;
 using Core.Entities.ChildrenItems;
 using Core.Entities.Discounts;
 using Core.Entities.Identity;
@@ -62,6 +63,18 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
                 }
 
+                if (!context.BirthdayPackages.Any())
+                {
+                    var birthdaypackagesData = File.ReadAllText("../Infrastructure/Data/SeedData/birthdaypackages.json");
+                    var birthdaypackages = JsonSerializer.Deserialize<List<BirthdayPackage>>(birthdaypackagesData);
+
+                    foreach (var item in birthdaypackages)
+                    {
+                        context.BirthdayPackages.Add(item);
+                    }
+                    await context.SaveChangesAsync();
+                } 
+
                 if (!context.Countries.Any())
                 {
                     var countriesData = File.ReadAllText("../Infrastructure/Data/SeedData/countries.json");
@@ -110,14 +123,14 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
                 }
 
-                if (!context.Discounts.Any())
+                if (!context.KidActivities.Any())
                 {
-                    var discountsData = File.ReadAllText("../Infrastructure/Data/SeedData/discounts.json");
-                    var discounts = JsonSerializer.Deserialize<List<Discount>>(discountsData);
+                    var kidActivitiesData = File.ReadAllText("../Infrastructure/Data/SeedData/kidactivities.json");
+                    var kidActivities = JsonSerializer.Deserialize<List<KidActivity>>(kidActivitiesData);
 
-                    foreach (var item in discounts)
+                    foreach (var item in kidActivities)
                     {
-                        context.Discounts.Add(item);
+                        context.KidActivities.Add(item);
                     }
                     await context.SaveChangesAsync();
                 }

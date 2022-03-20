@@ -77,6 +77,11 @@ namespace Infrastructure.Data.Repositories
                 .Include(x => x.ChildrenItemTags).ThenInclude(x => x.Tag).
             FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<List<ChildrenItem>> GetAllPureChildrenItems()
+        {
+            return await _context.ChildrenItems.OrderBy(x => x.Name).ToListAsync();
+        }
         
         public async Task<ChildrenItem> GetChildrenItemByIdWithoutInclude(int id)
         {
@@ -119,6 +124,11 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Category>> GetNonSelectedCategories(List<int> ids)
         {
             return await _context.Categories.Where(x => !ids.Contains(x.Id)).ToListAsync();
+        }
+
+        public async Task<List<ChildrenItem>> GetNonSelectedChildrenItems(List<int> ids)
+        {
+            return await _context.ChildrenItems.Where(x => !ids.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<List<Discount>> GetNonSelectedDiscounts(List<int> ids)
@@ -184,6 +194,43 @@ namespace Infrastructure.Data.Repositories
                     .SumAsync(x => x.StockQuantity);
             }
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ResetChildrenItemDiscountedPrice(ChildrenItem item)
+        {     
+            var childrenItemDiscounts = await _context.ChildrenItemDiscounts
+                .Where(x => x.ChildrenItemId == item.Id).ToListAsync();
+
+            IEnumerable<int> ids1 = childrenItemDiscounts.Select(x => x.ChildrenItemId);
+
+            var list = await _context.ChildrenItems.Where(x => ids1.Contains(x.Id)).ToListAsync();
+
+            if (list.Any())
+            {
+                foreach (var product in list)
+                {
+                    var discountPercentage = await _context.ChildrenItemDiscounts
+                        .Where(x => x.ChildrenItemId == item.Id && x.ChildrenItemId == product.Id).FirstOrDefaultAsync();
+
+                    decimal discountPercentage1 = discountPercentage.Discount.DiscountPercentage;
+
+                    var discountAmount = (discountPercentage1 / 100) * item.Price;
+                
+                    if  (discountAmount > 0)
+                        {          
+                            item.DiscountedPrice = item.DiscountedPrice + discountAmount;
+
+                            if (item.DiscountedPrice == item.Price)
+                            {
+                                item.DiscountedPrice = null;
+                                item.HasDiscountsApplied = null;
+                            }
+                        }
+
+                    _context.Entry(item).State = EntityState.Modified;        
+                }
+            }
             await _context.SaveChangesAsync();
         }
     }

@@ -10,6 +10,7 @@ namespace Core.Interfaces
          
         Task<List<Manufacturer>> GetAllManufacturers(QueryParameters queryParameters);
         Task<int> GetCountForManufacturers();
+        Task<List<Manufacturer>> GetAllPureManufacturers();
         Task<Manufacturer> GetManufacturerById(int id);
         Task CreateManufacturer(Manufacturer manufacturer);
         Task UpdateManufacturer(Manufacturer manufacturer);

@@ -16,6 +16,7 @@ import { BasketReviewComponent } from './components/basket-review/basket-review.
 import { OrderSumComponent } from './components/order-sum/order-sum.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkStepperComponent } from './components/cdk-stepper/cdk-stepper.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CdkStepperComponent } from './components/cdk-stepper/cdk-stepper.compon
     ImgInputComponent,
     BasketReviewComponent,
     OrderSumComponent,
-    CdkStepperComponent
+    CdkStepperComponent,
+    RatingComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { CdkStepperComponent } from './components/cdk-stepper/cdk-stepper.compon
     BasketReviewComponent,
     OrderSumComponent,
     CdkStepperModule,
-    CdkStepperComponent
+    CdkStepperComponent,
+    RatingComponent
   ]
 })
 export class SharedModule { }

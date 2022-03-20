@@ -11,6 +11,7 @@ namespace Core.Interfaces
     {
         Task<List<ChildrenItem>> GetAllChildrenItems(QueryParameters queryParameters);
         Task<int> GetCountForChildrenItems();
+        Task<List<ChildrenItem>> GetAllPureChildrenItems();
         Task<ChildrenItem> GetChildrenItemById(int id);
         Task<ChildrenItem> GetChildrenItemByIdWithoutInclude(int id);
         Task AddChildernItem(ChildrenItem childrenItem);
@@ -20,6 +21,7 @@ namespace Core.Interfaces
         Task<List<Manufacturer>> GetAllManufacturers();
         Task<List<Tag>> GetAllTags();
         Task<List<Category>> GetNonSelectedCategories(List<int> ids);
+        Task<List<ChildrenItem>> GetNonSelectedChildrenItems(List<int> ids);
         Task<List<Discount>> GetNonSelectedDiscounts(List<int> ids);
         Task<List<Manufacturer>> GetNonSelectedManufacturers(List<int> ids);
         Task<List<Tag>> GetNonSelectedTags(List<int> ids);
@@ -27,6 +29,6 @@ namespace Core.Interfaces
         Task<List<Manufacturer>> GetManufacturersAssociatedWithChildrenItems();
         Task<List<Tag>> GetTagsAssociatedWithChildrenItems();
         Task UpdatingChildrenItemStockQuantityBasedOnWarehousesQuantity(List<ChildrenItem> childrenItems);
-
+        Task ResetChildrenItemDiscountedPrice(ChildrenItem item);
     }
 }

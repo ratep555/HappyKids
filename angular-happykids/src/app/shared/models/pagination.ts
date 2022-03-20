@@ -1,6 +1,7 @@
 import { Category } from './category';
 import { ChildrenItem } from './childrenitem';
 import { ChildrenItemWarehouse } from './childrenItemWarehouse';
+import { Discount } from './discount';
 import { Manufacturer } from './manufacturer';
 import { Order } from './order';
 import { PaymentOption } from './paymentOption';
@@ -13,6 +14,13 @@ export interface IPaginationForCategories {
     pageCount: number;
     count: number;
     data: Category[];
+  }
+
+export interface IPaginationForDiscounts {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: Discount[];
   }
 
 export interface IPaginationForChildrenItemWarehouses {

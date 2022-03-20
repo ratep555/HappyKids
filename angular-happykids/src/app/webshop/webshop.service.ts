@@ -76,6 +76,14 @@ export class WebshopService {
     return this.http.put(this.baseUrl + 'childrenItems/increase/' + id + '/' + quantity, {});
   }
 
+  addLike(id: number) {
+    return this.http.post(this.baseUrl + 'childrenItems/addlike/' + id, {});
+  }
+
+  ratings(childrenItemId: number, rating: number){
+    return this.http.post(this.baseUrl + 'childrenItems/ratings', {childrenItemId, rating});
+  }
+
 }
 
 

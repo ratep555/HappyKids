@@ -5,12 +5,16 @@ import { HomeComponent } from './home/home/home.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 'birthdays', loadChildren:
+  () => import('./birthdays/birthdays.module').then(mod => mod.BirthdaysModule)},
   {path: 'webshop', loadChildren:
   () => import('./webshop/webshop.module').then(mod => mod.WebshopModule)},
   {path: 'categories', loadChildren:
   () => import('./admin/categories/categories.module').then(mod => mod.CategoriesModule)},
   {path: 'childrenitems', loadChildren:
   () => import('./admin/childrenitems/childrenitems.module').then(mod => mod.ChildrenitemsModule)},
+  {path: 'discounts', loadChildren:
+  () => import('./admin/discounts/discounts.module').then(mod => mod.DiscountsModule)},
   {path: 'manufacturers', loadChildren:
   () => import('./admin/manufacturers/manufacturers.module').then(mod => mod.ManufacturersModule)},
   {path: 'orderschildrenitems', loadChildren:

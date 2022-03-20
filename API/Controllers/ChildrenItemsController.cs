@@ -9,6 +9,8 @@ using Core.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Core.Dtos.DiscountsDto;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using API.Extensions;
 
 namespace API.Controllers
 {
@@ -34,21 +36,21 @@ namespace API.Controllers
             
             var list = await _unitOfWork.ChildrenItemRepository.GetAllChildrenItems(queryParameters);
 
-            // ovo si stavio zato što pagination vraća samo 12 podataka sa klijenta
-          //  var listforreset = await _unitOfWork.ItemRepository.GetAllItemsForItemWarehouses();
+            var listforreset = await _unitOfWork.ChildrenItemRepository.GetAllPureChildrenItems();
 
-           /*  await _unitOfWork.ItemRepository.ResetItemDiscountedPriceDueToDiscountExpiry(listforreset);
-            await _unitOfWork.ItemRepository.ResetCategoryDiscountedPriceDueToDiscountExpiry(listforreset);
-            await _unitOfWork.ItemRepository.ResetManufacturerDiscountedPriceDueToDiscountExpiry(listforreset);
-            await _unitOfWork.ItemRepository.UpdatingItemStockQuantityBasedOnWarehousesQuantity(listforreset); */
+            await _unitOfWork.DiscountRepository.ResetChildrenItemDiscountedPriceDueToDiscountExpiry(listforreset);
+            await _unitOfWork.DiscountRepository.ResetCategoryDiscountedPriceDueToDiscountExpiry(listforreset);
+            await _unitOfWork.DiscountRepository.ResetManufacturerDiscountedPriceDueToDiscountExpiry(listforreset);
+            await _unitOfWork.ChildrenItemRepository.UpdatingChildrenItemStockQuantityBasedOnWarehousesQuantity(listforreset); 
             
             var data = _mapper.Map<IEnumerable<ChildrenItemDto>>(list);
-
-          /*   foreach (var item in data)
-            {
-                item.LikesCount = await _unitOfWork.ItemRepository.GetCountForLikes(item.Id);
-            } */
-
+            
+                foreach (var item in data)
+                {
+                    item.LikesCount = await _unitOfWork.RatingLikeRepository.GetCountForLikes(item.Id);
+                    item.DiscountSum = await _unitOfWork.DiscountRepository.DiscountSumForDto(item);
+                }
+            
             return Ok(new Pagination<ChildrenItemDto>(queryParameters.Page, queryParameters.PageCount, count, data));
         }
 
@@ -62,70 +64,30 @@ namespace API.Controllers
             var averageVote = 0.0;
             var userVote = 0;
 
-           /*  if (await _unitOfWork.ItemRepository.ChechIfAny(id))
+            if (await _unitOfWork.RatingLikeRepository.ChechIfAny(id))
             {
-                averageVote = await _unitOfWork.ItemRepository.AverageVote(id);
-            } */
+                averageVote = await _unitOfWork.RatingLikeRepository.AverageVote(id);
+            } 
 
-           /*  if (HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
-                // ovdje ti treba userid, dvojbeno je možeš li registraciju putem googlea
                 var userId = User.GetUserId();
 
-                var ratingDb = await _unitOfWork.ItemRepository.FindCurrentRate(id, userId);
+                var ratingDb = await _unitOfWork.RatingLikeRepository.FindCurrentRate(id, userId);
 
                 if (ratingDb != null)
                 {
                     userVote = ratingDb.Rate;
                 }
-            } */
+            } 
 
             var childrenItemToReturn = _mapper.Map<ChildrenItemDto>(childrenItem);
 
             childrenItemToReturn.AverageVote = averageVote;
             childrenItemToReturn.UserVote = userVote;
-          //  childrenItemToReturn.DiscountSum = await _unitOfWork.ItemRepository.DiscountSum(item);
+            childrenItemToReturn.DiscountSum = await _unitOfWork.DiscountRepository.DiscountSum(childrenItem);
 
             return Ok(childrenItemToReturn);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CreateChildrenItem([FromForm] ChildrenItemCreateEditDto childernItemDto)
-        {
-            var childernItem = _mapper.Map<ChildrenItem>(childernItemDto);
-
-            if (childernItemDto.Picture != null)
-            {
-                childernItem.Picture = await _fileStorageService.SaveFile(containerName, childernItemDto.Picture);
-            }
-
-            await _unitOfWork.ChildrenItemRepository.AddChildernItem(childernItem);
-          //  await _unitOfWork.ItemRepository.UpdateItemWithDiscount7(item);
-
-            return Ok();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateItem(int id, [FromForm] ChildrenItemCreateEditDto childrenItemDto)
-        {
-            var childernItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
-
-            if (childernItem == null) return NotFound(/* new ServerResponse(404) */);
-
-            childernItem = _mapper.Map(childrenItemDto, childernItem);
-            
-            if (childrenItemDto.Picture != null)
-            {
-                childernItem.Picture = await _fileStorageService
-                    .EditFile(containerName, childrenItemDto.Picture, childernItem.Picture);
-            }
-           
-           // await _unitOfWork.ItemRepository.ResetItemDiscountedPrice7(item);
-
-            await _unitOfWork.ChildrenItemRepository.UpdateChildrenItem(childernItem);
-          //  await _unitOfWork.ItemRepository.UpdateItemWithDiscount7(item);
-
-            return NoContent();
         }
 
         [HttpGet("putget/{id}")]
@@ -182,6 +144,46 @@ namespace API.Controllers
             response.NonSelectedTags = nonSelectedTagsDto;
 
             return response;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateChildrenItem([FromForm] ChildrenItemCreateEditDto childernItemDto)
+        {
+            var childernItem = _mapper.Map<ChildrenItem>(childernItemDto);
+
+            if (childernItemDto.Picture != null)
+            {
+                childernItem.Picture = await _fileStorageService.SaveFile(containerName, childernItemDto.Picture);
+            }
+
+            await _unitOfWork.ChildrenItemRepository.AddChildernItem(childernItem);
+            await _unitOfWork.DiscountRepository.UpdateChildrenItemWithDiscount(childernItem);
+
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateItem(int id, [FromForm] ChildrenItemCreateEditDto childrenItemDto)
+        {
+            var childernItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
+
+            if (childernItem == null) return NotFound(/* new ServerResponse(404) */);
+
+            childernItem = _mapper.Map(childrenItemDto, childernItem);
+            
+            if (childrenItemDto.Picture != null)
+            {
+                childernItem.Picture = await _fileStorageService
+                    .EditFile(containerName, childrenItemDto.Picture, childernItem.Picture);
+            }
+           
+            await _unitOfWork.ChildrenItemRepository.ResetChildrenItemDiscountedPrice(childernItem);
+
+            await _unitOfWork.ChildrenItemRepository.UpdateChildrenItem(childernItem);
+            
+            await _unitOfWork.DiscountRepository.UpdateChildrenItemWithDiscount(childernItem);
+
+            return NoContent();
         }
 
         [HttpPut("decrease/{id}/{quantity}")]
@@ -290,6 +292,58 @@ namespace API.Controllers
             var list = await _unitOfWork.ChildrenItemRepository.GetTagsAssociatedWithChildrenItems();
 
             return _mapper.Map<List<TagDto>>(list);
+        }
+
+        [Authorize]
+        [HttpPost("ratings")]
+        public async Task<ActionResult> CreateRate([FromBody] RatingDto ratingDto)
+        {
+            var email = User.RetrieveEmailFromPrincipal();
+
+            var userId = User.GetUserId();
+
+            if (await _unitOfWork.RatingLikeRepository.CheckIfClientHasOrderedThisChildrenItem(ratingDto.ChildrenItemId, email))
+            {
+                return BadRequest("You have not ordered this item yet!");
+            } 
+
+            var currentRate = await _unitOfWork.RatingLikeRepository
+                .FindCurrentRate(ratingDto.ChildrenItemId, userId);
+
+            if (currentRate == null)
+            {
+                await _unitOfWork.RatingLikeRepository.AddRating(ratingDto, userId);
+            }
+            else
+            {
+                currentRate.Rate = ratingDto.Rating;
+            }
+
+            if (await _unitOfWork.SaveAsync()) return Ok();
+
+            return BadRequest("Failed to add rate");            
+        }
+        
+        [Authorize]
+        [HttpPost("addlike/{id}")]
+        public async Task<ActionResult> AddLike (int id)
+        {
+            var userId = User.GetUserId();
+
+            var item = await _unitOfWork.ChildrenItemRepository.GetChildrenItemByIdWithoutInclude(id);
+
+            if (item == null) return NotFound(/* new ServerResponse(404) */);
+
+            if (await _unitOfWork.RatingLikeRepository.CheckIfUserHasAlreadyLikedThisProduct(userId, id))
+            return BadRequest("You have already liked this product!");
+
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                await _unitOfWork.RatingLikeRepository.AddLike(userId, id);
+
+                return Ok();
+            }
+            return BadRequest("You must be registered/logged in order to like this product!");
         }
     }
 }

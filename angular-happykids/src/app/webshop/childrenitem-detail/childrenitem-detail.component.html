@@ -36,14 +36,20 @@
                 *ngIf="childrenItem?.stockQuantity < 1">
                Out of stock! </h3>
               </ng-template>
-  
+
             </ng-container>
               <p class="kiki">
-                Average vote: {{ childrenItem.averageVote }} | Your vote:
-                {{ childrenItem.userVote }}
+            <strong>    Average vote: {{ childrenItem.averageVote }} | Your vote:
+                {{ childrenItem.userVote }}</strong>
               </p>
+              <ng-container>
+                <app-rating
+                  (nonRating)="onRating($event)"
+                  [selectedRate]="childrenItem.userVote"
+                ></app-rating>
+              </ng-container>
               <div class="kiki1" *ngFor="let discount of childrenItem.discounts">
-                <li>{{discount.name}} {{discount.discountPercentage}} % valid untill {{discount.endDate | date: "dd.MM.yyyy"}}</li>
+                <li>{{discount.name}}, valid untill {{discount.endDate | date: "dd.MM.yyyy"}}</li>
               </div>
             </div>
       </div>

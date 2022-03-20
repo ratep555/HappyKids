@@ -54,6 +54,12 @@ namespace API.Controllers
         {
             var childrenItemWarehouse = _mapper.Map<ChildrenItemWarehouse>(childrenItemWarehouseDto);
 
+            if ( await _unitOfWork.ChildrenItemWarehouseRepository.CheckIfChildrenItemWarehouseAlreadyExists
+                (childrenItemWarehouse.ChildrenItemId, childrenItemWarehouse.WarehouseId))
+            {
+                return BadRequest("This combination of children item and warehouse already exists");
+            }
+
             await _unitOfWork.ChildrenItemWarehouseRepository.AddChildrenItemWarehouse(childrenItemWarehouse);
 
             var childrenItem = await _unitOfWork.ChildrenItemRepository
@@ -71,7 +77,13 @@ namespace API.Controllers
             var childrenItemWarehouse = _mapper.Map<ChildrenItemWarehouse>(childrenItemWarehouseDto);
 
             if (id != childrenItemWarehouse.ChildrenItemId && warehouseid != childrenItemWarehouse.WarehouseId) 
-            return BadRequest("Bad request!");        
+            return BadRequest("Bad request!");
+
+            if ( await _unitOfWork.ChildrenItemWarehouseRepository.CheckIfChildrenItemWarehouseAlreadyExists
+                    (childrenItemWarehouse.ChildrenItemId, childrenItemWarehouse.WarehouseId))
+            {
+                return BadRequest("This combination of children item and warehouse already exists");
+            }
 
             await _unitOfWork.ChildrenItemWarehouseRepository.UpdateChildrenItemWarehouse(childrenItemWarehouse);
 
@@ -84,11 +96,11 @@ namespace API.Controllers
         }
 
         [HttpGet("childrenitems")]
-        public async Task<ActionResult<List<ChildrenItemDto>>> GetAllChildrenItemsForChildrenItemWarehouses()
+        public async Task<ActionResult<List<ChildrenItemPureDto>>> GetAllChildrenItemsForChildrenItemWarehouses()
         {
-            var list = await _unitOfWork.ChildrenItemWarehouseRepository.GetAllChildrenItemsForChildrenItemWarehouses();
+            var list = await _unitOfWork.ChildrenItemRepository.GetAllPureChildrenItems();
 
-            return _mapper.Map<List<ChildrenItemDto>>(list);
+            return _mapper.Map<List<ChildrenItemPureDto>>(list);
         }
 
         [HttpGet("warehouses")]

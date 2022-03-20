@@ -38,6 +38,207 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.BirthdayPackage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("AdditionalBillingPerParticipant")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("DiscountedPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("HasDiscountsApplied")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PackageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BirthdayPackages");
+                });
+
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.BirthdayPackageKidActivity", b =>
+                {
+                    b.Property<int>("BirthdayPackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KidActivityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BirthdayPackageId", "KidActivityId");
+
+                    b.HasIndex("KidActivityId");
+
+                    b.ToTable("BirthdayPackageKidActivities");
+                });
+
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.ClientBirthdayOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BirthdayGirlBoyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BirthdayNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BirthdayPackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDateAndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfGuests")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDateAndTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BirthdayPackageId");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.ToTable("ClientBirthdayOrders");
+                });
+
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.KidActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoClip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KidActivities");
+                });
+
+            modelBuilder.Entity("Core.Entities.Blogs.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BlogContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublishedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("Core.Entities.Blogs.BlogComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentBlogCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PublishedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogComments");
+                });
+
             modelBuilder.Entity("Core.Entities.Branch", b =>
                 {
                     b.Property<int>("Id")
@@ -223,6 +424,21 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("Core.Entities.Discounts.BirthdayPackageDiscount", b =>
+                {
+                    b.Property<int>("BirthdayPackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiscountId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BirthdayPackageId", "DiscountId");
+
+                    b.HasIndex("DiscountId");
+
+                    b.ToTable("BirthdayPackageDiscounts");
+                });
+
             modelBuilder.Entity("Core.Entities.Discounts.CategoryDiscount", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -250,9 +466,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("MinimumOrderValue")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -429,6 +642,21 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("Core.Entities.Like", b =>
+                {
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChildrenItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApplicationUserId", "ChildrenItemId");
+
+                    b.HasIndex("ChildrenItemId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("Core.Entities.Manufacturer", b =>
                 {
                     b.Property<int>("Id")
@@ -563,6 +791,31 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ShippingOptions");
                 });
 
+            modelBuilder.Entity("Core.Entities.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChildrenItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ChildrenItemId");
+
+                    b.ToTable("Ratings");
+                });
+
             modelBuilder.Entity("Core.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -690,6 +943,80 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.BirthdayPackageKidActivity", b =>
+                {
+                    b.HasOne("Core.Entities.BirthdayOrders.BirthdayPackage", "BirthdayPackage")
+                        .WithMany("BirthdayPackageKidActivities")
+                        .HasForeignKey("BirthdayPackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.BirthdayOrders.KidActivity", "KidActivity")
+                        .WithMany("BirthdayPackageKidActivities")
+                        .HasForeignKey("KidActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BirthdayPackage");
+
+                    b.Navigation("KidActivity");
+                });
+
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.ClientBirthdayOrder", b =>
+                {
+                    b.HasOne("Core.Entities.BirthdayOrders.BirthdayPackage", "BirthdayPackage")
+                        .WithMany("ClientBirthdayOrders")
+                        .HasForeignKey("BirthdayPackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Orders.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId");
+
+                    b.Navigation("BirthdayPackage");
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("OrderStatus");
+                });
+
+            modelBuilder.Entity("Core.Entities.Blogs.Blog", b =>
+                {
+                    b.HasOne("Core.Entities.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Core.Entities.Blogs.BlogComment", b =>
+                {
+                    b.HasOne("Core.Entities.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Blogs.Blog", "Blog")
+                        .WithMany()
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("Core.Entities.Branch", b =>
                 {
                     b.HasOne("Core.Entities.Country", "Country")
@@ -796,6 +1123,25 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("Core.Entities.Discounts.BirthdayPackageDiscount", b =>
+                {
+                    b.HasOne("Core.Entities.BirthdayOrders.BirthdayPackage", "BirthdayPackage")
+                        .WithMany()
+                        .HasForeignKey("BirthdayPackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Discounts.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BirthdayPackage");
+
+                    b.Navigation("Discount");
+                });
+
             modelBuilder.Entity("Core.Entities.Discounts.CategoryDiscount", b =>
                 {
                     b.HasOne("Core.Entities.Category", "Category")
@@ -870,6 +1216,25 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Core.Entities.Like", b =>
+                {
+                    b.HasOne("Core.Entities.Identity.ApplicationUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.ChildrenItems.ChildrenItem", "ChildrenItem")
+                        .WithMany()
+                        .HasForeignKey("ChildrenItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChildrenItem");
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Core.Entities.Orders.ClientOrder", b =>
@@ -960,6 +1325,25 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("BasketChildrenItemOrdered");
                 });
 
+            modelBuilder.Entity("Core.Entities.Rating", b =>
+                {
+                    b.HasOne("Core.Entities.Identity.ApplicationUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.ChildrenItems.ChildrenItem", "ChildrenItem")
+                        .WithMany()
+                        .HasForeignKey("ChildrenItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChildrenItem");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Core.Entities.Warehouse", b =>
                 {
                     b.HasOne("Core.Entities.Country", "Country")
@@ -1005,6 +1389,18 @@ namespace Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.BirthdayPackage", b =>
+                {
+                    b.Navigation("BirthdayPackageKidActivities");
+
+                    b.Navigation("ClientBirthdayOrders");
+                });
+
+            modelBuilder.Entity("Core.Entities.BirthdayOrders.KidActivity", b =>
+                {
+                    b.Navigation("BirthdayPackageKidActivities");
                 });
 
             modelBuilder.Entity("Core.Entities.ChildrenItems.ChildrenItem", b =>

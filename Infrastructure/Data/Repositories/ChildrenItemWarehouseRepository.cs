@@ -61,11 +61,6 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ChildrenItem>> GetAllChildrenItemsForChildrenItemWarehouses()
-        {
-            return await _context.ChildrenItems.OrderBy(x => x.Name).ToListAsync();
-        }
-
         public async Task<List<Warehouse>> GetAllWarehousesForChildrenItemWarehouses()
         {
             return await _context.Warehouses.Include(x => x.Country).OrderBy(x => x.Name).ToListAsync();
@@ -194,7 +189,25 @@ namespace Infrastructure.Data.Repositories
                     quantity = 0;
             }
         }
+        
+        public async Task<bool> CheckIfChildrenItemWarehouseAlreadyExists(int childrenItemId, int warehouseId)
+        {
+            var childrenItemWarehouses = await _context.ChildrenItemWarehouses
+                .Where(x => x.ChildrenItemId == childrenItemId && x.WarehouseId == warehouseId).ToListAsync();
+            
+            if (childrenItemWarehouses.Any()) return true;
+
+            return false;
+        }
     }
 }
+
+
+
+
+
+
+
+
 
 

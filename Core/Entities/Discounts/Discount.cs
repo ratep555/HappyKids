@@ -8,7 +8,6 @@ namespace Core.Entities.Discounts
     {
         public string Name { get; set; }
         public decimal DiscountPercentage { get; set; }
-        public decimal? MinimumOrderValue { get; set; }
 
 
         [DataType(DataType.Date)]

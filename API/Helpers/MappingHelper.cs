@@ -14,6 +14,7 @@ using Core.Entities.Identity;
 using Core.Entities.Orders;
 using NetTopologySuite.Geometries;
 using Core.Dtos.WarehousesDtos;
+using Core.Dtos.DiscountsDtos;
 
 namespace API.Helpers
 {
@@ -41,6 +42,8 @@ namespace API.Helpers
                 .ForMember(d => d.Manufacturers, o => o.MapFrom(MapForManufacturers))
                 .ForMember(d => d.Tags, o => o.MapFrom(MapForTags));
             
+            CreateMap<ChildrenItem, ChildrenItemPureDto>();
+            
             CreateMap<ChildrenItemCreateEditDto, ChildrenItem>()
                 .ForMember(x => x.Picture, options => options.Ignore())
                 .ForMember(x => x.ChildrenItemCategories, options => options.MapFrom(MapChildrenItemCategories))
@@ -67,12 +70,17 @@ namespace API.Helpers
                 .ForMember(d => d.ChildrenItemName, o => o.MapFrom
                     (s =>  s.BasketChildrenItemOrdered.BasketChildrenItemOrderedName));
 
+            CreateMap<Country, CountryDto>().ReverseMap();
+
             CreateMap<Discount, DiscountDto>()
                 .ForMember(d => d.ChildrenItems, o => o.MapFrom(MapForChildrenItems))
                 .ForMember(d => d.Categories, o => o.MapFrom(MapForCategories1))
                 .ForMember(d => d.Manufacturers, o => o.MapFrom(MapForManufacturers));
-
-            CreateMap<Country, CountryDto>().ReverseMap();
+            
+            CreateMap<DiscountCreateEditDto, Discount>()
+                .ForMember(x => x.ChildrenItemDiscounts, options => options.MapFrom(MapDiscountChildrenItems))
+                .ForMember(x => x.CategoryDiscounts, options => options.MapFrom(MapDiscountCategories))
+                .ForMember(x => x.ManufacturerDiscounts, options => options.MapFrom(MapDiscountManufacturers));
 
             CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
 
@@ -263,6 +271,44 @@ namespace API.Helpers
             return result;
         }
 
+        private List<ChildrenItemDiscount> MapDiscountChildrenItems(DiscountCreateEditDto discountDto, Discount discount)
+        {
+            var result = new List<ChildrenItemDiscount>();
+
+            if (discountDto.ChildrenItemsIds == null) { return result; }
+
+            foreach (var id in discountDto.ChildrenItemsIds)
+            {
+                result.Add(new ChildrenItemDiscount() { ChildrenItemId = id });
+            }
+            return result;
+        }
+
+        private List<CategoryDiscount> MapDiscountCategories(DiscountCreateEditDto discountDto, Discount discount)
+        {
+            var result = new List<CategoryDiscount>();
+
+            if (discountDto.CategoriesIds == null) { return result; }
+
+            foreach (var id in discountDto.CategoriesIds)
+            {
+                result.Add(new CategoryDiscount() { CategoryId = id });
+            }
+            return result;
+        }
+
+        private List<ManufacturerDiscount> MapDiscountManufacturers(DiscountCreateEditDto discountDto, Discount discount)
+        {
+            var result = new List<ManufacturerDiscount>();
+
+            if (discountDto.ManufacturersIds == null) { return result; }
+
+            foreach (var id in discountDto.ManufacturersIds)
+            {
+                result.Add(new ManufacturerDiscount() { ManufacturerId = id });
+            }
+            return result;
+        }
     }
 }
 

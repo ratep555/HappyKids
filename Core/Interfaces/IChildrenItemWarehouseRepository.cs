@@ -13,14 +13,13 @@ namespace Core.Interfaces
         Task<ChildrenItemWarehouse> GetChildrenItemWarehouseByChildrenItemIdAndWarehouseId(int itemId, int warehouseId);
         Task AddChildrenItemWarehouse(ChildrenItemWarehouse childrenItemWarehouse);
         Task UpdateChildrenItemWarehouse(ChildrenItemWarehouse childrenItemWarehouse);
-        Task<List<ChildrenItem>> GetAllChildrenItemsForChildrenItemWarehouses();
         Task<List<Warehouse>> GetAllWarehousesForChildrenItemWarehouses();
         Task AddingNewStockQuantityToChildrenItem(ChildrenItem childrenItem);
         Task DecreasingChildrenItemWarehousesQuantity(int id, int quantity);
         Task DecreasingChildrenItemWarehousesQuantity1(int id, int quantity);
         Task RemovingReservedQuantityFromChildrenItemWarehouses(int itemId, int quantity);
         Task IncreasingChildrenItemWarehousesQuantity(int id, int quantity);
-          
+        Task<bool> CheckIfChildrenItemWarehouseAlreadyExists(int childrenItemId, int warehouseId);
     }
 }
 

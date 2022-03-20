@@ -36,6 +36,11 @@ namespace Infrastructure.Data.Repositories
             return await _context.Manufacturers.CountAsync();
         }
 
+        public async Task<List<Manufacturer>> GetAllPureManufacturers()
+        {
+            return await _context.Manufacturers.OrderBy(x => x.Name).ToListAsync();
+        }
+
         public async Task<Manufacturer> GetManufacturerById(int id)
         {
             return await _context.Manufacturers.FirstOrDefaultAsync(p => p.Id == id);

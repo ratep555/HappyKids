@@ -5,6 +5,8 @@ import { ChildrenitemsService } from 'src/app/admin/childrenitems/childrenitems.
 import { BasketService } from 'src/app/basket/basket.service';
 import { ChildrenItem } from 'src/app/shared/models/childrenitem';
 import { WebshopService } from '../webshop.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-childrenitem-detail',
@@ -57,6 +59,13 @@ decreaseQuantity() {
   if (this.quantity > 1) {
     this.quantity--;
   }
+}
+
+onRating(rate: number){
+  this.webshopService.ratings(this.childrenItem.id, rate).subscribe(() => {
+   Swal.fire('Success', 'Your vote has been received', 'success');
+   this.loadChildrenItem();
+ });
 }
 
 }

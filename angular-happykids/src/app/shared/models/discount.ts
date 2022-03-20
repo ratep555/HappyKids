@@ -8,7 +8,6 @@ export interface Discount {
     discountPercentage: number;
     startDate: Date;
     endDate: Date;
-    minimumOrderValue?: number;
     childrenitems: ChildrenItem[];
 }
 
@@ -18,8 +17,7 @@ export interface DiscountCreateEdit {
     discountPercentage: number;
     startDate: Date;
     endDate: Date;
-    minimumOrderValue?: number;
-    childrenitems: ChildrenItem[];
+    childrenItems: ChildrenItem[];
     categories: Category[];
     manufacturers: Manufacturer[];
 }
@@ -30,7 +28,6 @@ export class DiscountEditClass {
     discountPercentage: number;
     startDate: Date;
     endDate: Date;
-    minimumOrderValue?: number;
     childrenitems: ChildrenItem[];
     categories: Category[];
     manufacturers: Manufacturer[];
@@ -38,8 +35,8 @@ export class DiscountEditClass {
 
 export interface DiscountPutGet {
     discount: Discount;
-    selectedChildrenitems: ChildrenItem[];
-    nonSelectedChildrenitems: ChildrenItem[];
+    selectedChildrenItems: ChildrenItem[];
+    nonSelectedChildrenItems: ChildrenItem[];
     selectedCategories: Category[];
     nonSelectedCategories: Category[];
     nonSelectedManufacturers: Manufacturer[];

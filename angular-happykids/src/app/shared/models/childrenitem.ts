@@ -16,7 +16,7 @@ export interface ChildrenItem {
     discountedPrice?: number;
     hasDiscountsApplied?: boolean;
     likesCount?: number;
-    discountSum: number;
+    discountSum?: number;
     discounts: Discount[];
 }
 

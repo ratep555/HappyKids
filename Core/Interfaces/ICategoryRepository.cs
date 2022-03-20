@@ -9,6 +9,7 @@ namespace Core.Interfaces
     {
         Task<List<Category>> GetAllCategories(QueryParameters queryParameters);
         Task<int> GetCountForCategories();
+        Task<List<Category>> GetAllPureCategories();
         Task<Category> GetCategoryById(int id);
         Task CreateCategory(Category category);
         Task UpdateCategory(Category category);

@@ -25,5 +25,14 @@ export class ChildrenitemComponent implements OnInit {
     });
   }
 
+  addLike() {
+    this.webshopService.addLike(this.childrenItem.id).subscribe(() => {
+      this.toastr.success('You have just liked this product!');
+    }, error => {
+        console.log(error);
+        this.toastr.error('Sorry, not authorized!');
+
+      });
+    }
 
 }

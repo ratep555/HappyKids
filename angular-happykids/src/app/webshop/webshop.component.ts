@@ -27,13 +27,13 @@ export class WebshopComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getItems();
+    this.getChildrenItems();
     this.getManufacturers();
     this.getTags();
     this.getCategories();
   }
 
-  getItems() {
+  getChildrenItems() {
     this.webshopService.getChildrenItems().subscribe(response => {
       this.childrenItems = response.data;
       this.totalCount = response.count;
@@ -71,7 +71,7 @@ export class WebshopComponent implements OnInit {
     params.manufacturerId = manufacturer1Id;
     params.page = 1;
     this.webshopService.setMyParams(params);
-    this.getItems();
+    this.getChildrenItems();
     }
 
   onCategorySelected(categoryId: number) {
@@ -79,7 +79,7 @@ export class WebshopComponent implements OnInit {
     params.categoryId = categoryId;
     params.page = 1;
     this.webshopService.setMyParams(params);
-    this.getItems();
+    this.getChildrenItems();
     }
 
   onTagSelected(tagId: number) {
@@ -87,7 +87,7 @@ export class WebshopComponent implements OnInit {
     params.tagId = tagId;
     params.page = 1;
     this.webshopService.setMyParams(params);
-    this.getItems();
+    this.getChildrenItems();
     }
 
   onPageChanged(event: any) {
@@ -95,7 +95,7 @@ export class WebshopComponent implements OnInit {
     if (params.page !== event) {
       params.page = event;
       this.webshopService.setMyParams(params);
-      this.getItems();
+      this.getChildrenItems();
     }
   }
 
@@ -104,28 +104,28 @@ export class WebshopComponent implements OnInit {
     params.query = this.searchTerm.nativeElement.value;
     params.page = 1;
     this.webshopService.setMyParams(params);
-    this.getItems();
+    this.getChildrenItems();
   }
 
   onReset() {
     this.searchTerm.nativeElement.value = '';
     this.myParams = new MyParams();
     this.webshopService.setMyParams(this.myParams);
-    this.getItems();
+    this.getChildrenItems();
   }
 
   onReset1() {
     this.filterTerm.nativeElement.value = '';
     this.myParams = new MyParams();
     this.webshopService.setMyParams(this.myParams);
-    this.getItems();
+    this.getChildrenItems();
   }
 
   onReset2() {
     this.filterTerm1.nativeElement.value = '';
     this.myParams = new MyParams();
     this.webshopService.setMyParams(this.myParams);
-    this.getItems();
+    this.getChildrenItems();
   }
 
 }

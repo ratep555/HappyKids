@@ -36,6 +36,11 @@ namespace Infrastructure.Data.Repositories
             return await _context.Categories.CountAsync();
         }
 
+        public async Task<List<Category>> GetAllPureCategories()
+        {
+            return await _context.Categories.OrderBy(x => x.Name).ToListAsync();
+        }
+
         public async Task<Category> GetCategoryById(int id)
         {
             return await _context.Categories.FirstOrDefaultAsync(p => p.Id == id);
