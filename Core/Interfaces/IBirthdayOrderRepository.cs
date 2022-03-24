@@ -10,7 +10,8 @@ namespace Core.Interfaces
         Task<List<ClientBirthdayOrder>> GetAllBirthdayOrders(QueryParameters queryParameters);
         Task<int> GetCountForBirthdayOrders();
         Task<ClientBirthdayOrder> GetBirthdayOrderById(int id);
-        Task AddBirthdayOrder(ClientBirthdayOrder birthdayOrder);
+        Task CreateBirthdayOrder(ClientBirthdayOrder birthdayOrder);
+        Task UpdateBirthdayOrder(ClientBirthdayOrder birthdayOrder);
         Task<decimal> DiscountedAdditionalBillingPerParticipant(BirthdayPackage birthdayPackage);
     }
 }

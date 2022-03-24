@@ -13,6 +13,7 @@ namespace Infrastructure.Data.Repositories
 
         public IBirthdayOrderRepository BirthdayOrderRepository => new BirthdayOrderRepository(_context);
         public IBirthdayPackageRepository BirthdayPackageRepository => new BirthdayPackageRepository(_context);
+        public IBlogRepository BlogRepository => new BlogRepository(_context);
         public IBranchRepository BranchRepository => new BranchRepository(_context);
         public ICategoryRepository CategoryRepository => new CategoryRepository(_context);
         public ICountryRepository CountryRepository => new CountryRepository(_context);

@@ -53,13 +53,42 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateBirthdayOrder([FromBody] ClientBirthdayOrderCreateEditDto birthdayOrderDto)
+        public async Task<ActionResult> CreateBirthdayOrder([FromBody] ClientBirthdayOrderCreateDto birthdayOrderDto)
         {
             var birthdayOrder = _mapper.Map<ClientBirthdayOrder>(birthdayOrderDto);
            
-            await _unitOfWork.BirthdayOrderRepository.AddBirthdayOrder(birthdayOrder);
+            await _unitOfWork.BirthdayOrderRepository.CreateBirthdayOrder(birthdayOrder);
+
+            await _emailService.SendEmail(birthdayOrderDto.ContactEmail, 
+                "Birthay Order Received", $"<h4>Honored {birthdayOrderDto.ClientName}, thank you for showing interest for our services</h4>" +
+                $"<p>We will try to comply with your preferences and let you know the result as soon as possible." +
+                $" Best wishes from Happykids!</p>");
 
             return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateBirthdayOrder(int id, [FromBody] ClientBirthdayOrderEditDto birthdayOrderDto)
+        {
+            var birthdayOrder = _mapper.Map<ClientBirthdayOrder>(birthdayOrderDto);
+
+            if (id != birthdayOrder.Id) return BadRequest("Bad request!");
+
+            await _unitOfWork.BirthdayOrderRepository.UpdateBirthdayOrder(birthdayOrder);
+
+            var orderStatus = await _unitOfWork.OrderStatusRepository.GetOrderStatusById((int)birthdayOrderDto.OrderStatusId);
+
+            if (orderStatus.Name == "Order Accepted")
+            {
+                _pdfService.GeneratePdfForBirthdayOrderAcceptance(birthdayOrderDto.Id, birthdayOrderDto.Price, birthdayOrderDto.ClientName);
+
+                await _emailService.SendEmailForGeneralCardSlipOrBirthdayOrderAcceptance(birthdayOrderDto.ContactEmail, 
+                "Reservation confirmation", $"<h4>Honored {birthdayOrderDto.ClientName}, thank you for your interest</h4>" +
+                $"<p>We are glad to inform you that you reservation has been accepted.</p>" +
+                $"<p>You will find attached email with payment details.</p>", birthdayOrderDto.Id);
+            }
+                        
+            return NoContent();
         }
 
         [HttpGet("pure")]

@@ -63,7 +63,7 @@ namespace Infrastructure.Data.Repositories
                 .Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task AddBirthdayOrder(ClientBirthdayOrder birthdayOrder)
+        public async Task CreateBirthdayOrder(ClientBirthdayOrder birthdayOrder)
         {
             var birthdayPackage = await _context.BirthdayPackages
                 .FirstOrDefaultAsync(x => x.Id == birthdayOrder.BirthdayPackageId);
@@ -77,6 +77,21 @@ namespace Infrastructure.Data.Repositories
             _context.ClientBirthdayOrders.Add(birthdayOrder);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateBirthdayOrder(ClientBirthdayOrder birthdayOrder)
+        {  
+            var birthdayPackage = await _context.BirthdayPackages
+                .FirstOrDefaultAsync(x => x.Id == birthdayOrder.BirthdayPackageId);
+            
+            int minutes = birthdayPackage.Duration;
+
+            birthdayOrder.StartDateAndTime = birthdayOrder.StartDateAndTime.ToLocalTime();
+            birthdayOrder.EndDateAndTime = birthdayOrder.StartDateAndTime.AddMinutes(minutes).ToLocalTime();
+
+            _context.Entry(birthdayOrder).State = EntityState.Modified;
+
+             await _context.SaveChangesAsync();
         }
 
         private async Task<decimal> CalculateBirthdayOrderPrice(ClientBirthdayOrder birthdayOrder, BirthdayPackage birthdayPackage)

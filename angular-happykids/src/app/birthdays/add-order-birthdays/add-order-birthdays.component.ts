@@ -38,6 +38,7 @@ export class AddOrderBirthdaysComponent implements OnInit {
       numberOfGuests: ['', [Validators.required]],
       birthdayNo: ['', [Validators.required]],
       startDateAndTime: ['', Validators.required],
+      remarks: ['', [Validators.maxLength(2000)]],
       branchId: [0, [Validators.min(1)]],
       birthdayPackageId: [0, [Validators.min(1)]]
     });

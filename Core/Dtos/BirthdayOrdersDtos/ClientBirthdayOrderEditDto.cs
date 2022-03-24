@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.Dtos.BirthdayOrdersDtos
 {
-    public class ClientBirthdayOrderCreateEditDto
+    public class ClientBirthdayOrderEditDto
     {
+        public int Id { get; set; }  
         public int BranchId { get; set; }
         public int BirthdayPackageId { get; set; }
         public string ClientName { get; set; }
@@ -14,6 +15,7 @@ namespace Core.Dtos.BirthdayOrdersDtos
         public int NumberOfGuests { get; set; }
         public string Remarks { get; set; }
         public int BirthdayNo { get; set; }
+        public decimal Price { get; set; }
         public int? OrderStatusId { get; set; }
         
 

@@ -30,11 +30,11 @@ namespace Infrastructure.Services
             var response = await client.SendEmailAsync(msg);
         }
 
-        public async Task SendEmailForGeneralCardSlip(string toEmail, string subject, string content, int orderNo)
+        public async Task SendEmailForGeneralCardSlipOrBirthdayOrderAcceptance(string toEmail, string subject, string content, int orderNo)
         {
             var apiKey = _config["SendGridAPIKey"];
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("petar.sardelic@outlook.com", "Doctor Auth Demo");
+            var from = new EmailAddress("petar.sardelic@outlook.com", "Happykids Demo");
             var to = new EmailAddress(toEmail);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
 
@@ -44,8 +44,6 @@ namespace Infrastructure.Services
                 var response = await client.SendEmailAsync(msg);
             }
         }
-
-
     }
 }
 

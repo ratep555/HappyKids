@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { AccountService } from 'src/app/account/account.service';
+import { BirthdayOrderEdit, ClientBirthdayOrder } from 'src/app/shared/models/birthdayorder';
 import { UserParams } from 'src/app/shared/models/myparams';
 import { IPaginationForClientBirthayOrders } from 'src/app/shared/models/pagination';
 import { User } from 'src/app/shared/models/user';
@@ -14,6 +15,7 @@ export class OrdersBirthdaysService {
   baseUrl = environment.apiUrl;
   user: User;
   userParams: UserParams;
+  formData: BirthdayOrderEdit = new BirthdayOrderEdit();
 
   constructor(private http: HttpClient,
               private accountService: AccountService) {
@@ -51,4 +53,24 @@ export class OrdersBirthdaysService {
       })
     );
   }
+
+  getBirthdayOrderById(id: number) {
+    return this.http.get<ClientBirthdayOrder>(this.baseUrl + 'birthdayOrders/' + id);
+  }
+
+  updateBirthdayOrder(formData){
+    return this.http.put(this.baseUrl + 'birthdayOrders/' + formData.id, formData);
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+

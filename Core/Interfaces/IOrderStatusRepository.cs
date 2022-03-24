@@ -8,11 +8,10 @@ namespace Core.Interfaces
     {
         Task<List<OrderStatus>> GetAllOrderStatusesForEditing();
         Task<List<OrderStatus>> GetOrderStatusesAssociatedWithOrdersForChildrenItems();
+        Task<OrderStatus> GetOrderStatusById(int id);
         int GetPendingPaymentOrderStatusId();
         int GetFailedPaymentOrderStatusId();
         int GetReceivedPaymentOrderStatusId();
-        int GetOrderAccepotedOrderStatusId();
-        public int GetOrderRejectedOrderStatusId();
     }
 }
 

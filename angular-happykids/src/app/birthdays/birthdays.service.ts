@@ -51,5 +51,4 @@ export class BirthdaysService {
     return this.http.post(this.baseUrl + 'birthdayOrders', birthday);
   }
 
-
 }

@@ -27,8 +27,19 @@
             &nbsp;
             <ng-container>
               <div *ngIf="birthdayPackage.discountedPrice === null; else elseBlock">
-                <strong style="color: blue;">Price: </strong>
-                {{birthdayPackage.price | number: "1.2-2" }} kn for {{birthdayPackage.numberOfParticipants}} participants
+                <div>
+                  <strong style="color: blue;">Price: </strong>
+                  {{birthdayPackage.price | number: "1.2-2" }} kn for {{birthdayPackage.numberOfParticipants}} participants
+                  <span class="piki1">Buy</span>
+                </div>
+                <div class="wow2">
+                  <strong style="color: blue;">Duration: </strong>
+                  {{birthdayPackage.duration}} minutes
+              </div>          
+              <div class="wow2">
+                <strong style="color: blue;">Additional billing per participant: </strong>
+                {{birthdayPackage.additionalBillingPerParticipant | number: "1.2-2" }} kn
+            </div>          
             </div>   
             <ng-template #elseBlock>
               <div class="first">
@@ -40,18 +51,21 @@
                 {{birthdayPackage.discountedPrice | number: "1.2-2" }} kn for {{birthdayPackage.numberOfParticipants}} participants  
                 <span class="piki">{{birthdayPackage.discountSum}}%</span>
             </div>   
-            </ng-template>  
-            </ng-container>
-
-            
             <div class="wow2">
               <strong style="color: blue;">Duration: </strong>
               {{birthdayPackage.duration}} minutes
-          </div>          
-            <div class="wow2">
-              <strong style="color: blue;">Additional billing per participant: </strong>
-              {{birthdayPackage.additionalBillingPerParticipant | number: "1.2-2" }} kn
-          </div>          
+          </div>     
+          <div class="first">
+            <strong style="color: red;">Regular billing per participant: </strong>
+            {{birthdayPackage.additionalBillingPerParticipant | number: "1.2-2" }} kn
+          </div>
+          <div class="wow2">
+            <strong style="color: blue;">Discounted additional billing per participant: </strong>
+            {{birthdayPackage.discountedAdditionalBillingPerParticipant | number: "1.2-2" }} kn
+            <span class="piki">{{birthdayPackage.discountSum}}%</span>
+        </div>      
+            </ng-template>  
+            </ng-container>    
         </tab>
           <tab heading="Description/Remarks">
             <div class="kiki">
@@ -63,9 +77,7 @@
             <div *ngIf="birthdayPackage.kidActivities !== null">
               <table
             class="kiki
-              table table-bordered table-striped table-condensed table-hover
-            "
-          >
+              table table-bordered table-striped table-condensed table-hover">
             <thead>
               <tr>
                 <th style="font-size: large">Activity</th>

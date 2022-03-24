@@ -32,6 +32,11 @@ namespace Infrastructure.Data.Repositories
             return orderStatuses;
         }
 
+        public async Task<OrderStatus> GetOrderStatusById(int id)
+        {
+            return await _context.OrderStatuses.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public int GetPendingPaymentOrderStatusId()
         {
             return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Pending Payment").Id;
@@ -45,16 +50,6 @@ namespace Infrastructure.Data.Repositories
         public int GetReceivedPaymentOrderStatusId()
         {
             return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Received Payment").Id;
-        }
-
-        public int GetOrderAccepotedOrderStatusId()
-        {
-            return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Order Accepted").Id;
-        }
-
-        public int GetOrderRejectedOrderStatusId()
-        {
-            return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Order Rejected").Id;
         }
     }
 }

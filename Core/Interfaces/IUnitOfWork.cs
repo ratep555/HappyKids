@@ -6,6 +6,7 @@ namespace Core.Interfaces
     {
         IBirthdayOrderRepository BirthdayOrderRepository {get; }
         IBirthdayPackageRepository BirthdayPackageRepository {get; }
+        IBlogRepository BlogRepository {get; }
         IBranchRepository BranchRepository {get; }
         ICategoryRepository CategoryRepository {get; }
         ICountryRepository CountryRepository {get; }

@@ -17,6 +17,8 @@ using Core.Dtos.WarehousesDtos;
 using Core.Dtos.DiscountsDtos;
 using Core.Entities.BirthdayOrders;
 using Core.Dtos.BirthdayOrdersDtos;
+using Core.Entities.Blogs;
+using Core.Dtos.BlogsDtos;
 
 namespace API.Helpers
 {
@@ -95,8 +97,21 @@ namespace API.Helpers
                 .ForMember(d => d.Branch, o => o.MapFrom(s => s.Branch.City))
                 .ForMember(d => d.BirthdayPackage, o => o.MapFrom(s => s.BirthdayPackage.PackageName))
                 .ForMember(d => d.OrderStatus, o => o.MapFrom(s => s.OrderStatus.Name));
+
+            CreateMap<Blog, BlogDto>()
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.ApplicationUser.UserName));
+
+            CreateMap<BlogCreateEditDto, Blog>()
+                .ForMember(x => x.Picture, options => options.Ignore());
             
-            CreateMap<ClientBirthdayOrderCreateEditDto, ClientBirthdayOrder>();
+            CreateMap<BlogComment, BlogCommentDto>()
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.ApplicationUser.UserName));
+
+            CreateMap<BlogCommentCreateEditDto, BlogComment>();
+            
+            CreateMap<ClientBirthdayOrderCreateDto, ClientBirthdayOrder>();
+            
+            CreateMap<ClientBirthdayOrderEditDto, ClientBirthdayOrder>();
 
             CreateMap<Country, CountryDto>().ReverseMap();
 
@@ -402,10 +417,6 @@ namespace API.Helpers
             }
             return result;
         }
-
-
-
-
     }
 }
 

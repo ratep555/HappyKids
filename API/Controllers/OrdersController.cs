@@ -136,7 +136,7 @@ namespace API.Controllers
 
                 string url = $"{_config["AngularAppUrl"]}/orders/{order.Id}";
 
-                await _emailService.SendEmailForGeneralCardSlip(email, 
+                await _emailService.SendEmailForGeneralCardSlipOrBirthdayOrderAcceptance(email, 
                 "Order confirmation", $"<h2>Thank you for your order in the amount of {total} kn</h2>" +
                 $"<p>Your order will be shipped in accordance with your selected shipping preferences" +
                 $"once the payment is completed. You can view details of your order by <a href='{url}'>Clicking here</a></p>", order.Id);
