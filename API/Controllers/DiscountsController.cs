@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Dtos;
+using Core.Dtos.BirthdayOrdersDtos;
 using Core.Dtos.ChildrenItemsDtos;
 using Core.Dtos.DiscountsDto;
 using Core.Dtos.DiscountsDtos;
@@ -56,6 +57,11 @@ namespace API.Controllers
 
             var discountToReturn = _mapper.Map<DiscountDto>(discount);
 
+            var birthdayPackagesSelectedIds = discountToReturn.BirthdayPackages.Select(x => x.Id).ToList();
+
+            var nonSelectedBirthdayPackages = await _unitOfWork.BirthdayPackageRepository
+                .GetNonSelectedBirthdayPackages(birthdayPackagesSelectedIds);
+
             var childrenItemsSelectedIds = discountToReturn.ChildrenItems.Select(x => x.Id).ToList();
 
             var nonSelectedChildrenItems = await _unitOfWork.ChildrenItemRepository
@@ -71,6 +77,9 @@ namespace API.Controllers
             var nonSelectedManufacturers = await _unitOfWork.ChildrenItemRepository
                 .GetNonSelectedManufacturers(manufacturersSelectedIds);
 
+            var nonSelectedBirthdayPackagesDto = _mapper.Map<IEnumerable<BirthdayPackageDto>>
+                (nonSelectedBirthdayPackages).OrderBy(x => x.PackageName);
+
             var nonSelectedChildrenItemsDto = _mapper.Map<IEnumerable<ChildrenItemDto>>
                 (nonSelectedChildrenItems).OrderBy(x => x.Name);
 
@@ -83,6 +92,8 @@ namespace API.Controllers
             var response = new DiscountPutGetDto();
 
             response.Discount = discountToReturn;
+            response.SelectedBirthdayPackages = discountToReturn.BirthdayPackages.OrderBy(x => x.PackageName);
+            response.NonSelectedBirthdayPackages = nonSelectedBirthdayPackagesDto;
             response.SelectedChildrenItems = discountToReturn.ChildrenItems.OrderBy(x => x.Name);
             response.NonSelectedChildrenItems = nonSelectedChildrenItemsDto;
             response.SelectedCategories = discountToReturn.Categories.OrderBy(x => x.Name);
@@ -103,17 +114,19 @@ namespace API.Controllers
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithDiscount1(discount);
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithCategoryDiscount(discount);
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithManufacturerDiscount(discount);
+            await _unitOfWork.DiscountRepository.UpdateBirthdayPackageWithDiscount(discount);
 
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateDiscount1(int id, [FromBody] DiscountCreateEditDto discountDto)
+        public async Task<ActionResult> UpdateDiscount(int id, [FromBody] DiscountCreateEditDto discountDto)
         {
             var discount = await _unitOfWork.DiscountRepository.GetDiscountById(id);
 
             if (discount == null) return NotFound(/* new ServerResponse(404) */);
 
+            await _unitOfWork.DiscountRepository.ResetBirthdayPackageDiscountedPrice(discount);
             await _unitOfWork.DiscountRepository.ResetChildrenItemDiscountedPrice(discount);
             await _unitOfWork.DiscountRepository.ResetCategoryDiscountedPrice(discount);
             await _unitOfWork.DiscountRepository.ResetManufacturerDiscountedPrice(discount);
@@ -125,12 +138,7 @@ namespace API.Controllers
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithDiscount1(discount);
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithCategoryDiscount(discount);
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithManufacturerDiscount(discount);
-
-          // nadopuna, pogledaj childrenparties!
-          // ovo ne koristiiš jer tu ne stvaraš discount za birthdaypackage, kad budeš ponovo radio 
-           // projekt razmisli želiš li tu dodati birthdayypackages
-           
-           // await _unitOfWork.BirthdayRepository.UpdateBirthdayPackageWithDiscount(discount);
+            await _unitOfWork.DiscountRepository.UpdateBirthdayPackageWithDiscount(discount);
 
             return NoContent();
         }
@@ -142,7 +150,6 @@ namespace API.Controllers
 
             if (discount == null) return NotFound(/* new ServerResponse(404) */);
 
-            // pogledaj si ovaj delete u repository, imaš tamo za dodati sada je zakomentirano
             await _unitOfWork.DiscountRepository.DeleteDiscount(discount);
 
             return NoContent();

@@ -17,6 +17,10 @@ import { OrderSumComponent } from './components/order-sum/order-sum.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkStepperComponent } from './components/cdk-stepper/cdk-stepper.component';
 import { RatingComponent } from './components/rating/rating.component';
+import { LeafletModule} from '@asymmetrik/ngx-leaflet';
+import 'leaflet/dist/images/marker-shadow.png';
+import 'leaflet/dist/images/marker-icon-2x.png';
+import { MapComponent } from './components/map/map.component';
 
 
 @NgModule({
@@ -28,7 +32,8 @@ import { RatingComponent } from './components/rating/rating.component';
     BasketReviewComponent,
     OrderSumComponent,
     CdkStepperComponent,
-    RatingComponent
+    RatingComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
@@ -41,8 +46,8 @@ import { RatingComponent } from './components/rating/rating.component';
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
-    CdkStepperModule
-
+    CdkStepperModule,
+    LeafletModule
   ],
   exports: [
     BsDropdownModule,
@@ -61,7 +66,9 @@ import { RatingComponent } from './components/rating/rating.component';
     OrderSumComponent,
     CdkStepperModule,
     CdkStepperComponent,
-    RatingComponent
+    RatingComponent,
+    LeafletModule,
+    MapComponent
   ]
 })
 export class SharedModule { }

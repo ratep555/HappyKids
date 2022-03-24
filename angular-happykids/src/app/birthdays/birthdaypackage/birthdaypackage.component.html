@@ -1,1 +1,27 @@
-<p>birthdaypackage works!</p>
+<div class="yes card border-left-primary shadow h-100 py-2">
+    <div class="card image position-relative" style="cursor: pointer;">
+        <img src="{{birthdayPackage.picture || './assets/birthdaypackages.jpg'}}" 
+        alt="{{birthdayPackage.packageName}}" class="img-fluid bg-info img-pip">
+        <ng-container *ngIf="birthdayPackage.hasDiscountsApplied === true">
+            <div class="arrow-right">
+                <span>{{birthdayPackage?.discountSum}} %</span>
+              </div>
+        </ng-container>
+    </div>
+    <div class="card-body d-flex flex-column">
+        <a routerLink="/birthdays/{{birthdayPackage.id}}">
+            <h5 class="text-center text-uppercase">{{birthdayPackage.packageName}}</h5>
+        </a>
+        <ng-container>
+            <div *ngIf="birthdayPackage?.discountedPrice === null; else elseBlock" 
+            class="text-center">
+                <span>{{birthdayPackage.price | currency}} for {{birthdayPackage.numberOfParticipants}} participants</span>
+                </div>
+                <ng-template #elseBlock>
+                    <div class="text-center">
+                <span>{{birthdayPackage.discountedPrice | currency}} for {{birthdayPackage.numberOfParticipants}} participants</span>
+                </div>
+                </ng-template>
+        </ng-container>
+    </div>
+  </div>

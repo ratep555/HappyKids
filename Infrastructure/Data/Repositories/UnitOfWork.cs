@@ -11,11 +11,15 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
+        public IBirthdayOrderRepository BirthdayOrderRepository => new BirthdayOrderRepository(_context);
+        public IBirthdayPackageRepository BirthdayPackageRepository => new BirthdayPackageRepository(_context);
+        public IBranchRepository BranchRepository => new BranchRepository(_context);
         public ICategoryRepository CategoryRepository => new CategoryRepository(_context);
         public ICountryRepository CountryRepository => new CountryRepository(_context);
         public IChildrenItemRepository ChildrenItemRepository => new ChildrenItemRepository(_context);
         public IChildrenItemWarehouseRepository ChildrenItemWarehouseRepository => new ChildrenItemWarehouseRepository(_context);
         public IDiscountRepository DiscountRepository => new DiscountRepository(_context);
+        public IKidActivityRepository KidActivityRepository => new KidActivityRepository(_context);
         public IManufacturerRepository ManufacturerRepository => new ManufacturerRepository(_context);
         public IOrderRepository OrderRepository => new OrderRepository(_context);
         public IOrderStatusRepository OrderStatusRepository => new OrderStatusRepository(_context);

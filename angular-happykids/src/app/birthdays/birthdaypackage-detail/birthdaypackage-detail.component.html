@@ -1,1 +1,99 @@
-<p>birthdaypackage-detail works!</p>
+<div class="container" style="margin-top: 100px; margin-bottom: 50px">
+    <div class="row" *ngIf="birthdayPackage">
+      <div class="col-4">
+        <div class="wow1 card">
+            <img src="{{birthdayPackage.picture || './assets/birthdaypackages.jpg'}}" 
+          a class="card-img" />
+          <div class="card-body">
+            &nbsp;
+            <div class="text-center">
+              <h4>{{ birthdayPackage.packageName }}</h4>
+            </div>
+            &nbsp;
+      <div class="wow btn-group d-flex">
+      <button
+      routerLink="/birthdays/addbirthday/"
+    class="btn btn-primary"
+    >
+    Make Reservation
+  </button>
+</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <tabset class="member-tabset">
+          <tab heading="General Data">
+            &nbsp;
+            <ng-container>
+              <div *ngIf="birthdayPackage.discountedPrice === null; else elseBlock">
+                <strong style="color: blue;">Price: </strong>
+                {{birthdayPackage.price | number: "1.2-2" }} kn for {{birthdayPackage.numberOfParticipants}} participants
+            </div>   
+            <ng-template #elseBlock>
+              <div class="first">
+                <strong style="color: red;">Regular Price: </strong>
+                {{birthdayPackage.price | number: "1.2-2" }} kn for {{birthdayPackage.numberOfParticipants}} participants
+              </div>
+              <div class="wow2">
+                <strong style="color: blue ;">Discounted Price: </strong>
+                {{birthdayPackage.discountedPrice | number: "1.2-2" }} kn for {{birthdayPackage.numberOfParticipants}} participants  
+                <span class="piki">{{birthdayPackage.discountSum}}%</span>
+            </div>   
+            </ng-template>  
+            </ng-container>
+
+            
+            <div class="wow2">
+              <strong style="color: blue;">Duration: </strong>
+              {{birthdayPackage.duration}} minutes
+          </div>          
+            <div class="wow2">
+              <strong style="color: blue;">Additional billing per participant: </strong>
+              {{birthdayPackage.additionalBillingPerParticipant | number: "1.2-2" }} kn
+          </div>          
+        </tab>
+          <tab heading="Description/Remarks">
+            <div class="kiki">
+              <strong>{{ birthdayPackage.description }}</strong>
+            </div>
+          </tab>
+          <tab heading="Activities included">
+            <hr />
+            <div *ngIf="birthdayPackage.kidActivities !== null">
+              <table
+            class="kiki
+              table table-bordered table-striped table-condensed table-hover
+            "
+          >
+            <thead>
+              <tr>
+                <th style="font-size: large">Activity</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of birthdayPackage.kidActivities" style="color: black">
+                <td><strong>{{ item.name }}</strong></td>
+                <td>
+                  <div class="text-center">
+                    <button
+                      routerLink="/activities/{{ item.id }}"
+                      type="button"
+                      class="btn btn-info"
+                    >
+                      <i class="fa fa-info-circle mr-1"></i>
+                      Info
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+  

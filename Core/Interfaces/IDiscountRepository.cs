@@ -15,18 +15,20 @@ namespace Core.Interfaces
         Task CreateDiscount(Discount discount);  
         Task UpdateDiscount(Discount discount);
         Task DeleteDiscount(Discount discount);
-        Task<decimal> DiscountSum(ChildrenItem childrenItem);
-        Task<decimal> DiscountSumForDto(ChildrenItemDto childrenItem);
+        Task ResetBirthdayPackageDiscountedPrice(Discount discount);
+        Task ResetChildrenItemDiscountedPrice(Discount discount);
+        Task ResetCategoryDiscountedPrice(Discount discount);
+        Task ResetManufacturerDiscountedPrice(Discount discount);
+        Task ResetChildrenItemDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> childrenItems);
+        Task ResetCategoryDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> items);
+        Task ResetManufacturerDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> items);
+        Task UpdateBirthdayPackageWithDiscount(Discount discount);
         Task UpdateChildrenItemWithDiscount(ChildrenItem item);
         Task UpdateChildrenItemWithDiscount1(Discount discount);
-        Task ResetCategoryDiscountedPrice(Discount discount);
-        Task ResetChildrenItemDiscountedPrice(Discount discount);
-        Task ResetManufacturerDiscountedPrice(Discount discount);
-        Task ResetCategoryDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> items);
-        Task ResetChildrenItemDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> childrenItems);
-        Task ResetManufacturerDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> items);
         Task UpdateChildrenItemWithCategoryDiscount(Discount discount);
         Task UpdateChildrenItemWithManufacturerDiscount(Discount discount);
+        Task<decimal> DiscountSum(ChildrenItem childrenItem);
+        Task<decimal> DiscountSumForDto(ChildrenItemDto childrenItem);
     }
 }
 

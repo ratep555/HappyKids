@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Entities.Discounts;
 
 namespace Core.Entities.BirthdayOrders
 {
@@ -15,7 +16,7 @@ namespace Core.Entities.BirthdayOrders
         public bool? HasDiscountsApplied { get; set; }
 
         public ICollection<BirthdayPackageKidActivity> BirthdayPackageKidActivities { get; set; }
-       // public ICollection<BirthdayPackageDiscount> BirthdayPackageDiscounts { get; set; }
+        public ICollection<BirthdayPackageDiscount> BirthdayPackageDiscounts { get; set; }
         public ICollection<ClientBirthdayOrder> ClientBirthdayOrders { get; set; }
     }
 }

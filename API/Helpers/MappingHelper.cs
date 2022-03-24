@@ -15,6 +15,8 @@ using Core.Entities.Orders;
 using NetTopologySuite.Geometries;
 using Core.Dtos.WarehousesDtos;
 using Core.Dtos.DiscountsDtos;
+using Core.Entities.BirthdayOrders;
+using Core.Dtos.BirthdayOrdersDtos;
 
 namespace API.Helpers
 {
@@ -30,6 +32,25 @@ namespace API.Helpers
             CreateMap<ShippingAddressDto, ShippingAddress>().ReverseMap();
             
             CreateMap<BasketChildrenItemDto, BasketChildrenItem>();
+
+            CreateMap<BirthdayPackage, BirthdayPackageDto>()
+                .ForMember(d => d.KidActivities, o => o.MapFrom(MapForKidActivities))
+                .ForMember(d => d.Discounts, o => o.MapFrom(MapForDiscounts));
+            
+            CreateMap<BirthdayPackageCreateEditDto, BirthdayPackage>()
+                .ForMember(x => x.Picture, options => options.Ignore())
+                .ForMember(x => x.BirthdayPackageDiscounts, options => options.MapFrom(MapBirthdayPackageDisounts))
+                .ForMember(x => x.BirthdayPackageKidActivities, options => options.MapFrom(MapBirthdayPackageKidActivities));
+           
+            CreateMap<Branch, BranchDto>()
+                .ForMember(d => d.Country, o => o.MapFrom(s => s.Country.Name))
+                .ForMember(d => d.Latitude, o => o.MapFrom(s => s.Location.Y))
+                .ForMember(d => d.Longitude, o => o.MapFrom(s => s.Location.X)); 
+            
+            CreateMap<BranchCreateEditDto, Branch>()
+               .ForMember(x => x.Location, x => x.MapFrom(dto =>
+                geometryFactory.CreatePoint(new Coordinate(dto.Longitude, dto.Latitude))));
+
             CreateMap<ClientBasketDto, ClientBasket>();
             
             CreateMap<Category, CategoryDto>().ReverseMap();
@@ -69,6 +90,13 @@ namespace API.Helpers
                     (s =>  s.BasketChildrenItemOrdered.BasketChildrenItemOrderedId))
                 .ForMember(d => d.ChildrenItemName, o => o.MapFrom
                     (s =>  s.BasketChildrenItemOrdered.BasketChildrenItemOrderedName));
+            
+            CreateMap<ClientBirthdayOrder, ClientBirthdayOrderDto>()
+                .ForMember(d => d.Branch, o => o.MapFrom(s => s.Branch.City))
+                .ForMember(d => d.BirthdayPackage, o => o.MapFrom(s => s.BirthdayPackage.PackageName))
+                .ForMember(d => d.OrderStatus, o => o.MapFrom(s => s.OrderStatus.Name));
+            
+            CreateMap<ClientBirthdayOrderCreateEditDto, ClientBirthdayOrder>();
 
             CreateMap<Country, CountryDto>().ReverseMap();
 
@@ -81,6 +109,11 @@ namespace API.Helpers
                 .ForMember(x => x.ChildrenItemDiscounts, options => options.MapFrom(MapDiscountChildrenItems))
                 .ForMember(x => x.CategoryDiscounts, options => options.MapFrom(MapDiscountCategories))
                 .ForMember(x => x.ManufacturerDiscounts, options => options.MapFrom(MapDiscountManufacturers));
+            
+            CreateMap<KidActivity, KidActivityDto>().ReverseMap();
+
+            CreateMap<KidActivityCreateEditDto, KidActivity>()
+                .ForMember(x => x.Picture, options => options.Ignore());
 
             CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
 
@@ -309,6 +342,70 @@ namespace API.Helpers
             }
             return result;
         }
+
+        private List<KidActivityDto> MapForKidActivities(
+            BirthdayPackage birthdayPackage, BirthdayPackageDto birthdayPackageDto)
+        {
+            var result = new List<KidActivityDto>();
+
+            if (birthdayPackage.BirthdayPackageKidActivities != null)
+            {
+                foreach (var activity in birthdayPackage.BirthdayPackageKidActivities)
+                {
+                    result.Add(new KidActivityDto() { Id = activity.KidActivityId, 
+                    Name = activity.KidActivity.Name });
+                }
+            }
+            return result;
+        }
+
+        private List<DiscountDto> MapForDiscounts(
+            BirthdayPackage birthdayPackage, BirthdayPackageDto birthdayPackageDto)
+        {
+            var result = new List<DiscountDto>();
+
+            if (birthdayPackage.BirthdayPackageDiscounts != null)
+            {
+                foreach (var discount in birthdayPackage.BirthdayPackageDiscounts)
+                {
+                    result.Add(new DiscountDto() { Id = discount.DiscountId, 
+                    Name = discount.Discount.Name });
+                }
+            }
+            return result;
+        }
+
+        private List<BirthdayPackageDiscount> MapBirthdayPackageDisounts(
+                BirthdayPackageCreateEditDto birthdayDto, BirthdayPackage birthdayPackage)
+        {
+            var result = new List<BirthdayPackageDiscount>();
+
+            if (birthdayDto.DiscountsIds == null) { return result; }
+
+            foreach (var id in birthdayDto.DiscountsIds)
+            {
+                result.Add(new BirthdayPackageDiscount() { DiscountId = id });
+            }
+            return result;
+        }
+
+        private List<BirthdayPackageKidActivity> MapBirthdayPackageKidActivities(
+                BirthdayPackageCreateEditDto birthdayDto, BirthdayPackage birthdayPackage)
+        {
+            var result = new List<BirthdayPackageKidActivity>();
+
+            if (birthdayDto.KidActivitiesIds == null) { return result; }
+
+            foreach (var id in birthdayDto.KidActivitiesIds)
+            {
+                result.Add(new BirthdayPackageKidActivity() { KidActivityId = id });
+            }
+            return result;
+        }
+
+
+
+
     }
 }
 

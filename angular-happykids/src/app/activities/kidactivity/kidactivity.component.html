@@ -1,0 +1,10 @@
+<div class="card border-left-primary shadow h-100 py-2">
+    <div class="card image position-relative" style="cursor: pointer;">
+        <img src="{{kidActivity.picture || './assets/kidactivity.jpg'}}" 
+        alt="{{kidActivity.name}}" class="img-fluid bg-info img-pip">
+    <div class="card-body d-flex flex-column">
+        <a routerLink="/activities/{{kidActivity.id}}">
+            <h5 class="text-center text-uppercase">{{kidActivity.name}}</h5>
+        </a>
+    </div>
+  </div>

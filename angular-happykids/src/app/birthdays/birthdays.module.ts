@@ -5,6 +5,7 @@ import { BirthdaypackageComponent } from './birthdaypackage/birthdaypackage.comp
 import { BirthdaypackageDetailComponent } from './birthdaypackage-detail/birthdaypackage-detail.component';
 import { SharedModule } from '../shared/shared.module';
 import { BirthdaysRoutingModule } from './birthdays-routing.module';
+import { AddOrderBirthdaysComponent } from './add-order-birthdays/add-order-birthdays.component';
 
 
 
@@ -12,7 +13,8 @@ import { BirthdaysRoutingModule } from './birthdays-routing.module';
   declarations: [
     BirthdaysComponent,
     BirthdaypackageComponent,
-    BirthdaypackageDetailComponent
+    BirthdaypackageDetailComponent,
+    AddOrderBirthdaysComponent
   ],
   imports: [
     CommonModule,

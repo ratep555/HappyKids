@@ -1,0 +1,89 @@
+
+.card-body {
+    padding: 0 25px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    background-color: rgb(39, 34, 34);
+    border-top: none;
+}
+
+.card {
+    min-height: 600px;
+  }
+
+  .card img {
+    padding: 10px;
+    height: 350px;
+  }
+
+  .kiki {
+    margin-top: 20px;
+}
+
+.wow {
+    margin-top: 50px;
+}
+
+.wow1 {
+    background-color: lightgray;
+}
+
+.wow2 {
+    margin-top: 10px;
+}
+
+.first {
+    text-decoration: line-through;
+	margin-top: 10px;
+}
+
+.piki {
+    margin-left: 20px;
+}
+
+.piki {
+	position: relative;
+	display: inline-block;
+	background: orange;
+	color: white;
+	height: 2.5rem;
+	width: 2.5rem;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 2.5rem;
+	transform: rotate(-20deg);
+	animation: beat 1s ease infinite alternate;
+	&:before,
+	&:after {
+		content:"";
+		position: absolute;
+		background: inherit;
+		height: inherit;
+		width: inherit;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		transform: rotate(30deg);
+	}
+	&:after {
+		transform: rotate(60deg);
+	} 
+}
+
+@keyframes beat {
+	from {	transform: rotate(-20deg) scale(1); }
+	to {	transform: rotate(-20deg) scale(1.1); }
+}
+
+
+
+
+
+
+
+
+  
+
+ 

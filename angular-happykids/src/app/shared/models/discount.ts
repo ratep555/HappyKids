@@ -1,3 +1,4 @@
+import { BirthdayPackage } from './birthdaypackage';
 import { Category } from './category';
 import { ChildrenItem } from './childrenitem';
 import { Manufacturer } from './manufacturer';
@@ -20,6 +21,7 @@ export interface DiscountCreateEdit {
     childrenItems: ChildrenItem[];
     categories: Category[];
     manufacturers: Manufacturer[];
+    birthdayPackages: BirthdayPackage[];
 }
 
 export class DiscountEditClass {

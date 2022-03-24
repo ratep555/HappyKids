@@ -7,7 +7,7 @@ namespace Core.Entities.BirthdayOrders
 {
     public class ClientBirthdayOrder : BaseEntity
     {
-         public int BranchId { get; set; }
+        public int BranchId { get; set; }
         public Branch Branch { get; set; }
 
         public int BirthdayPackageId { get; set; }

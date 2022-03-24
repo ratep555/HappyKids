@@ -47,5 +47,18 @@ namespace Infrastructure.Data.Repositories
             return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Received Payment").Id;
         }
 
+        public int GetOrderAccepotedOrderStatusId()
+        {
+            return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Order Accepted").Id;
+        }
+
+        public int GetOrderRejectedOrderStatusId()
+        {
+            return _context.OrderStatuses.FirstOrDefault(x => x.Name == "Order Rejected").Id;
+        }
     }
 }
+
+
+
+

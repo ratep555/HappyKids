@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Core.Dtos.BirthdayOrdersDtos;
 using Core.Dtos.ChildrenItemsDtos;
 
 namespace Core.Dtos.DiscountsDto
@@ -19,6 +20,7 @@ namespace Core.Dtos.DiscountsDto
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        public List<BirthdayPackageDto> BirthdayPackages { get; set; }
         public List<ChildrenItemDto> ChildrenItems { get; set; }
         public List<CategoryDto> Categories { get; set; }
         public List<ManufacturerDto> Manufacturers { get; set; }

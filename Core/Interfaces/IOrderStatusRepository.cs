@@ -11,5 +11,14 @@ namespace Core.Interfaces
         int GetPendingPaymentOrderStatusId();
         int GetFailedPaymentOrderStatusId();
         int GetReceivedPaymentOrderStatusId();
+        int GetOrderAccepotedOrderStatusId();
+        public int GetOrderRejectedOrderStatusId();
     }
 }
+
+
+
+
+
+
+

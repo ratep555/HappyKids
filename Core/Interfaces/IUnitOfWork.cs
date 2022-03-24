@@ -4,11 +4,15 @@ namespace Core.Interfaces
 {
     public interface IUnitOfWork
     {
+        IBirthdayOrderRepository BirthdayOrderRepository {get; }
+        IBirthdayPackageRepository BirthdayPackageRepository {get; }
+        IBranchRepository BranchRepository {get; }
         ICategoryRepository CategoryRepository {get; }
         ICountryRepository CountryRepository {get; }
         IChildrenItemRepository ChildrenItemRepository {get; }
         IChildrenItemWarehouseRepository ChildrenItemWarehouseRepository {get; }
         IDiscountRepository DiscountRepository {get; }
+        IKidActivityRepository KidActivityRepository {get; }
         IManufacturerRepository ManufacturerRepository {get; }
         IOrderRepository OrderRepository {get; }
         IOrderStatusRepository OrderStatusRepository {get; }

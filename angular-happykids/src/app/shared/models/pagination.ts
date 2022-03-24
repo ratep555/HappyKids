@@ -1,7 +1,11 @@
+import { ClientBirthdayOrder } from './birthdayorder';
+import { BirthdayPackage } from './birthdaypackage';
+import { Branch } from './branch';
 import { Category } from './category';
 import { ChildrenItem } from './childrenitem';
 import { ChildrenItemWarehouse } from './childrenItemWarehouse';
 import { Discount } from './discount';
+import { KidActivity } from './kidactivity';
 import { Manufacturer } from './manufacturer';
 import { Order } from './order';
 import { PaymentOption } from './paymentOption';
@@ -9,11 +13,25 @@ import { ShippingOption } from './shippingOption';
 import { Tag } from './tag';
 import { Warehouse } from './warehouse';
 
+export interface IPaginationForBranches {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: Branch[];
+  }
+
 export interface IPaginationForCategories {
     page: number;
     pageCount: number;
     count: number;
     data: Category[];
+  }
+
+export interface IPaginationForClientBirthayOrders {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: ClientBirthdayOrder[];
   }
 
 export interface IPaginationForDiscounts {
@@ -71,6 +89,20 @@ export interface IPaginationForWarehouses {
     data: Warehouse[];
   }
 
+export interface IPaginationForBirthdayPackages {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: BirthdayPackage[];
+  }
+
+export class PaginationForBirthdayPackages implements IPaginationForBirthdayPackages{
+    page: number;
+    pageCount: number;
+    count: number;
+    data: BirthdayPackage[];
+  }
+
 export interface IPaginationForChildrenItems {
     page: number;
     pageCount: number;
@@ -83,4 +115,18 @@ export class PaginationForChildrenItems implements IPaginationForChildrenItems {
     pageCount: number;
     count: number;
     data: ChildrenItem[];
+  }
+
+export interface IPaginationForKidActivities {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: KidActivity[];
+  }
+
+export class PaginationForKidActivities implements IPaginationForKidActivities {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: KidActivity[];
   }
