@@ -5,6 +5,9 @@ import { AccountService } from 'src/app/account/account.service';
 import { BasketService } from 'src/app/basket/basket.service';
 import { Basket } from 'src/app/shared/models/basket';
 import { User } from 'src/app/shared/models/user';
+import { SocialUser } from 'angularx-social-login';
+import { ExternalAuth } from 'src/app/shared/models/externalauth';
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -25,6 +28,30 @@ export class NavBarComponent implements OnInit {
  ngOnInit(): void {
  this.currentUser$ = this.accountService.currentUser$;
  this.basket$ = this.basketService.basket$;
+}
+
+public externalLogin = () => {
+  this.accountService.signInWithGoogle()
+  .then(res => {
+    const user: SocialUser = { ...res };
+    console.log(user);
+    const externalAuth: ExternalAuth = {
+      provider: user.provider,
+      idToken: user.idToken
+    };
+    this.validateExternalAuth(externalAuth);
+  }, error => console.log(error));
+}
+
+private validateExternalAuth(externalAuth: ExternalAuth) {
+  this.accountService.externalLogin(externalAuth)
+    .subscribe(res => {
+      this.router.navigateByUrl('/');
+    },
+    error => {
+      console.log(error);
+      this.accountService.signOutExternal();
+    });
 }
 
 logout() {

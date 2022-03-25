@@ -1,0 +1,78 @@
+<div class="container" style="margin-top: 100px; margin-bottom: 100px">
+    <div class="form-inline pull-left">
+      <h3>{{ totalCount }} <i class="fa fa-user"></i></h3>
+    </div>
+    <div class="form-inline pull-right">
+      <input
+        (keyup.enter)="onSearch()"
+        type="text"
+        class="form-control mr-2"
+        #search
+        style="width: 300px"
+        placeholder="Search by username"
+      />
+      <button (click)="onSearch()" class="btn btn-info my-2">
+        <i class="fa fa-search mr-1" aria-hidden="true"></i>
+        Search
+      </button>
+      <button (click)="onReset()" class="btn btn-primary ml-2">
+        <i class="fa fa-refresh mr-1"></i>
+        Reset
+      </button>
+    </div>
+    <table class="table table-bordered table-striped table-condensed table-hover">
+      <thead>
+        <tr style="color: black">
+          <th>Username</th>
+          <th>Email</th>
+          <th style="width: 14%;">Lockout End</th>
+          <th>Active roles</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of users" style="color: black">
+          <td>{{ item.username }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.lockoutEnd | date: "dd.MM.yyyy" }}</td>
+          <td>{{item.roles}}</td>
+          <td
+            class="text-center"
+            *ngIf="item.lockoutEnd === null; else elseBlock"
+          >
+            <button
+              (click)="lockUser(item.userId)"
+              type="button"
+              class="mr-5 btn btn-success"
+            >
+              <i class="fa fa-unlock"></i>
+              &nbsp;&nbsp;&nbsp;Unlocked
+            </button>
+            <button (click)="openRolesModal(item)" class="btn btn-info">Edit Roles</button>
+          </td>
+          <ng-template #elseBlock
+            ><td class="text-center">
+              <button
+                (click)="unlockUser(item.userId)"
+                class="mr-5 btn btn-danger"
+              >
+                <i class="fa fa-lock"></i>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Locked
+              </button>
+              <button (click)="openRolesModal(item)" class="btn btn-info">Edit Roles</button>
+            </td></ng-template
+          >
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager 
+        [pageSize]="userParams.pageCount" 
+        [totalCount]="totalCount"
+        [pageNumber]="userParams.page"
+        (pageChanged)="onPageChanged($event)"
+    >
+    </app-pager>
+    </div>
+  </div>
+  

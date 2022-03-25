@@ -78,10 +78,10 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handle401Error(error: any) {
-    const errorMessage = 'Please login to your account.';
+    const errorMessage = 'Unauthorized';
     this.accountService.logout();
-    this.toastr.error(errorMessage, error.statusText);
-    this.router.navigate(['/login']);
+    this.toastr.error(errorMessage);
+    this.router.navigate(['/account/login']);
   }
 
   handle500Error(error: any) {

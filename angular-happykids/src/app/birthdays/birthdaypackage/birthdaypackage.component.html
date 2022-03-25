@@ -1,12 +1,14 @@
 <div class="yes card border-left-primary shadow h-100 py-2">
     <div class="card image position-relative" style="cursor: pointer;">
-        <img src="{{birthdayPackage.picture || './assets/birthdaypackages.jpg'}}" 
+        <a routerLink="/birthdays/{{birthdayPackage.id}}">
+            <img src="{{birthdayPackage.picture || './assets/birthdaypackages.jpg'}}" 
         alt="{{birthdayPackage.packageName}}" class="img-fluid bg-info img-pip">
         <ng-container *ngIf="birthdayPackage.hasDiscountsApplied === true">
             <div class="arrow-right">
                 <span>{{birthdayPackage?.discountSum}} %</span>
               </div>
         </ng-container>
+        </a>
     </div>
     <div class="card-body d-flex flex-column">
         <a routerLink="/birthdays/{{birthdayPackage.id}}">

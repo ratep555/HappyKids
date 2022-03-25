@@ -11,6 +11,7 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
+        public IAdminRepository AdminRepository => new AdminRepository(_context);
         public IBirthdayOrderRepository BirthdayOrderRepository => new BirthdayOrderRepository(_context);
         public IBirthdayPackageRepository BirthdayPackageRepository => new BirthdayPackageRepository(_context);
         public IBlogRepository BlogRepository => new BlogRepository(_context);

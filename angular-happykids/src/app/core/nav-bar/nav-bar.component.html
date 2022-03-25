@@ -54,9 +54,9 @@
         <li class="nav-item">
           <a
             class="nav-link text-uppercase"
-            routerLink="/blogs/bloglist"
+            routerLink="/happyblogs"
             routerLinkActive="active"
-            >Blog</a
+            >HappyBlogs</a
           >
         </li>
         <ng-container>
@@ -81,7 +81,10 @@
           </div>
         </div>
       </ng-container>
-          <ng-container>
+      <ng-container
+        *ngIf="
+        (currentUser$ | async) &&
+        (currentUser$ | async)?.roles.includes('Admin')">          
           <div class="dropdown" dropdown>
             <a
               class="pero nav-link text-uppercase dropdown-toggle text-white"
@@ -92,115 +95,110 @@
             >
             <div class="dropdown-menu" *dropdownMenu>
               <a
+              routerLink="/userslist"
+              class="dropdown-item"
+            >
+              <i class="fa fa-user mr-3"></i>Users</a
+            >
+            <div class="dropdown-divider"></div>
+              <a
                 routerLink="/orderschildrenitems"
                 class="dropdown-item"
               >
-                <i class="fa fa-user mr-3"></i>Children Items Orders</a
+                <i class="fa fa-first-order mr-3"></i>Children Items Orders</a
               >
               <div class="dropdown-divider"></div>
               <a
                 routerLink="/ordersbirthdays"
                 class="dropdown-item"
               >
-                <i class="fa fa-user mr-3"></i>Birthdays Orders</a
+                <i class="fa fa-first-order mr-3"></i>Birthdays Orders</a
               >
               <div class="dropdown-divider"></div>
+              <a
+              routerLink="/blogs"
+              class="dropdown-item"
+            >
+              <i class="fa fa-list mr-3"></i>Blogs</a
+            >
+              <a
+              routerLink="/branches"
+              class="dropdown-item"
+            >
+              <i class="fa fa-list mr-3"></i>Branches</a
+            >
+              <a
+              routerLink="/birthdaypackages"
+              class="dropdown-item"
+            >
+              <i class="fa fa-list mr-3"></i>Birthday Packages</a
+            >
               <a
                 routerLink="/childrenitems"
                 class="dropdown-item"
               >
-                <i class="fa fa-user mr-3"></i>Chilren Items</a
+                <i class="fa fa-list mr-3"></i>Children Items</a
               >
+              <a
+              routerLink="/kidactivities"
+              class="dropdown-item"
+            >
+              <i class="fa fa-list mr-3"></i>Kid's Activities</a
+            >
               <div class="dropdown-divider"></div>
+              <a
+              routerLink="/categories"
+              class="dropdown-item"
+            >
+              <i class="fa fa-list mr-3"></i>Categories</a
+            >
+            <a
+            routerLink="/childrenitemwarehouses"
+            class="dropdown-item"
+          >
+            <i class="fa fa-list mr-3"></i>Children Item Warehouses</a
+          >
               <a
                 routerLink="/discounts"
                 class="dropdown-item"
               >
-                <i class="fa fa-phone mr-3"></i>Discounts</a
-              >
-              <a
-                routerLink="/categories"
-                class="dropdown-item"
-              >
-                <i class="fa fa-phone mr-3"></i>Categories</a
+                <i class="fa fa-list mr-3"></i>Discounts</a
               >
               <a
                 routerLink="/manufacturers"
                 class="dropdown-item"
               >
-                <i class="fa fa-phone mr-3"></i>Manufacturers</a
+                <i class="fa fa-list mr-3"></i>Manufacturers</a
               >
+              <a
+              routerLink="/paymentoptions"
+              class="dropdown-item"
+            >
+              <i class="fa fa-list mr-3"></i>Payment Options</a
+            >
+            <a
+            routerLink="/shippingoptions"
+            class="dropdown-item"
+          >
+            <i class="fa fa-list mr-3"></i>Shipping Options</a
+          >
               <a
                 routerLink="/tags"
                 class="dropdown-item"
               >
-                <i class="fa fa-phone mr-3"></i>Tags</a
+                <i class="fa fa-list mr-3"></i>Tags</a
               >
               <a
                 routerLink="/warehouses"
                 class="dropdown-item"
               >
-                <i class="fa fa-ambulance mr-2"></i>Warehouses</a
-              >
-              <a
-                routerLink="/childrenitemwarehouses"
-                class="dropdown-item"
-              >
-                <i class="fa fa-user-md ml-1 mr-2"></i>Children Item Warehouses</a
-              >
-              <a
-                routerLink="/shippingoptions"
-                class="dropdown-item"
-              >
-                <i class="fa fa-user-md ml-1 mr-2"></i>Shipping Options</a
-              >
-              <a
-                routerLink="/paymentoptions"
-                class="dropdown-item"
-              >
-                <i class="fa fa-user-md ml-1 mr-2"></i>Payment Options</a
-              >
-              <a
-                routerLink="/birthdaypackages/birthdaylist"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Birthdays</a
-              >
-              <a
-                routerLink="/birthdaypackages"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Birthday Packages</a
-              >
-              <a
-                routerLink="/branches"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Branches</a
-              >
-              <a
-                routerLink="/kidactivities"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Kid's Activities</a
-              >
-              <a
-                routerLink="/blogs"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Blogs</a
+                <i class="fa fa-list mr-3"></i>Warehouses</a
               >
               <a
                 routerLink="/managers"
                 class="dropdown-item"
               >
                 <i class="fa fa-bar-chart mr-2"></i>Managers</a
-              >
-              <a
-                routerLink="/managers/infomanagerhisprofile"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Manager his Profile</a
               >
               <a
                 routerLink="/managers/infomanager"
@@ -220,7 +218,7 @@
         <div>
           <a routerLink="/account/login" class="btn btn-outline-secondary mr-2">Login</a>
         <a routerLink="/account/register" class="btn btn-outline-secondary mr-3">Sign up</a>  
-        <button class="btn btn-outline-secondary mr-3">
+        <button class="btn btn-outline-secondary mr-3" (click)="externalLogin()">
           <div class="center-align">
             <div>
               <img width="20px" alt="Google sign-in" 

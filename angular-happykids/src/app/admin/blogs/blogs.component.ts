@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Blog } from 'src/app/shared/models/blog';
+import { UserParams } from 'src/app/shared/models/myparams';
+import { BlogsService } from './blogs.service';
 
 @Component({
   selector: 'app-blogs',
@@ -6,10 +10,51 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./blogs.component.scss']
 })
 export class BlogsComponent implements OnInit {
+  @ViewChild('search', {static: false}) searchTerm: ElementRef;
+  blogs: Blog[];
+  userParams: UserParams;
+  totalCount: number;
 
-  constructor() { }
+  constructor(private blogsService: BlogsService,
+              private  router: Router) {
+    this.userParams = this.blogsService.getUserParams();
+     }
 
   ngOnInit(): void {
+    this.getBlogs();
+  }
+
+  getBlogs() {
+    this.blogsService.setUserParams(this.userParams);
+    this.blogsService.getAllBlogsForUser(this.userParams)
+    .subscribe(response => {
+      this.blogs = response.data;
+      this.userParams.page = response.page;
+      this.userParams.pageCount = response.pageCount;
+      this.totalCount = response.count;
+    }, error => {
+      console.log(error);
+    }
+    );
+  }
+
+  onSearch() {
+    this.userParams.query = this.searchTerm.nativeElement.value;
+    this.getBlogs();
+  }
+
+  onReset() {
+    this.searchTerm.nativeElement.value = '';
+    this.userParams = this.blogsService.resetUserParams();
+    this.getBlogs();
+  }
+
+  onPageChanged(event: any) {
+    if (this.userParams.page !== event) {
+      this.userParams.page = event;
+      this.blogsService.setUserParams(this.userParams);
+      this.getBlogs();
+    }
   }
 
 }

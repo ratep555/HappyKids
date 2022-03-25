@@ -1,5 +1,6 @@
 import { ClientBirthdayOrder } from './birthdayorder';
 import { BirthdayPackage } from './birthdaypackage';
+import { Blog } from './blog';
 import { Branch } from './branch';
 import { Category } from './category';
 import { ChildrenItem } from './childrenitem';
@@ -11,6 +12,7 @@ import { Order } from './order';
 import { PaymentOption } from './paymentOption';
 import { ShippingOption } from './shippingOption';
 import { Tag } from './tag';
+import { User } from './user';
 import { Warehouse } from './warehouse';
 
 export interface IPaginationForBranches {
@@ -82,6 +84,13 @@ export interface IPaginationForTags {
     data: Tag[];
   }
 
+export interface IPaginationForUsers {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: User[];
+  }
+
 export interface IPaginationForWarehouses {
     page: number;
     pageCount: number;
@@ -101,6 +110,20 @@ export class PaginationForBirthdayPackages implements IPaginationForBirthdayPack
     pageCount: number;
     count: number;
     data: BirthdayPackage[];
+  }
+
+export interface IPaginationForBlogs {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: Blog[];
+  }
+
+export class PaginationForBlogs implements IPaginationForBlogs {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: Blog[];
   }
 
 export interface IPaginationForChildrenItems {

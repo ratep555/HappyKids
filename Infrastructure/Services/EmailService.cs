@@ -1,9 +1,11 @@
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Core.Entities.Identity;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -43,6 +45,16 @@ namespace Infrastructure.Services
                 await msg.AddAttachmentAsync("TestPDF2.pdf", fileStream);
                 var response = await client.SendEmailAsync(msg);
             }
+        }
+
+        public async Task ConfirmEmailAsync(string email, string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
         }
     }
 }

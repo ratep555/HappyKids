@@ -4,6 +4,7 @@ namespace Core.Interfaces
 {
     public interface IUnitOfWork
     {
+        IAdminRepository AdminRepository {get; }
         IBirthdayOrderRepository BirthdayOrderRepository {get; }
         IBirthdayPackageRepository BirthdayPackageRepository {get; }
         IBlogRepository BlogRepository {get; }

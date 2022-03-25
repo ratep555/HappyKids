@@ -5,5 +5,6 @@ export interface User {
     roles: string[];
     userId: number;
     lockoutEnd: Date;
+    username: string;
 }
 
