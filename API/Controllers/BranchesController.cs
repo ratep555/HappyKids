@@ -47,7 +47,7 @@ namespace API.Controllers
         {
             var branch = await _unitOfWork.BranchRepository.GetBranchById(id);
 
-            if (branch == null) return NotFound(/* new ServerResponse(404) */);
+            if (branch == null) return NotFound();
 
             return _mapper.Map<BranchDto>(branch);
         }
@@ -67,7 +67,7 @@ namespace API.Controllers
         {
             var branch = await _unitOfWork.BranchRepository.GetBranchById(id);
 
-            if (branch == null) return NotFound(/* new ServerResponse(404) */);   
+            if (branch == null) return NotFound();   
 
             branch = _mapper.Map(branchDto, branch);
 
@@ -81,7 +81,7 @@ namespace API.Controllers
         {
             var branch = await _unitOfWork.BranchRepository.GetBranchById(id);
 
-            if (branch == null) return NotFound(/* new ServerResponse(404) */);
+            if (branch == null) return NotFound();
 
             await _unitOfWork.BranchRepository.DeleteBranch(branch);
 

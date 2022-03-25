@@ -47,7 +47,7 @@ namespace API.Controllers
         {
             var birthdayOrder = await _unitOfWork.BirthdayOrderRepository.GetBirthdayOrderById(id);
 
-            if (birthdayOrder == null) return NotFound(/* new ServerResponse(404) */);
+            if (birthdayOrder == null) return NotFound();
 
             return _mapper.Map<ClientBirthdayOrderDto>(birthdayOrder);
         }

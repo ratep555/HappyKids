@@ -46,7 +46,7 @@ namespace API.Controllers
         {
             var kidActivity = await _unitOfWork.KidActivityRepository.GetKidActivityById(id);
 
-            if (kidActivity == null) return NotFound(/* new ServerResponse(404) */);
+            if (kidActivity == null) return NotFound();
 
             return _mapper.Map<KidActivityDto>(kidActivity);
         }
@@ -70,7 +70,7 @@ namespace API.Controllers
         {
             var kidActivity = await _unitOfWork.KidActivityRepository.GetKidActivityById(id);
 
-            if (kidActivity == null) return NotFound(/* new ServerResponse(404) */);
+            if (kidActivity == null) return NotFound();
 
             kidActivity = _mapper.Map(kidActivityDto, kidActivity);
             

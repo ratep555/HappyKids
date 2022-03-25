@@ -38,7 +38,7 @@ namespace API.Controllers
         {
             var manufacturer = await _unitOfWork.ManufacturerRepository.GetManufacturerById(id);
 
-            if (manufacturer == null) return NotFound(/* new ServerResponse(404) */);
+            if (manufacturer == null) return NotFound();
 
             return _mapper.Map<ManufacturerDto>(manufacturer);
         }
@@ -71,7 +71,7 @@ namespace API.Controllers
         {
             var manufacturer = await _unitOfWork.ManufacturerRepository.GetManufacturerById(id);
 
-            if (manufacturer == null) return NotFound(/* new ServerResponse(404) */);
+            if (manufacturer == null) return NotFound();
 
             await _unitOfWork.ManufacturerRepository.DeleteManufacturer(manufacturer);
 

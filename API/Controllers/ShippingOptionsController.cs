@@ -39,7 +39,7 @@ namespace API.Controllers
         {
             var shippingOption = await _unitOfWork.ShippingOptionRepository.GetShippingOptionById(id);
 
-            if (shippingOption == null) return NotFound(/* new ServerResponse(404) */);
+            if (shippingOption == null) return NotFound();
 
             return _mapper.Map<ShippingOptionDto>(shippingOption);
         }
@@ -71,7 +71,7 @@ namespace API.Controllers
         {
             var shippingOptiopn = await _unitOfWork.ShippingOptionRepository.GetShippingOptionById(id);
 
-            if (shippingOptiopn == null) return NotFound(/* new ServerResponse(404) */);
+            if (shippingOptiopn == null) return NotFound();
 
             await _unitOfWork.ShippingOptionRepository.DeleteShippingOption(shippingOptiopn);
 

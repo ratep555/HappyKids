@@ -39,7 +39,7 @@ namespace API.Controllers
         {
             var warehouse = await _unitOfWork.WarehouseRepository.GetWarehouseById(id);
 
-            if (warehouse == null) return NotFound(/* new ServerResponse(404) */);
+            if (warehouse == null) return NotFound();
 
             return _mapper.Map<WarehouseDto>(warehouse);
         }
@@ -71,7 +71,7 @@ namespace API.Controllers
         {
             var warehouse = await _unitOfWork.WarehouseRepository.GetWarehouseById(id);
 
-            if (warehouse == null) return NotFound(/* new ServerResponse(404) */);
+            if (warehouse == null) return NotFound();
 
             await _unitOfWork.WarehouseRepository.DeleteWarehouse(warehouse);
 

@@ -37,7 +37,7 @@ namespace API.Controllers
         {
             var tag = await _unitOfWork.TagRepository.GetTagById(id);
 
-            if (tag == null) return NotFound(/* new ServerResponse(404) */);
+            if (tag == null) return NotFound();
 
             return _mapper.Map<TagDto>(tag);
         }
@@ -69,7 +69,7 @@ namespace API.Controllers
         {
             var tag = await _unitOfWork.TagRepository.GetTagById(id);
 
-            if (tag == null) return NotFound(/* new ServerResponse(404) */);
+            if (tag == null) return NotFound();
 
             await _unitOfWork.TagRepository.DeleteTag(tag);
 

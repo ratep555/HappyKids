@@ -40,7 +40,7 @@ namespace API.Controllers
         {
             var paymentOption = await _unitOfWork.PaymentOptionRepository.GetPaymentOptionById(id);
 
-            if (paymentOption == null) return NotFound(/* new ServerResponse(404) */);
+            if (paymentOption == null) return NotFound();
 
             return _mapper.Map<PaymentOptionDto>(paymentOption);
         }
@@ -73,7 +73,7 @@ namespace API.Controllers
         {
             var paymentOption = await _unitOfWork.PaymentOptionRepository.GetPaymentOptionById(id);
 
-            if (paymentOption == null) return NotFound(/* new ServerResponse(404) */);
+            if (paymentOption == null) return NotFound();
 
             await _unitOfWork.PaymentOptionRepository.DeletePaymentOption(paymentOption);
 

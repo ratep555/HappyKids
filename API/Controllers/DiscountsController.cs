@@ -43,7 +43,7 @@ namespace API.Controllers
         {
             var discount = await _unitOfWork.DiscountRepository.GetDiscountById(id);
 
-            if (discount == null) return NotFound(/* new ServerResponse(404) */);
+            if (discount == null) return NotFound();
 
             return _mapper.Map<DiscountDto>(discount);
         }
@@ -53,7 +53,7 @@ namespace API.Controllers
         {
             var discount = await _unitOfWork.DiscountRepository.GetDiscountById(id);
 
-            if (discount == null) return NotFound(/* new ServerResponse(404) */);
+            if (discount == null) return NotFound();
 
             var discountToReturn = _mapper.Map<DiscountDto>(discount);
 
@@ -124,7 +124,7 @@ namespace API.Controllers
         {
             var discount = await _unitOfWork.DiscountRepository.GetDiscountById(id);
 
-            if (discount == null) return NotFound(/* new ServerResponse(404) */);
+            if (discount == null) return NotFound();
 
             await _unitOfWork.DiscountRepository.ResetBirthdayPackageDiscountedPrice(discount);
             await _unitOfWork.DiscountRepository.ResetChildrenItemDiscountedPrice(discount);
@@ -148,7 +148,7 @@ namespace API.Controllers
         {
             var discount = await _unitOfWork.DiscountRepository.GetDiscountById(id);
 
-            if (discount == null) return NotFound(/* new ServerResponse(404) */);
+            if (discount == null) return NotFound();
 
             await _unitOfWork.DiscountRepository.DeleteDiscount(discount);
 

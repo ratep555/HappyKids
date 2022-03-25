@@ -59,7 +59,7 @@ namespace API.Controllers
         {
             var childrenItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
 
-            if (childrenItem == null) return NotFound(/* new ServerResponse(404) */);
+            if (childrenItem == null) return NotFound();
 
             var averageVote = 0.0;
             var userVote = 0;
@@ -95,7 +95,7 @@ namespace API.Controllers
         {
             var childrenItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
 
-            if (childrenItem == null) return NotFound(/* new ServerResponse(404) */);
+            if (childrenItem == null) return NotFound();
 
             var childrenItemToReturn = _mapper.Map<ChildrenItemDto>(childrenItem);
 
@@ -167,7 +167,7 @@ namespace API.Controllers
         {
             var childernItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
 
-            if (childernItem == null) return NotFound(/* new ServerResponse(404) */);
+            if (childernItem == null) return NotFound();
 
             childernItem = _mapper.Map(childrenItemDto, childernItem);
             
@@ -332,7 +332,7 @@ namespace API.Controllers
 
             var item = await _unitOfWork.ChildrenItemRepository.GetChildrenItemByIdWithoutInclude(id);
 
-            if (item == null) return NotFound(/* new ServerResponse(404) */);
+            if (item == null) return NotFound();
 
             if (await _unitOfWork.RatingLikeRepository.CheckIfUserHasAlreadyLikedThisProduct(userId, id))
             return BadRequest("You have already liked this product!");

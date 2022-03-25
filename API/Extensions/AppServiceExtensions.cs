@@ -21,6 +21,7 @@ namespace API.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IGoogleAuthService, GoogleAuthService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPdfService, PdfService>();

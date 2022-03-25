@@ -54,18 +54,18 @@ namespace API.Controllers
             return Ok(new Pagination<BlogDto>(queryParameters.Page, queryParameters.PageCount, count, data));
         }
 
-        [HttpGet("blogs/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<BlogDto>> GetBlogById(int id)
         {
             var blog = await _unitOfWork.BlogRepository.GetBlogById(id);
 
-            if (blog == null) return NotFound(/* new ServerResponse(404) */);
+            if (blog == null) return NotFound();
 
             return _mapper.Map<BlogDto>(blog);
         }
 
         [Authorize]
-        [HttpPost("blogs")]
+        [HttpPost]
         public async Task<ActionResult> CreateBlog([FromForm] BlogCreateEditDto blogDto)
         {
             var blog = _mapper.Map<Blog>(blogDto);
@@ -91,7 +91,7 @@ namespace API.Controllers
         {
             var blog = await _unitOfWork.BlogRepository.GetBlogById(id);
 
-            if (blog == null) return NotFound(/* new ServerResponse(404) */);
+            if (blog == null) return NotFound();
 
             var userId = User.GetUserId();
 
@@ -161,7 +161,7 @@ namespace API.Controllers
 
             var blogComment = await _unitOfWork.BlogRepository.GetBlogCommentById(id);
 
-            if (blogComment == null) return NotFound(/* new ServerResponse(404) */);
+            if (blogComment == null) return NotFound();
 
             if (blogComment.ApplicationUserId == userId)
             {

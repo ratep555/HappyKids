@@ -69,7 +69,7 @@ namespace API.Controllers
         {
             var clientOrder = await _unitOfWork.OrderRepository.GetClientOrderById(id);
 
-            if (clientOrder == null) return NotFound(/* new ServerResponse(404) */); 
+            if (clientOrder == null) return NotFound(); 
 
             var clientOrderDto = _mapper.Map<ClientOrderToReturnDto>(clientOrder);
 
@@ -86,7 +86,7 @@ namespace API.Controllers
 
             var clientOrder = await _unitOfWork.OrderRepository.GetOrderForSpecificClientById(id, email);
 
-            if (clientOrder == null) return NotFound(/* new ServerResponse(404) */); 
+            if (clientOrder == null) return NotFound(); 
 
             var clientOrderDto = _mapper.Map<ClientOrderToReturnDto>(clientOrder);
 

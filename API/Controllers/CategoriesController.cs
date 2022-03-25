@@ -38,7 +38,7 @@ namespace API.Controllers
         {
             var category = await _unitOfWork.CategoryRepository.GetCategoryById(id);
 
-            if (category == null) return NotFound(/* new ServerResponse(404) */);
+            if (category == null) return NotFound();
 
             return _mapper.Map<CategoryDto>(category);
         }
@@ -70,7 +70,7 @@ namespace API.Controllers
         {
             var category = await _unitOfWork.CategoryRepository.GetCategoryById(id);
 
-            if (category == null) return NotFound(/* new ServerResponse(404) */);
+            if (category == null) return NotFound();
 
             await _unitOfWork.CategoryRepository.DeleteCategory(category);
 

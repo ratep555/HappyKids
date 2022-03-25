@@ -58,7 +58,7 @@ namespace API.Controllers
         {
             var birthdayPackage = await _unitOfWork.BirthdayPackageRepository.GetBirthdayPackageById(id);
 
-            if (birthdayPackage == null) return NotFound(/* new ServerResponse(404) */);
+            if (birthdayPackage == null) return NotFound();
 
             var birthdayPackageDto = _mapper.Map<BirthdayPackageDto>(birthdayPackage);
 
@@ -82,7 +82,7 @@ namespace API.Controllers
         {
             var birthdayPackage = await _unitOfWork.BirthdayPackageRepository.GetBirthdayPackageById(id);
 
-            if (birthdayPackage == null) return NotFound(/* new ServerResponse(404) */);
+            if (birthdayPackage == null) return NotFound();
 
             var birthdayPackageToReturn = _mapper.Map<BirthdayPackageDto>(birthdayPackage);
 
@@ -135,7 +135,7 @@ namespace API.Controllers
         {
             var birthdayPackage = await _unitOfWork.BirthdayPackageRepository.GetBirthdayPackageById(id);
 
-            if (birthdayPackage == null) return NotFound(/* new ServerResponse(404) */);
+            if (birthdayPackage == null) return NotFound();
 
             birthdayPackage = _mapper.Map(birthdayPackageDto, birthdayPackage);
             

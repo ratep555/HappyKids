@@ -43,7 +43,7 @@ namespace API.Controllers
             var childrenItemwarehouse = await _unitOfWork.ChildrenItemWarehouseRepository
                 .GetChildrenItemWarehouseByChildrenItemIdAndWarehouseId(id, warehouseId);
 
-            if (childrenItemwarehouse == null) return NotFound(/* new ServerResponse */);
+            if (childrenItemwarehouse == null) return NotFound();
 
             return _mapper.Map<ChildrenItemWarehouseDto>(childrenItemwarehouse);
         }
