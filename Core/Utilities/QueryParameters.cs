@@ -15,6 +15,7 @@ namespace Core.Utilities
         public int? CategoryId { get; set; }
         public int? BranchId { get; set; }
         public int? OrderStatusId { get; set; }
+        public int? RoleId { get; set; }
         public string Sort { get; set; }
         private string _query;
         public string Query

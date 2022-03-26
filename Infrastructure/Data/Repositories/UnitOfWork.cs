@@ -23,6 +23,7 @@ namespace Infrastructure.Data.Repositories
         public IDiscountRepository DiscountRepository => new DiscountRepository(_context);
         public IKidActivityRepository KidActivityRepository => new KidActivityRepository(_context);
         public IManufacturerRepository ManufacturerRepository => new ManufacturerRepository(_context);
+        public IMessageRepository MessageRepository => new MessageRepository(_context);
         public IOrderRepository OrderRepository => new OrderRepository(_context);
         public IOrderStatusRepository OrderStatusRepository => new OrderStatusRepository(_context);
         public IPaymentOptionRepository PaymentOptionRepository => new PaymentOptionRepository(_context);

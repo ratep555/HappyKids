@@ -1,3 +1,4 @@
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { ClientBirthdayOrder } from './birthdayorder';
 import { BirthdayPackage } from './birthdaypackage';
 import { Blog } from './blog';
@@ -8,6 +9,7 @@ import { ChildrenItemWarehouse } from './childrenItemWarehouse';
 import { Discount } from './discount';
 import { KidActivity } from './kidactivity';
 import { Manufacturer } from './manufacturer';
+import { ClientMessage } from './message';
 import { Order } from './order';
 import { PaymentOption } from './paymentOption';
 import { ShippingOption } from './shippingOption';
@@ -56,6 +58,14 @@ export interface IPaginationForManufacturers {
     count: number;
     data: Manufacturer[];
   }
+
+export interface IPaginationForMessages {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: ClientMessage[];
+}
+
 export interface IPaginationForChildrenItemsOrders {
     page: number;
     pageCount: number;

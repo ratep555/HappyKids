@@ -4,6 +4,7 @@ import { map, take } from 'rxjs/operators';
 import { AccountService } from 'src/app/account/account.service';
 import { UserParams } from 'src/app/shared/models/myparams';
 import { IPaginationForUsers } from 'src/app/shared/models/pagination';
+import { Role } from 'src/app/shared/models/role';
 import { User } from 'src/app/shared/models/user';
 import { environment } from 'src/environments/environment';
 
@@ -41,6 +42,9 @@ export class UsersListService {
     if (userParams.query) {
       params = params.append('query', userParams.query);
     }
+    if (userParams.roleId !== 0) {
+      params = params.append('roleId', userParams.roleId.toString());
+    }
     params = params.append('page', userParams.page.toString());
     params = params.append('pageCount', userParams.pageCount.toString());
     return this.http.get<IPaginationForUsers>(this.baseUrl + 'admin', {observe: 'response', params})
@@ -61,6 +65,10 @@ export class UsersListService {
 
   lockUser(userId: number) {
     return this.http.put(this.baseUrl + 'admin/lock/' + userId, {});
+}
+
+  getRoles() {
+    return this.http.get<Role[]>(this.baseUrl + 'admin/roles');
 }
 
 }

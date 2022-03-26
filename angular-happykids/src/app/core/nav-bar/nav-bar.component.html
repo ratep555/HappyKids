@@ -84,23 +84,16 @@
       <ng-container
         *ngIf="
         (currentUser$ | async) &&
-        (currentUser$ | async)?.roles.includes('Admin')">          
+        (currentUser$ | async)?.roles.includes('Admin') || (currentUser$ | async)?.roles.includes('Manager')">          
           <div class="dropdown" dropdown>
             <a
               class="pero nav-link text-uppercase dropdown-toggle text-white"
               dropdownToggle
               (click)="(false)"
               routerLinkActive="active"
-              >Admin</a
+              >More</a
             >
             <div class="dropdown-menu" *dropdownMenu>
-              <a
-              routerLink="/userslist"
-              class="dropdown-item"
-            >
-              <i class="fa fa-user mr-3"></i>Users</a
-            >
-            <div class="dropdown-divider"></div>
               <a
                 routerLink="/orderschildrenitems"
                 class="dropdown-item"
@@ -171,6 +164,12 @@
                 <i class="fa fa-list mr-3"></i>Manufacturers</a
               >
               <a
+                routerLink="/messages"
+                class="dropdown-item"
+              >
+                <i class="fa fa-list mr-3"></i>Messages</a
+              >
+              <a
               routerLink="/paymentoptions"
               class="dropdown-item"
             >
@@ -194,18 +193,14 @@
               >
                 <i class="fa fa-list mr-3"></i>Warehouses</a
               >
+              <div class="dropdown-divider"></div>
               <a
-                routerLink="/managers"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Managers</a
-              >
-              <a
-                routerLink="/managers/infomanager"
-                class="dropdown-item"
-              >
-                <i class="fa fa-bar-chart mr-2"></i>Manager Info</a
-              >
+              routerLink="/statistics"
+              class="dropdown-item"
+            >
+              <i class="fa fa-bar-chart mr-3"></i>Statistics</a
+            >
+
             </div>
           </div>
         </ng-container>
@@ -248,6 +243,26 @@
             >
               <i class="fa fa-history mr-3 ml-1"></i>Orders Info </a
             >
+            <ng-container
+            *ngIf="
+            (currentUser$ | async) &&
+            (currentUser$ | async)?.roles.includes('Admin')" 
+            >
+            <div class="dropdown-divider"></div>
+            <a
+            routerLink="/userslist"
+            class="dropdown-item"
+          >
+            <i class="fa fa-user mr-3"></i>Users</a
+          >
+            <div class="dropdown-divider"></div>
+            <a
+            routerLink="/userslist/addmanager"
+            class="dropdown-item"
+          >
+            <i class="fa fa-user mr-3"></i>Add Manager</a
+          >
+            </ng-container>
             <div class="dropdown-divider"></div>
             <a 
             (click)="logout()"

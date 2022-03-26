@@ -7,6 +7,7 @@ import { UsersListService } from './users-list.service';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RolesModalComponent } from 'src/app/shared/components/roles-modal/roles-modal.component';
+import { Role } from 'src/app/shared/models/role';
 
 
 @Component({
@@ -16,9 +17,11 @@ import { RolesModalComponent } from 'src/app/shared/components/roles-modal/roles
 })
 export class UsersListComponent implements OnInit {
   @ViewChild('search', {static: false}) searchTerm: ElementRef;
+  @ViewChild('filter', {static: false}) filterTerm: ElementRef;
   users: User[];
   userParams: UserParams;
   totalCount: number;
+  roles: Role[];
   bsModalRef: BsModalRef;
 
   constructor(private userslistService: UsersListService,
@@ -30,6 +33,7 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.getRoles();
   }
 
   getUsers() {
@@ -46,6 +50,19 @@ export class UsersListComponent implements OnInit {
     );
   }
 
+  getRoles() {
+    this.userslistService.getRoles().subscribe(response => {
+    this.roles = response;
+    }, error => {
+    console.log(error);
+    });
+    }
+
+  onRoleSelected(roleId: number) {
+    this.userParams.roleId = roleId;
+    this.getUsers();
+  }
+
   onSearch() {
     this.userParams.query = this.searchTerm.nativeElement.value;
     this.getUsers();
@@ -53,6 +70,12 @@ export class UsersListComponent implements OnInit {
 
   onReset() {
     this.searchTerm.nativeElement.value = '';
+    this.userParams = this.userslistService.resetUserParams();
+    this.getUsers();
+  }
+
+  onReset1() {
+    this.filterTerm.nativeElement.value = '';
     this.userParams = this.userslistService.resetUserParams();
     this.getUsers();
   }

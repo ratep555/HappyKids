@@ -25,12 +25,10 @@ namespace API.Controllers
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
         private readonly IGoogleAuthService _googleAuthService;
-        // private readonly IUnitOfWork _unitOfWork;
 
         public AccountController(UserManager<ApplicationUser> userManager, IEmailService emailService,
             SignInManager<ApplicationUser> signInManager, ITokenService tokenService, 
             IMapper mapper, IConfiguration config, IGoogleAuthService googleAuthService)
-            //IUnitOfWork unitOfWork)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -39,11 +37,10 @@ namespace API.Controllers
             _config = config;
             _emailService = emailService;
             _googleAuthService = googleAuthService;
-          //  _unitOfWork = unitOfWork;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult> Register(RegisterDto registerDto)
         {
             if (await UserExists(registerDto.DisplayName)) return BadRequest("This name is taken");
 
@@ -69,6 +66,27 @@ namespace API.Controllers
                 $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>"); 
 
             var roleResult = await _userManager.AddToRoleAsync(user, "Client");
+
+            if (!roleResult.Succeeded) return BadRequest(result.Errors);
+
+            return Ok();
+        }
+
+        [HttpPost("addmanager")]
+        public async Task<ActionResult> RegisterManager(RegisterDto registerDto)
+        {
+            if (await UserExists(registerDto.DisplayName)) return BadRequest("This name is taken");
+
+            if (await CheckEmailExistsAsync(registerDto.Email)) return BadRequest("This email is taken");
+
+            var user = _mapper.Map<ApplicationUser>(registerDto);
+            user.UserName = registerDto.DisplayName;
+
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded) return BadRequest("Bad request!");
+
+            var roleResult = await _userManager.AddToRoleAsync(user, "Manager");
 
             if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
@@ -195,8 +213,6 @@ namespace API.Controllers
 
             return BadRequest("Bad request!");
         }
-
-
 
         [Authorize]
         [HttpGet("getaddress")]

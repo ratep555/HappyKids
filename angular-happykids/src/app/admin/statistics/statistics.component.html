@@ -1,0 +1,107 @@
+<div class="container" style="width: 100%; margin-top: 70px;">
+    <div class="row">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="piki">{{statistics?.childrenItemsOrdersCount}}</div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="text-md-left font-weight-bold text-info text-uppercase mb-xl-0">
+                        Children Item Orders</div>
+                        <div class="col-auto">
+                            <i class="fa fa-first-order fa-2x text-gray-300 mb-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="piki">{{statistics?.birthdayOrdersCount}}</div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="text-md-left font-weight-bold text-warning text-uppercase mb-xl-0">
+                        Birthday Package Orders</div>
+                        <div class="col-auto">
+                            <i class="fa fa-first-order fa-2x text-gray-300 mb-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="piki">{{statistics?.clientsCount}}</div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="text-md-left font-weight-bold text-success text-uppercase mb-xl-0">
+                        Registered Clients</div>
+                        <div class="col-auto">
+                            <i class="fa fa-user fa-2x text-gray-300 mb-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="piki">{{statistics?.childrenItemsCount}}</div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="text-md-left font-weight-bold text-info text-uppercase mb-xl-0">
+                        Children Items</div>
+                        <div class="col-auto">
+                            <i class="fa fa-child fa-2x text-gray-300 mb-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="piki">{{statistics?.birthdayPackagesCount}}</div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="text-md-left font-weight-bold text-warning text-uppercase mb-xl-0">
+                        Birthday Packages</div>
+                        <div class="col-auto">
+                            <i class="fa fa-child fa-2x text-gray-300 mb-3 ml-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="piki">{{statistics?.kidActivitiesCount}}</div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="text-md-left font-weight-bold text-success text-uppercase mb-xl-0">
+                        Activities Included</div>
+                        <div class="col-auto">
+                            <i class="fa fa-child fa-2x text-gray-300 mb-3 ml-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="chart1" *ngIf="statistics?.childrenItemsOrdersCount > 0">
+    <app-childrenitem-order-chart></app-childrenitem-order-chart>
+</div>
+<div class="chart1" *ngIf="statistics?.birthdayOrdersCount > 0">
+    <app-birthdaypackages-order-chart></app-birthdaypackages-order-chart>
+</div>
+<div class="chart1" *ngIf="statistics?.childrenItemsOrdersCount > 0">
+    <google-chart #chart
+    [title]="title"
+    [type]="type"
+    [data]="data"
+    [columns]="columnNames"
+    [options]="options"
+    [width]="width"
+    [height]="height">
+ </google-chart>
+</div>

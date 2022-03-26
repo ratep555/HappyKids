@@ -672,6 +672,36 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Manufacturers");
                 });
 
+            modelBuilder.Entity("Core.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstLastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsReplied")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SendingDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Core.Entities.Orders.ClientOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -1126,13 +1156,13 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Discounts.BirthdayPackageDiscount", b =>
                 {
                     b.HasOne("Core.Entities.BirthdayOrders.BirthdayPackage", "BirthdayPackage")
-                        .WithMany()
+                        .WithMany("BirthdayPackageDiscounts")
                         .HasForeignKey("BirthdayPackageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Discounts.Discount", "Discount")
-                        .WithMany()
+                        .WithMany("BirthdayPackageDiscounts")
                         .HasForeignKey("DiscountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1393,6 +1423,8 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.BirthdayOrders.BirthdayPackage", b =>
                 {
+                    b.Navigation("BirthdayPackageDiscounts");
+
                     b.Navigation("BirthdayPackageKidActivities");
 
                     b.Navigation("ClientBirthdayOrders");
@@ -1418,6 +1450,8 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Discounts.Discount", b =>
                 {
+                    b.Navigation("BirthdayPackageDiscounts");
+
                     b.Navigation("CategoryDiscounts");
 
                     b.Navigation("ChildrenItemDiscounts");

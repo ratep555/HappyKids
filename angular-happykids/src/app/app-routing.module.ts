@@ -54,6 +54,9 @@ const routes: Routes = [
   {path: 'manufacturers', loadChildren:
   () => import('./admin/manufacturers/manufacturers.module').then(mod => mod.ManufacturersModule)},
 
+  {path: 'messages', loadChildren:
+  () => import('./admin/messages/messages.module').then(mod => mod.MessagesModule)},
+
   {path: 'ordersbirthdays', loadChildren:
   () => import('./admin/orders-birthdays/orders-birthdays.module').then(mod => mod.OrdersBirthdaysModule)},
 
@@ -65,6 +68,9 @@ const routes: Routes = [
 
   {path: 'shippingoptions', loadChildren:
   () => import('./admin/shippingoptions/shippingoptions.module').then(mod => mod.ShippingoptionsModule)},
+
+  {path: 'statistics', loadChildren:
+  () => import('./admin/statistics/statistics.module').then(mod => mod.StatisticsModule)},
 
   {path: 'tags', loadChildren:
   () => import('./admin/tags/tags.module').then(mod => mod.TagsModule)},
@@ -78,8 +84,8 @@ const routes: Routes = [
   {path: 'childrenitemwarehouses', loadChildren: () =>
   import('./admin/childrenitem-warehouses/childrenitem-warehouses.module').then(mod => mod.ChildrenitemWarehousesModule)},
 
-  {path: 'orderschildrenitemsclient', loadChildren:
-  () => import('./client/orders-childrenitems/orders-childrenitems.module').then(mod => mod.OrdersChildrenitemsModule)},
+  {path: 'orderschildrenitemsclient', canActivate: [AuthGuard],
+  loadChildren: () => import('./client/orders-childrenitems/orders-childrenitems.module').then(mod => mod.OrdersChildrenitemsModule)},
 
   {path: 'account', loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule)},
 

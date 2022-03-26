@@ -113,6 +113,7 @@ namespace Infrastructure.Data
             public DbSet<Like> Likes { get; set; }
             public DbSet<Manufacturer> Manufacturers { get; set; }
             public DbSet<ManufacturerDiscount> ManufacturerDiscounts { get; set; }
+            public DbSet<Message> Messages { get; set; }
             public DbSet<OrderStatus> OrderStatuses { get; set; }
             public DbSet<PaymentOption> PaymentOptions { get; set; }
             public DbSet<Rating> Ratings { get; set; }

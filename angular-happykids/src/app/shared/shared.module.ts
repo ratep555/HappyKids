@@ -23,6 +23,7 @@ import 'leaflet/dist/images/marker-icon-2x.png';
 import { MapComponent } from './components/map/map.component';
 import { SummaryPipe } from './pipes/summary.pipe';
 import { RolesModalComponent } from './components/roles-modal/roles-modal.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { RolesModalComponent } from './components/roles-modal/roles-modal.compon
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     CdkStepperModule,
-    LeafletModule
+    LeafletModule,
+    GoogleChartsModule.forRoot()
   ],
   exports: [
     BsDropdownModule,
@@ -74,7 +76,8 @@ import { RolesModalComponent } from './components/roles-modal/roles-modal.compon
     LeafletModule,
     MapComponent,
     SummaryPipe,
-    RolesModalComponent
+    RolesModalComponent,
+    GoogleChartsModule
   ]
 })
 export class SharedModule { }

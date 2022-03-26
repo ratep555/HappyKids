@@ -33,6 +33,16 @@ export class AccountService {
     );
   }
 
+  addManager(model: any) {
+    return this.http.post(this.baseUrl + 'account/addmanager', model).pipe(
+      map((user: User) => {
+        if (user) {
+          this.setCurrentUser(user);
+        }
+      })
+    );
+  }
+
   login(values: any) {
     return this.http.post(this.baseUrl + 'account/login', values)
      .pipe(

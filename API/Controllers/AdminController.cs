@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Core.Dtos.Identity;
+using Core.Dtos.StatisticsDtos;
 using Core.Entities.Identity;
 using Core.Interfaces;
 using Core.Utilities;
@@ -15,11 +18,13 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         public AdminController(UserManager<ApplicationUser> userManager,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -89,6 +94,54 @@ namespace API.Controllers
            await _unitOfWork.AdminRepository.LockUser(id);
 
            return NoContent();
+        }
+
+        [HttpGet("roles")]
+        public async Task<ActionResult<List<RoleDto>>> GetRolesAssociatedWithUsers()
+        {
+            var list = await _unitOfWork.AdminRepository.GetRolesAssociatedWithUsers();
+
+            return _mapper.Map<List<RoleDto>>(list);
+        }
+
+        [HttpGet("statistics")]
+        public async Task<ActionResult<StatisticsDto>> ShowCountForEntities()
+        {
+            var list = await _unitOfWork.AdminRepository.ShowCountForEntities();
+
+            if (list == null) return NotFound();
+
+            return Ok(list);
+        }
+
+        [HttpGet("charts1")]
+        public async Task<ActionResult> GetNumberOfBuyersForEachPaymentOption()
+        {
+            var list = await _unitOfWork.AdminRepository.GetNumberOfBuyersForEachPaymentOption();
+
+            if (list.Count() > 0) return Ok(new { list });
+
+            return BadRequest("Bad request!");        
+        }
+
+        [HttpGet("charts2")]
+        public async Task<ActionResult> GetAllOrderStatusesForChildrenItems()
+        {
+            var list = await _unitOfWork.AdminRepository.GetAllOrderStatusesForChildrenItems();
+
+            if (list.Count() > 0) return Ok(new { list });
+
+            return BadRequest("Bad request!");        
+        }
+
+        [HttpGet("charts3")]
+        public async Task<ActionResult> GetAllOrderStatusesForBirthdayOrders()
+        {
+            var list = await _unitOfWork.AdminRepository.GetAllOrderStatusesForBirthdayOrders();
+
+            if (list.Count() > 0) return Ok(new { list });
+
+            return BadRequest("Bad request!");        
         }
     }
 }

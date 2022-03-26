@@ -15,6 +15,7 @@ export class MyParams {
 export class UserParams {
     orderStatusId = 0;
     manufacturerId = 0;
+    roleId = 0;
     sort = 'something';
     tagId = 0;
     categoryId = 0;

@@ -32,6 +32,8 @@ namespace API.Helpers
             CreateMap<Address, ShippingAddressDto>().ReverseMap();
 
             CreateMap<ShippingAddressDto, ShippingAddress>().ReverseMap();
+
+            CreateMap<ApplicationRole, RoleDto>().ReverseMap();
             
             CreateMap<BasketChildrenItemDto, BasketChildrenItem>();
 
@@ -133,6 +135,10 @@ namespace API.Helpers
             CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
 
             CreateMap<ManufacturerCreateEditDto, Manufacturer>();
+
+            CreateMap<Message, MessageDto>().ReverseMap();
+
+            CreateMap<MessageCreateEditDto, Message>();
 
             CreateMap<OrderStatus, OrderStatusDto>().ReverseMap();
 

@@ -16,6 +16,7 @@ namespace Core.Interfaces
         IDiscountRepository DiscountRepository {get; }
         IKidActivityRepository KidActivityRepository {get; }
         IManufacturerRepository ManufacturerRepository {get; }
+        IMessageRepository MessageRepository {get; }
         IOrderRepository OrderRepository {get; }
         IOrderStatusRepository OrderStatusRepository {get; }
         IPaymentOptionRepository PaymentOptionRepository {get; }
