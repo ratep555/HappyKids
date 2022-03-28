@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { ChildrenItem } from 'src/app/shared/models/childrenitem';
 import { UserParams } from 'src/app/shared/models/myparams';
 import { ChildrenitemsService } from './childrenitems.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-childrenitems',
@@ -16,6 +19,7 @@ export class ChildrenitemsComponent implements OnInit {
   totalCount: number;
 
   constructor(private childrenitemsService: ChildrenitemsService,
+              private toastr: ToastrService,
               private  router: Router) {
     this.userParams = this.childrenitemsService.getUserParams();
      }
@@ -55,6 +59,28 @@ export class ChildrenitemsComponent implements OnInit {
       this.childrenitemsService.setUserParams(this.userParams);
       this.getChildrenitems();
     }
+}
+
+onDelete(id: number) {
+  Swal.fire({
+    title: 'Are you sure want to delete this record?',
+    text: 'You will not be able to recover it afterwards!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    confirmButtonColor: '#DD6B55',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.value) {
+        this.childrenitemsService.deleteChildrenItem(id)
+    .subscribe(
+      res => {
+        this.getChildrenitems();
+        this.toastr.error('Deleted successfully!');
+      }, err => { console.log(err);
+       });
+  }
+});
 }
 
 }

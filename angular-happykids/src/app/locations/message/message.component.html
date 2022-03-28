@@ -85,8 +85,30 @@
                             ]
                           "
                         >
-                          Please enter Anamnesys, Diagnosys, and Therapy
+                          Please enter your message
                         </span>
+                        <span
+                        style="font-size: 14px"
+                        class="text-danger ml-3"
+                        *ngIf="
+                          messageForm.get('messageContent').invalid &&
+                          messageForm.get('messageContent').touched &&
+                          messageForm.get('messageContent').errors['minlength']
+                        "
+                      >
+                        Please enter at least 10 characters
+                      </span>
+                        <span
+                        style="font-size: 14px"
+                        class="text-danger ml-3"
+                        *ngIf="
+                          messageForm.get('messageContent').invalid &&
+                          messageForm.get('messageContent').touched &&
+                          messageForm.get('messageContent').errors['maxlength']
+                        "
+                      >
+                        Please enter at most 2000 characters
+                      </span>
                       </div>
                       <div class="form-group text-center mt-5 mb-20">
                         <button

@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { ClientMessage } from 'src/app/shared/models/message';
 import { UserParams } from 'src/app/shared/models/myparams';
 import { MessagesService } from './messages.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-messages',
@@ -22,6 +25,7 @@ export class MessagesComponent implements OnInit {
   ];
 
   constructor(private messagesService: MessagesService,
+              private toastr: ToastrService,
               private  router: Router) {
               this.userParams = this.messagesService.getUserParams();
                }
@@ -66,6 +70,28 @@ export class MessagesComponent implements OnInit {
       this.messagesService.setUserParams(this.userParams);
       this.getAllMessages();
     }
+}
+
+onDelete(id: number) {
+  Swal.fire({
+    title: 'Are you sure want to delete this record?',
+    text: 'You will not be able to recover it afterwards!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    confirmButtonColor: '#DD6B55',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.value) {
+        this.messagesService.deleteMessage(id)
+    .subscribe(
+      res => {
+        this.getAllMessages();
+        this.toastr.error('Deleted successfully!');
+      }, err => { console.log(err);
+       });
+  }
+});
 }
 
 }

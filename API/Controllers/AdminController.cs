@@ -104,6 +104,7 @@ namespace API.Controllers
             return _mapper.Map<List<RoleDto>>(list);
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpGet("statistics")]
         public async Task<ActionResult<StatisticsDto>> ShowCountForEntities()
         {
@@ -114,6 +115,7 @@ namespace API.Controllers
             return Ok(list);
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpGet("charts1")]
         public async Task<ActionResult> GetNumberOfBuyersForEachPaymentOption()
         {
@@ -124,6 +126,7 @@ namespace API.Controllers
             return BadRequest("Bad request!");        
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpGet("charts2")]
         public async Task<ActionResult> GetAllOrderStatusesForChildrenItems()
         {
@@ -134,6 +137,7 @@ namespace API.Controllers
             return BadRequest("Bad request!");        
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpGet("charts3")]
         public async Task<ActionResult> GetAllOrderStatusesForBirthdayOrders()
         {

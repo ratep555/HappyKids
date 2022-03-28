@@ -88,7 +88,7 @@ namespace Infrastructure.Data.Repositories
             return await _context.ChildrenItems.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task AddChildernItem(ChildrenItem childrenItem)
+        public async Task CreateChildernItem(ChildrenItem childrenItem)
         {
             _context.ChildrenItems.Add(childrenItem);
 
@@ -99,6 +99,12 @@ namespace Infrastructure.Data.Repositories
         {    
             _context.Entry(childrenItem).State = EntityState.Modified;        
              await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteChildrenItem(ChildrenItem childrenItem)
+        {
+            _context.ChildrenItems.Remove(childrenItem);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Category>> GetAllCategories()

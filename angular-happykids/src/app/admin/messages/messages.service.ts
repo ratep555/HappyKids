@@ -61,6 +61,10 @@ export class MessagesService {
   updateMessage(formData){
     return this.http.put(this.baseUrl + 'messages/' + formData.id, formData);
   }
+
+  deleteMessage(id: number) {
+    return this.http.delete(this.baseUrl + 'messages/' + id);
+  }
 }
 
 

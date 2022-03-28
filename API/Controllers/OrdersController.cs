@@ -121,7 +121,7 @@ namespace API.Controllers
 
             if (paymentOptionName == "Cash on Delivery (COD)")
             {
-                string url = $"{_config["AngularAppUrl"]}/orders/{order.Id}";
+                string url = $"{_config["AngularAppUrl"]}/orderschildrenitemsclient/orderinfo/{order.Id}";
 
                 await _emailService.SendEmail(email, 
                 "Order confirmation", $"<h2>Thank you for your order in the amount of {total} kn</h2>" +
@@ -134,7 +134,7 @@ namespace API.Controllers
                 _pdfService.GeneratePdfForGeneralCardSlip(order.Id, total, orderDto.ShippingAddress.FirstName,
                     orderDto.ShippingAddress.LastName);
 
-                string url = $"{_config["AngularAppUrl"]}/orders/{order.Id}";
+                string url = $"{_config["AngularAppUrl"]}/orderschildrenitemsclient/orderinfo/{order.Id}";
 
                 await _emailService.SendEmailForGeneralCardSlipOrBirthdayOrderAcceptance(email, 
                 "Order confirmation", $"<h2>Thank you for your order in the amount of {total} kn</h2>" +

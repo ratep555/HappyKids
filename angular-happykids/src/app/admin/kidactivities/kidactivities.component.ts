@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { KidActivity } from 'src/app/shared/models/kidactivity';
 import { UserParams } from 'src/app/shared/models/myparams';
 import { KidactivitiesService } from './kidactivities.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 
 @Component({
   selector: 'app-kidactivities',
@@ -59,4 +61,40 @@ export class KidactivitiesComponent implements OnInit {
     }
 }
 
+onDelete(id: number) {
+  Swal.fire({
+    title: 'Are you sure want to delete this record?',
+    text: 'You will not be able to recover it afterwards!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    confirmButtonColor: '#DD6B55',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.value) {
+        this.kidactivitiesService.deleteKidActivity(id)
+    .subscribe(
+      res => {
+        this.getAllKidActivities();
+        this.toastr.error('Deleted successfully!');
+      }, err => { console.log(err);
+       });
+  }
+});
 }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

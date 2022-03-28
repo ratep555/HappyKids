@@ -12,7 +12,7 @@
               type="text"
               class="form-control"
               readonly="readonly"
-              placeholder="{{model.shippingAddress.lastName}}, {{model.shippingAddress.firstName}}"
+              placeholder="{{model?.shippingAddress.lastName}}, {{model?.shippingAddress.firstName}}"
             />
             </div>
           </div>
@@ -22,7 +22,7 @@
               type="text"
               class="form-control"
               readonly="readonly"
-              placeholder="{{model.shippingOption}}"
+              placeholder="{{model?.shippingOption}}"
             />
             </div>
           </div>
@@ -32,7 +32,7 @@
               type="text"
               class="form-control"
               readonly="readonly"
-              placeholder="{{model.paymentOption}}"
+              placeholder="{{model?.paymentOption}}"
             />
             </div>
           </div>
@@ -42,7 +42,7 @@
               type="text"
               class="form-control"
               readonly="readonly"
-              placeholder="{{model.shippingPrice + model.subtotal}} kn "
+              placeholder="{{model?.shippingPrice + model?.subtotal}} kn "
             />
             </div>
           </div>

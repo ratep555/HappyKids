@@ -72,6 +72,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("addmanager")]
         public async Task<ActionResult> RegisterManager(RegisterDto registerDto)
         {
@@ -123,7 +124,7 @@ namespace API.Controllers
 		{
 			var payload =  await _googleAuthService.VerifyGoogleToken(externalAuth);
 
-			if(payload == null)
+			if (payload == null)
 				return BadRequest("Invalid External Authentication.");
 
 			var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
@@ -143,6 +144,9 @@ namespace API.Controllers
                     };
 
 					await _userManager.CreateAsync(user);
+                    
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Client");
+
 					await _userManager.AddLoginAsync(user, info);
 				}
 				else

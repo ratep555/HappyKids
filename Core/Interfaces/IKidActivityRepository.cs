@@ -13,5 +13,13 @@ namespace Core.Interfaces
         Task<KidActivity> GetKidActivityById(int id);
         Task CreateKidActivity(KidActivity kidActivity);
         Task UpdateKidActivity(KidActivity kidActivity);
+        Task DeleteKidActivity(KidActivity kidActivity);
     }
 }
+
+
+
+
+
+
+

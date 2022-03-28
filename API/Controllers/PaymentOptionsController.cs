@@ -6,6 +6,7 @@ using Core.Entities;
 using Core.Entities.Orders;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -45,6 +46,7 @@ namespace API.Controllers
             return _mapper.Map<PaymentOptionDto>(paymentOption);
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreatePaymentOption([FromBody] PaymentOptionCreateEditDto paymentOptionDto)
         {
@@ -55,6 +57,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdatePaymentOption(int id, 
             [FromBody] PaymentOptionCreateEditDto paymentOptionDto)
@@ -68,6 +71,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePaymentOption(int id)
         {

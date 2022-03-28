@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities.Orders;
 using Core.Interfaces;
+using Core.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
@@ -15,9 +16,47 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
+        public async Task<List<OrderStatus>> GetAllOrderStatuses(QueryParameters queryParameters)
+        {
+            IQueryable<OrderStatus> orderStatuses = _context.OrderStatuses.AsQueryable().OrderBy(x => x.Name);
+
+            if (queryParameters.HasQuery())
+            {
+                orderStatuses = orderStatuses.Where(t => t.Name.Contains(queryParameters.Query));
+            }
+
+            orderStatuses = orderStatuses.Skip(queryParameters.PageCount * (queryParameters.Page - 1))
+                .Take(queryParameters.PageCount);
+
+            return await orderStatuses.ToListAsync();
+        }
+
+        public async Task<int> GetCountForOrderStatuses()
+        {
+            return await _context.OrderStatuses.CountAsync();
+        }
+
         public async Task<List<OrderStatus>> GetAllOrderStatusesForEditing()
         {
             return await _context.OrderStatuses.OrderBy(x => x.Name).ToListAsync();
+        }
+
+        public async Task CreateOrderStatus(OrderStatus orderStatus)
+        {
+            _context.OrderStatuses.Add(orderStatus);
+            await _context.SaveChangesAsync();                    
+        }
+
+        public async Task UpdateOrderStatus(OrderStatus orderStatus)
+        {
+            _context.Entry(orderStatus).State = EntityState.Modified;  
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrderStatus(OrderStatus orderStatus)
+        {
+            _context.OrderStatuses.Remove(orderStatus);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<OrderStatus>> GetOrderStatusesAssociatedWithOrdersForChildrenItems()

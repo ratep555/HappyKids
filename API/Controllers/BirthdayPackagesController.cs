@@ -7,11 +7,13 @@ using Core.Dtos.DiscountsDto;
 using Core.Entities.BirthdayOrders;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class BirthdayPackagesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -113,6 +115,7 @@ namespace API.Controllers
             return response;
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateBirthdayPackage(
                 [FromForm] BirthdayPackageCreateEditDto birthdayDto)
@@ -130,6 +133,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBirthdayPackage(int id, [FromForm] BirthdayPackageCreateEditDto birthdayPackageDto)
         {
@@ -153,6 +157,21 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [Authorize(Policy = "RequireAdminManagerRole")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteBirthdayPackage(int id)
+        {
+            var birthdayPackage = await _unitOfWork.BirthdayPackageRepository.GetBirthdayPackageById(id);
+
+            if (birthdayPackage == null) return NotFound();
+
+            await _unitOfWork.BirthdayPackageRepository.DeleteBirthdayPackage(birthdayPackage);
+
+            await _fileStorageService.DeleteFile(birthdayPackage.Picture, containerName);
+
+            return NoContent();
+        }      
 
         [HttpGet("kidactivities")]
         public async Task<ActionResult<IEnumerable<KidActivityDto>>> GetAllKidActivities()

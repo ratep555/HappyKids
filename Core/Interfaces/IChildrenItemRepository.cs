@@ -14,8 +14,9 @@ namespace Core.Interfaces
         Task<List<ChildrenItem>> GetAllPureChildrenItems();
         Task<ChildrenItem> GetChildrenItemById(int id);
         Task<ChildrenItem> GetChildrenItemByIdWithoutInclude(int id);
-        Task AddChildernItem(ChildrenItem childrenItem);
+        Task CreateChildernItem(ChildrenItem childrenItem);
         Task UpdateChildrenItem(ChildrenItem childrenItem);
+        Task DeleteChildrenItem(ChildrenItem childrenItem);
         Task<List<Category>> GetAllCategories();
         Task<List<Discount>> GetAllDiscounts();
         Task<List<Manufacturer>> GetAllManufacturers();

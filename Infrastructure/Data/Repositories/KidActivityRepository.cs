@@ -59,6 +59,12 @@ namespace Infrastructure.Data.Repositories
 
              await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteKidActivity(KidActivity kidActivity)
+        {
+            _context.KidActivities.Remove(kidActivity);
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocationsService } from 'src/app/locations/locations.service';
+import { validate } from 'uuid';
 import { BirthdaysService } from '../birthdays.service';
 
 @Component({
@@ -31,12 +32,13 @@ export class AddOrderBirthdaysComponent implements OnInit {
 
   createBirthdayForm() {
     this.birthdayOrderForm = this.fb.group({
-      clientName: [null, [Validators.required]],
-      birthdayGirlBoyName: [null, [Validators.required]],
-      contactEmail: [null, [Validators.required]],
-      contactPhone: [null, [Validators.required]],
-      numberOfGuests: ['', [Validators.required]],
-      birthdayNo: ['', [Validators.required]],
+      clientName: [null, [Validators.required,
+        Validators.minLength(2), Validators.maxLength(70)]],
+      birthdayGirlBoyName: [null, [Validators.required, Validators.maxLength(30)]],
+      contactEmail: [null, [Validators.required, Validators.maxLength(30)]],
+      contactPhone: [null, [Validators.required, Validators.maxLength(30)]],
+      numberOfGuests: ['', [Validators.required, Validators.min(1), Validators.max(500)]],
+      birthdayNo: ['', [Validators.required, Validators.min(1), Validators.max(20)]],
       startDateAndTime: ['', Validators.required],
       remarks: ['', [Validators.maxLength(2000)]],
       branchId: [0, [Validators.min(1)]],

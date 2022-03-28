@@ -55,6 +55,7 @@ namespace API.Extensions
                     opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
                     opt.AddPolicy("RequireManagerRole", policy => policy.RequireRole("Manager"));
                     opt.AddPolicy("RequireClientRole", policy => policy.RequireRole("Client"));
+                    opt.AddPolicy("RequireAdminManagerRole", policy => policy.RequireRole("Admin", "Manager"));
                 });
 
             return services;

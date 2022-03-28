@@ -154,6 +154,7 @@ namespace API.Controllers
             return Ok(commentToReturn);
         }
 
+        [Authorize]
         [HttpDelete("blogcomments/{id}")]
         public async Task<ActionResult<int>> DeleteBlogComment(int id)
         {

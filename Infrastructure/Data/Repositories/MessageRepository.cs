@@ -76,6 +76,12 @@ namespace Infrastructure.Data.Repositories
 
              await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteMessage(Message message)
+        {
+            _context.Messages.Remove(message);
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

@@ -7,10 +7,12 @@ using Core.Dtos.WarehousesDtos;
 using Core.Entities.ChildrenItems;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize(Policy = "RequireAdminManagerRole")]
     public class ChildrenItemWarehousesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -78,12 +80,6 @@ namespace API.Controllers
 
             if (id != childrenItemWarehouse.ChildrenItemId && warehouseid != childrenItemWarehouse.WarehouseId) 
             return BadRequest("Bad request!");
-
-            if ( await _unitOfWork.ChildrenItemWarehouseRepository.CheckIfChildrenItemWarehouseAlreadyExists
-                    (childrenItemWarehouse.ChildrenItemId, childrenItemWarehouse.WarehouseId))
-            {
-                return BadRequest("This combination of children item and warehouse already exists");
-            }
 
             await _unitOfWork.ChildrenItemWarehouseRepository.UpdateChildrenItemWarehouse(childrenItemWarehouse);
 

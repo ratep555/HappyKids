@@ -1,12 +1,12 @@
 <div class="container" style="margin-top: 95px;">
     <div class="row">
         <div class="col-6">
-            <img src="{{kidActivity.picture || './assets/kidactivity.jpg'}}" alt="{{kidActivity.name}}" 
+            <img src="{{kidActivity?.picture || './assets/kidactivity.jpg'}}" alt="{{kidActivity?.name}}" 
             class="zagi img-fluid w-100">
         </div>
         <div class="col-6">
             <div class="wrapper">
-                <div *ngIf="kidActivity.videoClip">
+                <div *ngIf="kidActivity?.videoClip">
                     <iframe
                       width="560"
                       height="357"

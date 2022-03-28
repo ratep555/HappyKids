@@ -27,20 +27,11 @@ export class CommentFunctionalityComponent implements OnInit {
     this.currentUser$ = this.accountService.currentUser$;
     this.happyblogsService.getAllBlogComments(this.blogId).subscribe(blogComments => {
             if (this.user) {
-              // if it is loggedin
-              // we are initialising first comment, which will be an empty comment and thats
-              // where we are going to allow the person to leave a comment
               this.initComment(this.user.displayName);
             }
-            // this is equal to the comments we are recieving from the api
             this.blogComments = blogComments;
             this.blogCommentsClientOnly = [];
-          // first we are going through each comment to establish whether
-          // it has or it has not replies
             for (let i = 0; i < this.blogComments.length; i++) {
-              // if the comment we are looping through doesn't have parentblogcommentid, so
-              // this means that this comment is stand alone comment
-              // sada želiš pronaći odgovore na taj standalone comment
               if (!this.blogComments[i].parentBlogCommentId) {
                 this.findCommentReplies(this.blogCommentsClientOnly, i);
               }

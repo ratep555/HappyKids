@@ -84,7 +84,7 @@
       <ng-container
         *ngIf="
         (currentUser$ | async) &&
-        (currentUser$ | async)?.roles.includes('Admin') || (currentUser$ | async)?.roles.includes('Manager')">          
+        (currentUser$ | async)?.roles?.includes('Admin') || (currentUser$ | async)?.roles?.includes('Manager')">          
           <div class="dropdown" dropdown>
             <a
               class="pero nav-link text-uppercase dropdown-toggle text-white"
@@ -170,6 +170,12 @@
                 <i class="fa fa-list mr-3"></i>Messages</a
               >
               <a
+                routerLink="/orderstatuses"
+                class="dropdown-item"
+              >
+                <i class="fa fa-list mr-3"></i>Order Statuses</a
+              >
+              <a
               routerLink="/paymentoptions"
               class="dropdown-item"
             >
@@ -246,7 +252,7 @@
             <ng-container
             *ngIf="
             (currentUser$ | async) &&
-            (currentUser$ | async)?.roles.includes('Admin')" 
+            (currentUser$ | async)?.roles?.includes('Admin')" 
             >
             <div class="dropdown-divider"></div>
             <a

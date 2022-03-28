@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { BirthdayPackage } from 'src/app/shared/models/birthdaypackage';
 import { UserParams } from 'src/app/shared/models/myparams';
 import { BirthdaypackagesService } from './birthdaypackages.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-birthdaypackages',
@@ -16,6 +19,7 @@ export class BirthdaypackagesComponent implements OnInit {
   totalCount: number;
 
   constructor(private birthdaypackagesService: BirthdaypackagesService,
+              private toastr: ToastrService,
               private  router: Router) {
     this.userParams = this.birthdaypackagesService.getUserParams();
      }
@@ -56,5 +60,28 @@ export class BirthdaypackagesComponent implements OnInit {
       this.getBirthdayPackages();
     }
 }
+
+onDelete(id: number) {
+  Swal.fire({
+    title: 'Are you sure want to delete this record?',
+    text: 'You will not be able to recover it afterwards!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    confirmButtonColor: '#DD6B55',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.value) {
+        this.birthdaypackagesService.deleteBirthdayPackage(id)
+    .subscribe(
+      res => {
+        this.getBirthdayPackages();
+        this.toastr.error('Deleted successfully!');
+      }, err => { console.log(err);
+       });
+  }
+});
+}
+
 
 }

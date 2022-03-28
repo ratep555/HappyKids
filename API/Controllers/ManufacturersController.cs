@@ -5,6 +5,7 @@ using Core.Dtos;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -43,6 +44,7 @@ namespace API.Controllers
             return _mapper.Map<ManufacturerDto>(manufacturer);
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateManufacturer([FromBody] ManufacturerCreateEditDto manufacturerDto)
         {
@@ -53,6 +55,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateManufacturer(int id, 
             [FromBody] ManufacturerCreateEditDto manufacturerDto)

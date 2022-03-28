@@ -5,6 +5,7 @@ using Core.Dtos;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -52,6 +53,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateMessage(int id, [FromBody] MessageCreateEditDto messageDto)
         {
@@ -64,7 +66,18 @@ namespace API.Controllers
             return NoContent();
         }
 
-     
+        [Authorize(Policy = "RequireAdminManagerRole")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id)
+        {
+            var message = await _unitOfWork.MessageRepository.GetMessageById(id);
+
+            if (message == null) return NotFound();
+
+            await _unitOfWork.MessageRepository.DeleteMessage(message);
+
+            return NoContent();
+        }          
     }
 }
 

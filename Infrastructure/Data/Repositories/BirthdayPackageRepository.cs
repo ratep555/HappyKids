@@ -65,6 +65,12 @@ namespace Infrastructure.Data.Repositories
              await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteBirthdayPackage(BirthdayPackage birthdayPackage)
+        {
+            _context.BirthdayPackages.Remove(birthdayPackage);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<BirthdayPackage>> GetNonSelectedBirthdayPackages(List<int> ids)
         {
             return await _context.BirthdayPackages.Where(x => !ids.Contains(x.Id)).ToListAsync();

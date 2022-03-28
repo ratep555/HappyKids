@@ -66,6 +66,10 @@ export class KidactivitiesService {
     return this.http.put(this.baseUrl + 'kidActivities/' + id, formData);
   }
 
+  deleteKidActivity(id: number) {
+    return this.http.delete(this.baseUrl + 'kidActivities/' + id);
+  }
+
   private CreateFormData(kidActivity: KidActivityCreateEdit): FormData {
     const formData = new FormData();
     if (kidActivity.id) {

@@ -72,6 +72,10 @@ export class BirthdaypackagesService {
     return this.http.put(this.baseUrl + 'birthdayPackages/' + id, formData);
   }
 
+  deleteBirthdayPackage(id: number) {
+    return this.http.delete(this.baseUrl + 'birthdayPackages/' + id);
+  }
+
   getAllKidActivities() {
     return this.http.get<KidActivity[]>(this.baseUrl + 'birthdayPackages/kidactivities');
   }

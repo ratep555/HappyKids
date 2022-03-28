@@ -92,6 +92,24 @@
                           [formControl]="birthdayOrderForm.controls['numberOfGuests']"
                           [label]="'Number of Guests'"
                         ></app-text-input>
+                        <span
+                        style="font-size: 14px"
+                        class="text-danger"
+                        *ngIf="
+                          birthdayOrderForm.get('numberOfGuests').errors['min']
+                        "
+                      >
+                        Minimum 1 guest
+                      </span>
+                        <span
+                        style="font-size: 14px"
+                        class="text-danger"
+                        *ngIf="
+                          birthdayOrderForm.get('numberOfGuests').errors['max']
+                        "
+                      >
+                        Maximum 500 guests
+                      </span>
                         </div>
                       </div>
                       <div class="row my-1">
@@ -103,6 +121,24 @@
                           [formControl]="birthdayOrderForm.controls['birthdayNo']"
                           [label]="'Birthday No.'"
                         ></app-text-input>
+                        <span
+                        style="font-size: 14px"
+                        class="text-danger"
+                        *ngIf="
+                          birthdayOrderForm.get('birthdayNo').errors['min']
+                        "
+                      >
+                        Minimum 1 
+                      </span>
+                        <span
+                        style="font-size: 14px"
+                        class="text-danger"
+                        *ngIf="
+                          birthdayOrderForm.get('birthdayNo').errors['max']
+                        "
+                      >
+                        Maximum 20
+                      </span>
                         </div>
                       </div>
                       <div class="row my-1 mb-4">

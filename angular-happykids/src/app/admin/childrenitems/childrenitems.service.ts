@@ -75,6 +75,10 @@ export class ChildrenitemsService {
     return this.http.get<ChildrenItemPutGet>(this.baseUrl + 'childrenItems/putget/' + id);
   }
 
+  deleteChildrenItem(id: number) {
+    return this.http.delete(this.baseUrl + 'childrenItems/' + id);
+  }
+
   getAllCategories() {
     return this.http.get<Category[]>(this.baseUrl + 'childrenItems/categories');
   }

@@ -4,16 +4,13 @@
             <thead>
                 <tr>
                     <th class="border-0" scope="col">
-                        <div class="p-2 px-3 text-uppercase">Product</div>
+                        <div class="p-2 px-3 text-uppercase">Children Item</div>
                     </th>
                     <th scope="col" class="border-0">
                         <div class="py-2 text-uppercase">Price</div>
                     </th>
                     <th scope="col" class="border-0">
                         <div class="py-2 text-uppercase">Quantity</div>
-                    </th>
-                    <th scope="col" class="border-0">
-                        <div class="py-2 text-uppercase">Stock Quantity</div>
                     </th>
                     <th scope="col" class="border-0">
                         <div class="py-2 text-uppercase">Total</div>
@@ -34,7 +31,6 @@
                                     <a routerLink="/shop/{{item.id}}"
                                         class="text-dark">{{item.childrenItemName}}</a>
                                 </h5>
-    
                             </div>
                         </div>
                     </td>
@@ -44,12 +40,12 @@
                         </td>
                         <ng-template #elseBlock>
                             <td class="align-middle">
-                                <strong>{{item.price | currency}}</strong>
+                                <strong>{{item.price | number: "1.2-2" }} kn</strong>
                             </td>
                         </ng-template>
                     </ng-container>
                     <td class="zagi align-middle">
-                        <div class="d-flex"
+                        <div
                         [class.justify-content-center]="!isBasket">
                             <i *ngIf="isBasket" (click)="decreaseBasketItemQuantity(item)" class="fa fa-minus-circle text-warning mr-2"
                                 style="cursor: pointer; font-size: 2em;"></i>
@@ -60,9 +56,6 @@
                                 style="cursor: pointer; font-size: 2em;"></i>
                         </div>
                     </td>
-                    <td class="align-middle">
-                        {{item.stockQuantity}}
-                    </td>
                     <ng-container>
                         <td *ngIf="item?.discountedPrice !== null; else elseBlock" class="align-middle">
                             <strong>{{item.discountedPrice * item.quantity | currency}}</strong>
@@ -72,10 +65,7 @@
                                 <strong>{{item.price * item.quantity | currency}}</strong>
                             </td>
                         </ng-template>
-
                     </ng-container>
-
-                    
                     <td class="align-middle text-center">
                         <a class="text-danger">
                         <button *ngIf="isBasket" (click)="removingItemFromBasket(item)" class="btn btn-outline-danger">

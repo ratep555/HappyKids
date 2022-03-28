@@ -5,6 +5,7 @@ using Core.Dtos.BirthdayOrdersDtos;
 using Core.Entities.BirthdayOrders;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -67,6 +68,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBirthdayOrder(int id, [FromBody] ClientBirthdayOrderEditDto birthdayOrderDto)
         {

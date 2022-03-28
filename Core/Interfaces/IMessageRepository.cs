@@ -12,5 +12,6 @@ namespace Core.Interfaces
         Task<Message> GetMessageById(int id);
         Task CreateMessage(Message message);
         Task UpdateMessage(Message message);
+        Task DeleteMessage(Message message);
     }
 }

@@ -23,8 +23,10 @@ export class MessageComponent implements OnInit {
 
   createMessage() {
     this.messageForm = this.fb.group({
-      firstLastName: [null, [Validators.required]],
-      messageContent: [null, [Validators.required]],
+      firstLastName: [null, [Validators.required,
+        Validators.minLength(2), Validators.maxLength(30)]],
+      messageContent: [null, [Validators.required,
+        Validators.minLength(10), Validators.maxLength(2000)]],
       email: [null, [Validators.required]],
       phone: [null, [Validators.required]]
     });

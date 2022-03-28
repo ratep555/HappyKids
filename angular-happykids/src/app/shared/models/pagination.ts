@@ -11,6 +11,7 @@ import { KidActivity } from './kidactivity';
 import { Manufacturer } from './manufacturer';
 import { ClientMessage } from './message';
 import { Order } from './order';
+import { OrderStatus } from './orderStatus';
 import { PaymentOption } from './paymentOption';
 import { ShippingOption } from './shippingOption';
 import { Tag } from './tag';
@@ -71,6 +72,13 @@ export interface IPaginationForChildrenItemsOrders {
     pageCount: number;
     count: number;
     data: Order[];
+  }
+
+export interface IPaginationForOrderStatuses {
+    page: number;
+    pageCount: number;
+    count: number;
+    data: OrderStatus[];
   }
 
 export interface IPaginationForPaymentOptions {

@@ -15,6 +15,7 @@ namespace Core.Interfaces
         Task<BirthdayPackage> GetBirthdayPackageById(int id);
         Task CreateBirthdayPackage(BirthdayPackage package);
         Task UpdateBirthdayPackage(BirthdayPackage birthdayPackage);
+        Task DeleteBirthdayPackage(BirthdayPackage birthdayPackage);
         Task<List<BirthdayPackage>> GetNonSelectedBirthdayPackages(List<int> ids);
         Task UpdateBirthdayPackageWithDiscount(BirthdayPackage birthdayPackage);
         Task ResetBirthdayPackageDiscountedPriceDueToDiscountExpiry(IEnumerable<BirthdayPackage> birthdayPackages);

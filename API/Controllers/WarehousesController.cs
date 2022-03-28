@@ -6,6 +6,7 @@ using Core.Dtos.WarehousesDtos;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -44,6 +45,7 @@ namespace API.Controllers
             return _mapper.Map<WarehouseDto>(warehouse);
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateWarehouse([FromBody] WarehouseCreateEditDto warehouseDto)
         {
@@ -54,6 +56,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateWarehouse(int id, [FromBody] WarehouseCreateEditDto warehouseDto)
         {
@@ -66,6 +69,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteWarehouse(int id)
         {

@@ -10,6 +10,7 @@ using Core.Dtos.DiscountsDtos;
 using Core.Entities.Discounts;
 using Core.Interfaces;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -57,11 +58,6 @@ namespace API.Controllers
 
             var discountToReturn = _mapper.Map<DiscountDto>(discount);
 
-            var birthdayPackagesSelectedIds = discountToReturn.BirthdayPackages.Select(x => x.Id).ToList();
-
-            var nonSelectedBirthdayPackages = await _unitOfWork.BirthdayPackageRepository
-                .GetNonSelectedBirthdayPackages(birthdayPackagesSelectedIds);
-
             var childrenItemsSelectedIds = discountToReturn.ChildrenItems.Select(x => x.Id).ToList();
 
             var nonSelectedChildrenItems = await _unitOfWork.ChildrenItemRepository
@@ -77,9 +73,6 @@ namespace API.Controllers
             var nonSelectedManufacturers = await _unitOfWork.ChildrenItemRepository
                 .GetNonSelectedManufacturers(manufacturersSelectedIds);
 
-            var nonSelectedBirthdayPackagesDto = _mapper.Map<IEnumerable<BirthdayPackageDto>>
-                (nonSelectedBirthdayPackages).OrderBy(x => x.PackageName);
-
             var nonSelectedChildrenItemsDto = _mapper.Map<IEnumerable<ChildrenItemDto>>
                 (nonSelectedChildrenItems).OrderBy(x => x.Name);
 
@@ -92,8 +85,6 @@ namespace API.Controllers
             var response = new DiscountPutGetDto();
 
             response.Discount = discountToReturn;
-            response.SelectedBirthdayPackages = discountToReturn.BirthdayPackages.OrderBy(x => x.PackageName);
-            response.NonSelectedBirthdayPackages = nonSelectedBirthdayPackagesDto;
             response.SelectedChildrenItems = discountToReturn.ChildrenItems.OrderBy(x => x.Name);
             response.NonSelectedChildrenItems = nonSelectedChildrenItemsDto;
             response.SelectedCategories = discountToReturn.Categories.OrderBy(x => x.Name);
@@ -103,7 +94,8 @@ namespace API.Controllers
 
             return response;
         }
-
+        
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateDiscount([FromBody] DiscountCreateEditDto discountDto)
         {
@@ -119,6 +111,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDiscount(int id, [FromBody] DiscountCreateEditDto discountDto)
         {
@@ -143,6 +136,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteDiscount(int id)
         {

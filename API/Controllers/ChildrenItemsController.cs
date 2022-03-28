@@ -146,6 +146,7 @@ namespace API.Controllers
             return response;
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateChildrenItem([FromForm] ChildrenItemCreateEditDto childernItemDto)
         {
@@ -156,14 +157,15 @@ namespace API.Controllers
                 childernItem.Picture = await _fileStorageService.SaveFile(containerName, childernItemDto.Picture);
             }
 
-            await _unitOfWork.ChildrenItemRepository.AddChildernItem(childernItem);
+            await _unitOfWork.ChildrenItemRepository.CreateChildernItem(childernItem);
             await _unitOfWork.DiscountRepository.UpdateChildrenItemWithDiscount(childernItem);
 
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateItem(int id, [FromForm] ChildrenItemCreateEditDto childrenItemDto)
+        public async Task<ActionResult> UpdateChildrenItem(int id, [FromForm] ChildrenItemCreateEditDto childrenItemDto)
         {
             var childernItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
 
@@ -185,6 +187,21 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [Authorize(Policy = "RequireAdminManagerRole")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteChildrenItem(int id)
+        {
+            var childrenItem = await _unitOfWork.ChildrenItemRepository.GetChildrenItemById(id);
+
+            if (childrenItem == null) return NotFound();
+
+            await _unitOfWork.ChildrenItemRepository.DeleteChildrenItem(childrenItem);
+
+            await _fileStorageService.DeleteFile(childrenItem.Picture, containerName);
+
+            return NoContent();
+        }      
 
         [HttpPut("decrease/{id}/{quantity}")]
         public async Task<ActionResult> DecreaseChildrenItemStockQuantity(int id, int quantity)
