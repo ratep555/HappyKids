@@ -25,6 +25,10 @@ namespace API
         }
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// Adding CORS, Application and Identity services - this way we avoid ConfigureServices being too messy
+        /// See AppServiceExtensions and IdentityServiceExtensions for more details
+        /// </summary>
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {

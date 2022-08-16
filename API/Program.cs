@@ -16,7 +16,11 @@ namespace API
 {
     public class Program
     {
-       public static async Task Main(string[] args)
+        /// <summary>
+        /// Adding identity, seeding admin user, and seeding entities
+        /// See HappyKidContext.cs for more details
+        /// </summary>
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();

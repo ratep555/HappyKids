@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling tags related to children items
+    /// </summary>
     public class TagsController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;

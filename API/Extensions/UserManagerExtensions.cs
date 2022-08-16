@@ -8,6 +8,10 @@ namespace API.Extensions
 {
     public static class UserManagerExtensions
     {
+        /// <summary>
+        /// We use this static method to retrieve user data including address
+        /// See AccountController/GetClientAddress for more details
+        /// </summary>
         public static async Task<ApplicationUser> FindUserWithAddressByClaims(
                 this UserManager<ApplicationUser> input, ClaimsPrincipal user)
         {

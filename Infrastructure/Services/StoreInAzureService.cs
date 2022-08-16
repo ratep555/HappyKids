@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// Methods for saving, editing, and deleting files (pictures) in Azure
+    /// </summary>
     public class StoreInAzureService : IFileStorageService
     {
         private string connectionString;

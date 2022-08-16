@@ -16,13 +16,16 @@ import { ResetPassword } from '../shared/models/resetpassword';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
+  // Replay subject does not emit initial value so our authguard will wait till this has some value
   private currentUserSource = new ReplaySubject<User>(1);
+  // The reason we are setting this as observable is so that it can be observed by other components
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient,
               private router: Router,
               private externalAuthService: SocialAuthService) { }
 
+  // Ads user - client
   register(model: any) {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
       map((user: User) => {
@@ -33,6 +36,7 @@ export class AccountService {
     );
   }
 
+  // Adds manager
   addManager(model: any) {
     return this.http.post(this.baseUrl + 'account/addmanager', model).pipe(
       map((user: User) => {
@@ -55,6 +59,8 @@ export class AccountService {
     );
   }
 
+  // We will use the information about roles in our guard
+  // We are trying to see if the role in token is array or simple string
   setCurrentUser(user: User) {
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role;
@@ -63,6 +69,7 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
 
+  // Google sign in
   public signInWithGoogle = () => {
     return this.externalAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }

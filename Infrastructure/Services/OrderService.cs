@@ -21,6 +21,9 @@ namespace Infrastructure.Services
             _paymentService = paymentService;
         }
 
+        /// <summary>
+        /// Creates Cash on Delivery and General Card Slip orders for children item
+        /// </summary>
         public async Task<ClientOrder> CreateOrder(string buyerEmail, int shippingOptionId, 
             int paymentOptionId, string basketId, ShippingAddress shippingAddress)
         {
@@ -62,6 +65,9 @@ namespace Infrastructure.Services
             return null;        
         }
 
+        /// <summary>
+        /// Creates Stripe Payment order for children item
+        /// </summary>
         public async Task<ClientOrder> CreateOrderForStripe(string buyerEmail, int shippingOptionId, 
             int paymentOptionId, string basketId, ShippingAddress shippingAddress)
         {
@@ -112,7 +118,10 @@ namespace Infrastructure.Services
             return null;        
         }
 
-        public async Task<bool> CheckIfBasketQuantityExceedsStackQuantity(string basketId)
+        /// <summary>
+        /// Method for comparison of children item quantity in client basket with the corresponding children item stock quantity
+        /// </summary>
+        public async Task<bool> CheckIfBasketQuantityExceedsStockQuantity(string basketId)
         {
             var basket = await _basketRepository.GetClientBasket(basketId);
 

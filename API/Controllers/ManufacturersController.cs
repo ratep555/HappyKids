@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling manufacturers related to children items
+    /// </summary>
     public class ManufacturersController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,6 +24,9 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Showing list of all manufacturers of children items available in our webshop
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<ManufacturerDto>>> GetAllManufacturers(
                 [FromQuery] QueryParameters queryParameters)

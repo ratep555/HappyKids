@@ -16,6 +16,9 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Shows all birthday orders
+        /// </summary>
         public async Task<List<ClientBirthdayOrder>> GetAllBirthdayOrders(QueryParameters queryParameters)
         {
             IQueryable<ClientBirthdayOrder> birthdayOrders = _context.ClientBirthdayOrders
@@ -26,7 +29,6 @@ namespace Infrastructure.Data.Repositories
             {
                 birthdayOrders = birthdayOrders.Where(t => t.ClientName.Contains(queryParameters.Query));
             }
-
             if (!string.IsNullOrEmpty(queryParameters.Sort))
             {
                 switch (queryParameters.Sort)
@@ -45,24 +47,32 @@ namespace Infrastructure.Data.Repositories
                         break;
                 }
             }    
-
             birthdayOrders = birthdayOrders.Skip(queryParameters.PageCount * (queryParameters.Page - 1))
                 .Take(queryParameters.PageCount);
 
             return await birthdayOrders.ToListAsync();
         }
 
+        /// <summary>
+        /// This is for paging purposes, shows the total number of birthday orders
+        /// </summary>
         public async Task<int> GetCountForBirthdayOrders()
         {
             return await _context.ClientBirthdayOrders.CountAsync();
         }
 
+        /// <summary>
+        /// Gets the corresponding birthday order based on id 
+        /// </summary>
         public async Task<ClientBirthdayOrder> GetBirthdayOrderById(int id)
         {
             return await _context.ClientBirthdayOrders.Include(x => x.BirthdayPackage).Include(x => x.Branch).Include(x => x.OrderStatus)
                 .Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Creates birthday order
+        /// </summary>
         public async Task CreateBirthdayOrder(ClientBirthdayOrder birthdayOrder)
         {
             var birthdayPackage = await _context.BirthdayPackages
@@ -78,7 +88,10 @@ namespace Infrastructure.Data.Repositories
 
             await _context.SaveChangesAsync();
         }
-
+                
+        /// <summary>
+        /// Updates birthday order
+        /// </summary>
         public async Task UpdateBirthdayOrder(ClientBirthdayOrder birthdayOrder)
         {  
             var birthdayPackage = await _context.BirthdayPackages
@@ -94,6 +107,11 @@ namespace Infrastructure.Data.Repositories
              await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Calculates birthday order price based on number of participants on each birthday
+        /// Method is used for setting birthday order price in the process of creating birthday order
+        /// See BirthdayOrderRepository/CreateBirthdayOrder for more details
+        /// </summary>
         private async Task<decimal> CalculateBirthdayOrderPrice(ClientBirthdayOrder birthdayOrder, BirthdayPackage birthdayPackage)
         {
             decimal price = 0;
@@ -128,6 +146,10 @@ namespace Infrastructure.Data.Repositories
             return price;
         }
 
+        /// <summary>
+        /// Calculates additional billing per participant if the discount is aplied on certain birthday package
+        /// See BirthdayPackagesController/GetBirthdayPackageById for more details
+        /// </summary>
         public async Task<decimal> DiscountedAdditionalBillingPerParticipant(BirthdayPackage birthdayPackage)
         {
             var birthayPackageDiscounts = await _context.BirthdayPackageDiscounts.Include(x => x.Discount)

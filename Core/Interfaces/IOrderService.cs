@@ -10,6 +10,6 @@ namespace Core.Interfaces
             int paymentOptionId, string basketId, ShippingAddress shippingAddress);
         Task<ClientOrder> CreateOrderForStripe(string buyerEmail, int shippingOptionId, 
             int paymentOptionId, string basketId, ShippingAddress shippingAddress);
-        Task<bool> CheckIfBasketQuantityExceedsStackQuantity(string basketId);
+        Task<bool> CheckIfBasketQuantityExceedsStockQuantity(string basketId);
     }
 }

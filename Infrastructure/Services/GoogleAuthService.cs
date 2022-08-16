@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Services
 {
+	/// <summary>
+    /// Google sign in service
+    /// </summary>
     public class GoogleAuthService : IGoogleAuthService
     {
          private readonly IConfiguration _config;

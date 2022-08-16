@@ -15,7 +15,10 @@ namespace Infrastructure.Data.Repositories
         {
             _context = context;
         }
-
+        
+        /// <summary>
+        /// Shows all kid activities
+        /// </summary>
         public async Task<List<KidActivity>> GetAllKidActivities(QueryParameters queryParameters)
         {
             IQueryable<KidActivity> kidActivities = _context.KidActivities.AsQueryable().OrderBy(x => x.Name);
@@ -31,21 +34,34 @@ namespace Infrastructure.Data.Repositories
             return await kidActivities.ToListAsync();
         }
 
+        /// <summary>
+        /// This is for paging purposes, shows the total number of kid activities
+        /// </summary>
         public async Task<int> GetCountForKidActivities()
         {
             return await _context.KidActivities.CountAsync();
         }
 
+        /// <summary>
+        /// Used for rendering dropdown list while creating/editing birthday packages
+        /// See BirthdayPackagesController/GetAllKidActivities and add-birthdaypackage.component.ts for more details
+        /// </summary>
         public async Task<List<KidActivity>> GetAllPureKidActivities()
         {
             return await _context.KidActivities.OrderBy(x => x.Name).ToListAsync();
         }
 
+        /// <summary>
+        /// Gets the corresponding kid activity based on id
+        /// </summary>
         public async Task<KidActivity> GetKidActivityById(int id)
         {
             return await _context.KidActivities.FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        /// <summary>
+        /// Creates kid activity
+        /// </summary>
         public async Task CreateKidActivity(KidActivity kidActivity)
         {
             _context.KidActivities.Add(kidActivity);
@@ -53,6 +69,9 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Updates kid activity
+        /// </summary>
         public async Task UpdateKidActivity(KidActivity kidActivity)
         {    
             _context.Entry(kidActivity).State = EntityState.Modified;  
@@ -60,6 +79,9 @@ namespace Infrastructure.Data.Repositories
              await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Deletes kid activity
+        /// </summary>
         public async Task DeleteKidActivity(KidActivity kidActivity)
         {
             _context.KidActivities.Remove(kidActivity);

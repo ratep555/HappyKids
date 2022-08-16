@@ -12,6 +12,9 @@ using SendGrid.Helpers.Mail;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// Emails sent by SendGrid are configured here
+    /// </summary>
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;

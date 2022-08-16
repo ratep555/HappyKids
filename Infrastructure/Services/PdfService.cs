@@ -14,6 +14,9 @@ namespace Infrastructure.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Method generates PDF for General Card Slip payment option regarding client purchase of children item
+        /// </summary>
         public void GeneratePdfForGeneralCardSlip(int orderNo, decimal amount, string firstName, string lastName)
         {
             var accounts = _context.Accounts.ToList();
@@ -53,6 +56,10 @@ namespace Infrastructure.Services
             
             document.Save("C:\\Users\\petar\\source\\repos\\" + orderNo.ToString() + ".pdf");
         }
+
+        /// <summary>
+        /// Method generates PDF for payment details in the case client birthday order was accepted
+        /// </summary>
         public void GeneratePdfForBirthdayOrderAcceptance(int orderNo, decimal amount, string clientName)
         {
             var accounts = _context.Accounts.ToList();

@@ -13,7 +13,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services
 {
-   public class TokenService : ITokenService
+    /// <summary>
+    /// Here jwt token gets created
+    /// </summary>
+    public class TokenService : ITokenService
     {
         private readonly SymmetricSecurityKey _key;
         private readonly UserManager<ApplicationUser> _userManager;

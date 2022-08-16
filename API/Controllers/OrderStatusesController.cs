@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling order statuses for children item orders and birthday package orders
+    /// </summary>
     public class OrderStatusesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;

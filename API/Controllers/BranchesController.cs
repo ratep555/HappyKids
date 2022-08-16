@@ -33,6 +33,9 @@ namespace API.Controllers
             return Ok(new Pagination<BranchDto>(queryParameters.Page, queryParameters.PageCount, count, data));
         }
 
+        /// <summary>
+        /// Showing list of locations where our company is offering it's services
+        /// </summary>      
         [HttpGet("locations")]
         public async Task<ActionResult<IEnumerable<BranchDto>>> GetLocations()
         {

@@ -16,10 +16,8 @@ namespace Core.Interfaces
         Task CreateBirthdayPackage(BirthdayPackage package);
         Task UpdateBirthdayPackage(BirthdayPackage birthdayPackage);
         Task DeleteBirthdayPackage(BirthdayPackage birthdayPackage);
-        Task<List<BirthdayPackage>> GetNonSelectedBirthdayPackages(List<int> ids);
         Task UpdateBirthdayPackageWithDiscount(BirthdayPackage birthdayPackage);
         Task ResetBirthdayPackageDiscountedPriceDueToDiscountExpiry(IEnumerable<BirthdayPackage> birthdayPackages);
-        Task ResetBirthayPackageDiscountedPrice(Discount discount);
         Task ResetBirthdayPackageDiscountedPrice(BirthdayPackage birthdayPackage);
         Task<decimal> DiscountSum(BirthdayPackage birthdayPackage);        
         Task DiscountSumForDto(IEnumerable<BirthdayPackage> birthdayPackages, IEnumerable<BirthdayPackageDto> birthdayPackagesDto);

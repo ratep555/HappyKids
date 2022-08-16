@@ -6,9 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Dtos.DiscountsDtos
 {
+     /// <summary>
+    /// <param name="BinderType = typeof">We are helping modelbinder to bind data it will receive.</param>
+    /// </summary>
     public class DiscountCreateEditDto
     {
         public int Id { get; set; }
+
+        [Required, MaxLength(255)]
         public string Name { get; set; }
 
         [ModelBinder(BinderType = typeof(TypeBinder<decimal>))]

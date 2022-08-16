@@ -13,6 +13,11 @@ namespace API.Extensions
 {
     public static class IdentityServicesExtensions
     {
+        /// <summary>
+        /// Collection of identity services, we generated special class for them so that startup wolud not be too messy
+        /// See Startup.cs for more details
+        /// <param name="IssuerSigningKey">JWT token key, see appsettings.Development.json for more details.</param>
+        /// </summary>
         public static IServiceCollection AddIdentityServices(this IServiceCollection services,
         IConfiguration config)
         {

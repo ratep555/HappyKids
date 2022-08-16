@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handles ordering process, clients can choose difefrent birthday packages that our company is offering
+    /// </summary>
     public class BirthdayOrdersController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -29,6 +32,9 @@ namespace API.Controllers
             _pdfService = pdfService;
         }
 
+        /// <summary>
+        /// Shows list of birthday orders with pagination
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<ClientBirthdayOrderDto>>> GetAllBirtdayOrders(
             [FromQuery] QueryParameters queryParameters)
@@ -53,6 +59,9 @@ namespace API.Controllers
             return _mapper.Map<ClientBirthdayOrderDto>(birthdayOrder);
         }
 
+        /// <summary>
+        /// Once client has expressed his interest for our services, we will send her/him email 
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult> CreateBirthdayOrder([FromBody] ClientBirthdayOrderCreateDto birthdayOrderDto)
         {
@@ -68,6 +77,11 @@ namespace API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Admin and manager will manage birthday orders
+        /// If client order has been accepted, we will send an email notifying her/him
+        /// PDF with payment details will also be sent
+        /// </summary>
         [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBirthdayOrder(int id, [FromBody] ClientBirthdayOrderEditDto birthdayOrderDto)

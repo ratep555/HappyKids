@@ -15,6 +15,10 @@ namespace API.Extensions
 {
     public static class AppServiceExtensions
     {
+        /// <summary>
+        /// Collection of application services, we generated special class for them so that startup wolud not be too messy
+        /// See Startup.cs for more details
+        /// </summary>
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, 
             IConfiguration config)
         {

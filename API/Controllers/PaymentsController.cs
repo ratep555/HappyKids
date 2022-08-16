@@ -11,6 +11,9 @@ using Stripe;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling payment intent and webhooks for Stripe payments
+    /// </summary>
     public class PaymentsController : BaseApiController
     {
         private readonly IPaymentService _paymentService;

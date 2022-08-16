@@ -8,7 +8,13 @@ namespace Core.Entities.Blogs
     {
         public int ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string Title { get; set; }
+
+        [Required]
+        [MaxLength(5000)]
         public string BlogContent { get; set; }
         public string Picture { get; set; }
 

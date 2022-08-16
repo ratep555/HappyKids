@@ -24,6 +24,9 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Our items are stored in a warehouse, admin/manager handle this part
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<ChildrenItemWarehouseDto>>> GetAllChildrenItemWarehouses(
             [FromQuery] QueryParameters queryParameters)

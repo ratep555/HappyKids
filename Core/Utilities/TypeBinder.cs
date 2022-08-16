@@ -4,8 +4,12 @@ using Newtonsoft.Json;
 
 namespace Core.Utilities
 {
-      public class TypeBinder<T> : IModelBinder
+    public class TypeBinder<T> : IModelBinder
     {
+        /// <summary>
+        /// Model binder
+        /// <param name="value">If there is no value, there is nothing to bind, else we are deserialising value.</param>
+        /// </summary>
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             var propertyName = bindingContext.ModelName;

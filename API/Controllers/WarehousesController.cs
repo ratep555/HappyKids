@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Warehouses in which children items that are listed in our webshop are stored
+    /// </summary>
     public class WarehousesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +24,7 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<Pagination<WarehouseDto>>> GetAllWarehouses(
             [FromQuery] QueryParameters queryParameters)
@@ -81,7 +84,7 @@ namespace API.Controllers
 
             return NoContent();
         }      
-
+        
         [HttpGet("countries")]
         public async Task<ActionResult<List<CountryDto>>> GetAllCountries()
         {

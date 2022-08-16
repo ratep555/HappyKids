@@ -26,6 +26,9 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Showing list of all discounts that will be applied on children items and/or birthday packages
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<DiscountDto>>> GetAllDiscounts(
             [FromQuery] QueryParameters queryParameters)

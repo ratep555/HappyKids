@@ -6,6 +6,8 @@ namespace Core.Entities.Discounts
 {
     public class Discount : BaseEntity
     {
+        [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
         public decimal DiscountPercentage { get; set; }
 

@@ -18,6 +18,10 @@ namespace Infrastructure.Data.Repositories
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Shows all birtday packages
+        /// </summary>
         public async Task<List<BirthdayPackage>> GetAllBirthdayPackages(QueryParameters queryParameters)
         {
             IQueryable<BirthdayPackage> birthdayPackages = _context.BirthdayPackages
@@ -35,16 +39,26 @@ namespace Infrastructure.Data.Repositories
             return await birthdayPackages.ToListAsync();
         }
 
+        /// <summary>
+        /// This is for paging purposes, shows the total number of birthday packages
+        /// </summary>
         public async Task<int> GetCountForBirthdayPackages()
         {
             return await _context.BirthdayPackages.CountAsync();
         }
-
+        
+        /// <summary>
+        /// Used for rendering dropdown list while creating/editing birthday packages
+        /// See BirthdayPackagesController/GetAllKidActivities and add-birthdaypackage.component.ts for more details
+        /// </summary>
         public async Task<List<BirthdayPackage>> GetAllPureBirthdayPackages()
         {
             return await _context.BirthdayPackages.OrderBy(x => x.PackageName).ToListAsync();
         }
 
+        /// <summary>
+        /// Gets the corresponding birthday package based on id 
+        /// </summary>
         public async Task<BirthdayPackage> GetBirthdayPackageById(int id)
         {
             return await _context.BirthdayPackages.Include(x => x.BirthdayPackageKidActivities)
@@ -52,6 +66,9 @@ namespace Infrastructure.Data.Repositories
                 .ThenInclude(x => x.Discount).FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        /// <summary>
+        /// Creates birthday package
+        /// </summary>
         public async Task CreateBirthdayPackage(BirthdayPackage package)
         {
             _context.BirthdayPackages.Add(package);
@@ -59,23 +76,28 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Updates birthday package
+        /// </summary>
         public async Task UpdateBirthdayPackage(BirthdayPackage birthdayPackage)
         {    
             _context.Entry(birthdayPackage).State = EntityState.Modified;        
              await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Deletes birthday package
+        /// </summary>
         public async Task DeleteBirthdayPackage(BirthdayPackage birthdayPackage)
         {
             _context.BirthdayPackages.Remove(birthdayPackage);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<BirthdayPackage>> GetNonSelectedBirthdayPackages(List<int> ids)
-        {
-            return await _context.BirthdayPackages.Where(x => !ids.Contains(x.Id)).ToListAsync();
-        }
-
+        /// <summary>
+        /// Updates birthday package discounted price
+        /// See for example BirthdayPackagesController/CreateBirthdayPackage for more details
+        /// </summary>
         public async Task UpdateBirthdayPackageWithDiscount(BirthdayPackage birthdayPackage)
         {     
             var birthdayPackakgeDiscounts = await _context.BirthdayPackageDiscounts.Include(X => X.Discount)
@@ -106,6 +128,10 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Resets children item discounted price once discount has expired by calling private method
+        /// See for example BirthdayPackagesController/GetAllBirtdayPackages for more details
+        /// </summary>
         public async Task ResetBirthdayPackageDiscountedPriceDueToDiscountExpiry
             (IEnumerable<BirthdayPackage> birthdayPackages)
         {
@@ -130,7 +156,11 @@ namespace Infrastructure.Data.Repositories
             }             
         }
 
-        public async Task ResetBirthayPackageDiscountedPrice(Discount discount)
+        /// <summary>
+        /// Method that resets children item discounted price
+        /// See BirthdayPackageRepository/ResetBirthdayPackageDiscountedPriceDueToDiscountExpiry for more details
+        /// </summary>
+        private async Task ResetBirthayPackageDiscountedPrice(Discount discount)
         {     
             var birthdayPackageDiscounts = await _context.BirthdayPackageDiscounts.Include(X => X.Discount)
                 .Where(x => x.DiscountId == discount.Id).ToListAsync();
@@ -161,13 +191,15 @@ namespace Infrastructure.Data.Repositories
                                 item.HasDiscountsApplied = null;
                             }
                         }
-
                     _context.Entry(item).State = EntityState.Modified;        
                 }
             }
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Shows the sum of discounts applied on birthday package
+        /// </summary>
         public async Task<decimal> DiscountSum(BirthdayPackage birthdayPackage)
         {
             decimal discountsum = await _context.BirthdayPackageDiscounts.Include(X => X.Discount)
@@ -175,6 +207,12 @@ namespace Infrastructure.Data.Repositories
         
             return discountsum;
         }
+
+        /// <summary>
+        /// Shows the sum of all discounts applied on birthday package
+        /// Sum is rendered in UI in list of all birthday packaged, inside a triangle (birthdaypackage.component.html)
+        /// See BirthdayPackagesController/GetAllBirtdayPackages and birthdaypackage.component.html for more details
+        /// </summary>
 
         public async Task DiscountSumForDto(IEnumerable<BirthdayPackage> birthdayPackages,
             IEnumerable<BirthdayPackageDto> birthdayPackagesDto)
@@ -191,6 +229,10 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Resets birthday package discounted price while updating birthday package
+        /// See BirthdayPackagesController/UpdateBirthdayPackage for more details
+        /// </summary>
         public async Task ResetBirthdayPackageDiscountedPrice(BirthdayPackage birthdayPackage)
         {     
             var birthdayPackageDiscounts = await _context.BirthdayPackageDiscounts
@@ -229,6 +271,11 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Shows kid activities that were not selected while creating birthday package
+        /// Used for rendering dropdown list of non selected kid activities while editing birthday package
+        /// See BirthdayPackagesController/PutGetBirthdayPackage and edit-birthdaypackage.component.ts for more details
+        /// </summary>
         public async Task<List<KidActivity>> GetNonSelectedKidActivities(List<int> ids)
         {
             return await _context.KidActivities.Where(x => !ids.Contains(x.Id)).ToListAsync();

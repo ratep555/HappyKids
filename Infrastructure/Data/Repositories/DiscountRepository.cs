@@ -19,6 +19,9 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Shows all discounts
+        /// </summary>
         public async Task<List<Discount>> GetAllDiscounts(QueryParameters queryParameters)
         {
             IQueryable<Discount> discounts = _context.Discounts.AsQueryable().OrderBy(x => x.StartDate);
@@ -34,11 +37,17 @@ namespace Infrastructure.Data.Repositories
             return await discounts.ToListAsync();
         }
 
+        /// <summary>
+        /// This is for paging purposes, shows the total number of discounts
+        /// </summary>
         public async Task<int> GetCountForDiscounts()
         {
             return await _context.Discounts.CountAsync();
         }
 
+        /// <summary>
+        /// Gets the corresponding discount based on id
+        /// </summary>
         public async Task<Discount> GetDiscountById(int id)
         {
             return await _context.Discounts.Include(x => x.ChildrenItemDiscounts).ThenInclude(x => x.ChildrenItem)
@@ -47,7 +56,10 @@ namespace Infrastructure.Data.Repositories
                 .Include(x => x.BirthdayPackageDiscounts).ThenInclude(x => x.BirthdayPackage)
                 .Where(x => x.Id == id).FirstOrDefaultAsync();
         }
-
+        
+        /// <summary>
+        /// Creates discount
+        /// </summary>
         public async Task CreateDiscount(Discount discount)
         {
             discount.StartDate = discount.StartDate.ToLocalTime();
@@ -57,6 +69,9 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Updates discount
+        /// </summary>
         public async Task UpdateDiscount(Discount discount)
         {    
             discount.StartDate = discount.StartDate.ToLocalTime();
@@ -66,6 +81,9 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Deletes discount upon reseting prices
+        /// </summary>
         public async Task DeleteDiscount(Discount discount)
         {
             await ResetBirthdayPackageDiscountedPrice(discount);
@@ -78,6 +96,10 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Resets birthday package discounts prices
+        /// See for example DiscountsController/UpdateDiscount or DiscountRepository/DeleteDiscount for more details
+        /// </summary>
         public async Task ResetBirthdayPackageDiscountedPrice(Discount discount)
         {   
             var birthdayPackageDiscounts = await _context.BirthdayPackageDiscounts
@@ -114,6 +136,10 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Resets children item discounts prices
+        /// See for example BirthdayPackagesController/GetAllBirtdayPackages or DiscountRepository/DeleteDiscount for more details
+        /// </summary>
         public async Task ResetChildrenItemDiscountedPrice(Discount discount)
         {     
             var childrenItemDiscounts = await _context.ChildrenItemDiscounts.Include(X => X.Discount)
@@ -152,6 +178,10 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Resets category discounts prices
+        /// See for example DiscountsController/UpdateDiscount or DiscountRepository/DeleteDiscount for more details
+        /// </summary>
         public async Task ResetCategoryDiscountedPrice(Discount discount)
         {   
             var categoryDiscounts = await _context.CategoryDiscounts.Include(X => X.Discount)
@@ -199,6 +229,10 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Resets manufacturer discounts prices
+        /// See for example DiscountRepository/DeleteDiscount for more details
+        /// </summary>
         public async Task ResetManufacturerDiscountedPrice(Discount discount)
         {   
             var manufacturerDiscounts = await _context.ManufacturerDiscounts
@@ -246,6 +280,10 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Resets children item discounts prices once discount has expired
+        /// See for example ChildrenItemsController/GetAllChildrenItems for more details
+        /// </summary>
         public async Task ResetChildrenItemDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> childrenItems)
         {
             IEnumerable<int> ids = childrenItems.Select(x => x.Id);
@@ -268,6 +306,10 @@ namespace Infrastructure.Data.Repositories
             }             
         }
 
+        /// <summary>
+        /// Resets category discounts prices once discount has expired
+        /// See for example ChildrenItemsController/GetAllChildrenItems for more details
+        /// </summary>
         public async Task ResetCategoryDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> items)
         {
             IEnumerable<int> ids = items.Select(x => x.Id);
@@ -299,6 +341,10 @@ namespace Infrastructure.Data.Repositories
             }             
         }
 
+        /// <summary>
+        /// Resets manufacturer discounts prices once discount has expired
+        /// See for example ChildrenItemsController/GetAllChildrenItems for more details
+        /// </summary>
         public async Task ResetManufacturerDiscountedPriceDueToDiscountExpiry(IEnumerable<ChildrenItem> items)
         {
             IEnumerable<int> ids = items.Select(x => x.Id);
@@ -330,6 +376,10 @@ namespace Infrastructure.Data.Repositories
             }             
         }
 
+        /// <summary>
+        /// Updates birthday package discounted price
+        /// See for example BirthdayPackagesController/CreateBirthdayPackage for more details
+        /// </summary>
         public async Task UpdateBirthdayPackageWithDiscount(Discount discount)
         {     
             var birthdayPackafeDiscounts = await _context.BirthdayPackageDiscounts.Include(X => X.Discount)
@@ -341,7 +391,6 @@ namespace Infrastructure.Data.Repositories
 
             if (list.Any())
             {
-
             foreach (var item in list)
             {
                 var discountPercentage2 = await _context.BirthdayPackageDiscounts
@@ -369,7 +418,11 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
             }
         }
-   
+
+        /// <summary>
+        /// Updates children item discounted price
+        /// See for example ChildrenItemsController/CreateChildrenItem for more details
+        /// </summary>
         public async Task UpdateChildrenItemWithDiscount(ChildrenItem item)
         {     
             var childrenItemDiscounts = await _context.ChildrenItemDiscounts.Include(X => X.Discount)
@@ -381,7 +434,6 @@ namespace Infrastructure.Data.Repositories
 
             if (list.Any())
             {
-
             foreach (var products in list)
             {
                 var discountPercentage = await _context.ChildrenItemDiscounts
@@ -411,6 +463,10 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Updates children item discounted price
+        /// See for example DiscountsController/UpdateDiscount for more details
+        /// </summary>
         public async Task UpdateChildrenItemWithDiscount1(Discount discount)
         {     
             var childrenItemDiscounts = await _context.ChildrenItemDiscounts.Include(X => X.Discount)
@@ -422,7 +478,6 @@ namespace Infrastructure.Data.Repositories
 
             if (list.Any())
             {
-
             foreach (var item in list)
             {
                 var discountPercentage2 = await _context.ChildrenItemDiscounts
@@ -450,7 +505,11 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
             }
         }
-     
+
+        /// <summary>
+        /// Updates children item category discounted price
+        /// See for example DiscountsController/Create/UpdateDiscount for more details
+        /// </summary>
         public async Task UpdateChildrenItemWithCategoryDiscount(Discount discount)
         {    
             var categoryDiscounts = await _context.CategoryDiscounts.Include(X => X.Discount)
@@ -471,7 +530,6 @@ namespace Infrastructure.Data.Repositories
 
             if (list.Any())
             {
-
                 foreach (var item in list)
                 {
                     var categoryPercentage2 = await _context.CategoryDiscounts.Include(x => x.Discount)
@@ -500,6 +558,10 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Updates children item manufacturer discounted price
+        /// See for example DiscountsController/Create/UpdateDiscount for more details
+        /// </summary>
         public async Task UpdateChildrenItemWithManufacturerDiscount(Discount discount)
         {    
             var manufacturerDiscounts = await _context.ManufacturerDiscounts.Include(X => X.Discount)
@@ -549,6 +611,9 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Shows the sum of all discounts applied on certain children item (children item discounts, category discounts, and manufacturer discounts)
+        /// </summary>
         public async Task<decimal> DiscountSum(ChildrenItem childrenItem)
         {
             decimal discountsum = await _context.ChildrenItemDiscounts.Include(X => X.Discount)
@@ -575,6 +640,11 @@ namespace Infrastructure.Data.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Shows the sum of all discounts applied on certain children item (children item discounts, category discounts, and manufacturer discounts)
+        /// Sum is rendered in UI in list of all the children items, inside a triangle (childrenitem.component.html)
+        /// See ChildrenItemsController/GetAllChildrenItems and childrenitem.component.html for more details
+        /// </summary>
         public async Task<decimal> DiscountSumForDto(ChildrenItemDto childrenItem)
         {
             decimal discountsum = await _context.ChildrenItemDiscounts.Include(X => X.Discount)

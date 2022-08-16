@@ -10,10 +10,11 @@ namespace Core.Entities.Blogs
 
         public int BlogId { get; set; }
         public Blog Blog { get; set; }
-
         public int ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         
+        
+        [Required, MaxLength(300)]
         public string CommentContent { get; set; }
         
         [DataType(DataType.Date)]

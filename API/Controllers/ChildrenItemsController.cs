@@ -28,6 +28,10 @@ namespace API.Controllers
             _fileStorageService = fileStorageService;
         }
 
+        /// <summary>
+        /// Showing list of all children items our company is currently offering in webshop
+        /// This is rendered in client view and also in the administrative (admin) part of the application
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<ChildrenItemDto>>> GetAllChildrenItems(
             [FromQuery] QueryParameters queryParameters)
@@ -90,6 +94,10 @@ namespace API.Controllers
             return Ok(childrenItemToReturn);
         }
 
+        /// <summary>
+        /// We use this while editing children item, list of all selected and non selected categories/discounts/manufacturers/tags is rendered
+        /// See childrenitems.service.ts and edit-childrenitem.component.ts for more details
+        /// </summary>
         [HttpGet("putget/{id}")]
         public async Task<ActionResult<ChildrenItemPutGetDto>> PutGetChildrenItem(int id)
         {
@@ -146,6 +154,9 @@ namespace API.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Creating new children item for our webshop
+        /// </summary>
         [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateChildrenItem([FromForm] ChildrenItemCreateEditDto childernItemDto)
@@ -203,6 +214,11 @@ namespace API.Controllers
             return NoContent();
         }      
 
+        /// <summary>
+        /// Decreases the number of children item quantity in the process of purchasing in our webshop
+        /// Decrement can be done provided there is sufficient quantity in the warehouse
+        /// See webshop.service.ts and childrenitem.component.ts for more details
+        /// </summary>
         [HttpPut("decrease/{id}/{quantity}")]
         public async Task<ActionResult> DecreaseChildrenItemStockQuantity(int id, int quantity)
         {
@@ -239,6 +255,10 @@ namespace API.Controllers
             return NoContent();               
         }
 
+        /// <summary>
+        /// Increases the number of children item quantity in the process of purchasing in our webshop
+        /// See webshop.service.ts and childrenitem.component.ts for more details
+        /// </summary>
         [HttpPut("increase/{id}/{quantity}")]
         public async Task<ActionResult> IncreaseChildrenItemStockQuantity(int id, int quantity)
         {
@@ -255,6 +275,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all categories in the process of creating/editing children item
+        /// </summary>
         [HttpGet("categories")]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {
@@ -263,6 +286,9 @@ namespace API.Controllers
             return _mapper.Map<List<CategoryDto>>(list);
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all discounts in the process of creating/editing children item
+        /// </summary>
         [HttpGet("discounts")]
         public async Task<ActionResult<List<DiscountDto>>> GetAllDiscounts()
         {
@@ -271,6 +297,9 @@ namespace API.Controllers
             return _mapper.Map<List<DiscountDto>>(list);
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all manufacturers in the process of creating/editing children item
+        /// </summary>
         [HttpGet("manufacturers")]
         public async Task<ActionResult<List<ManufacturerDto>>> GetAllManufacturers()
         {
@@ -279,6 +308,9 @@ namespace API.Controllers
             return _mapper.Map<List<ManufacturerDto>>(list);
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all tags in the process of creating/editing children item
+        /// </summary>
         [HttpGet("tags")]
         public async Task<ActionResult<List<TagDto>>> GetAllTags()
         {
@@ -287,6 +319,9 @@ namespace API.Controllers
             return _mapper.Map<List<TagDto>>(list);
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all categories while filtering in webshop
+        /// </summary>
         [HttpGet("categoriesassociatedwithchildrenitems")]
         public async Task<ActionResult<List<CategoryDto>>> GetCategoriesAssociatedWithChildrenItems()
         {
@@ -295,6 +330,9 @@ namespace API.Controllers
             return _mapper.Map<List<CategoryDto>>(list);
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all manufacturers while filtering in webshop
+        /// </summary>
         [HttpGet("manufacturersassociatedwithchildrenitems")]
         public async Task<ActionResult<List<ManufacturerDto>>> GetManufacturersAssociatedWithChildrenItems()
         {
@@ -303,6 +341,9 @@ namespace API.Controllers
             return _mapper.Map<List<ManufacturerDto>>(list);
         }
 
+        /// <summary>
+        /// Required when rendering dropdown list of all tags while filtering in webshop
+        /// </summary>
         [HttpGet("tagsassociatedwithchildrenitems")]
         public async Task<ActionResult<List<TagDto>>> GetTagsAssociatedWithChildrenItems()
         {
@@ -311,6 +352,9 @@ namespace API.Controllers
             return _mapper.Map<List<TagDto>>(list);
         }
 
+        /// <summary>
+        /// Allows registered client to rate children item that she/he has previously bought
+        /// </summary>
         [Authorize]
         [HttpPost("ratings")]
         public async Task<ActionResult> CreateRate([FromBody] RatingDto ratingDto)
@@ -341,6 +385,9 @@ namespace API.Controllers
             return BadRequest("Failed to add rate");            
         }
         
+        /// <summary>
+        /// Allows registered client to add like to children item
+        /// </summary>
         [Authorize]
         [HttpPost("addlike/{id}")]
         public async Task<ActionResult> AddLike (int id)

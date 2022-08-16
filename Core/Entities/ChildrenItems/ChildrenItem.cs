@@ -1,10 +1,16 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities.ChildrenItems
 {
     public class ChildrenItem : BaseEntity
     {
+        [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
+
+        [Required]
+        [MaxLength(2000)]
         public string Description { get; set; }
         public decimal Price { get; set; }
         public decimal? DiscountedPrice { get; set; }

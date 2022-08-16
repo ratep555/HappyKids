@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handles messaging system, visitors can send messages to our employees
+    /// </summary>
     public class MessagesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;

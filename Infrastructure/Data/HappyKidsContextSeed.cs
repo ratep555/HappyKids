@@ -18,6 +18,9 @@ namespace Infrastructure.Data
 {
     public class HappyKidsContextSeed
     {
+        /// <summary>
+        /// Seeding users with initial data
+        /// </summary>
         public static async Task SeedUserAsync(UserManager<ApplicationUser> userManager, 
             RoleManager<ApplicationRole> roleManager)
         {
@@ -47,6 +50,9 @@ namespace Infrastructure.Data
             await userManager.AddToRolesAsync(admin, new[] {"Admin"});                                        
         }
 
+        /// <summary>
+        /// Seeding entities with initial data
+        /// </summary>
         public static async Task SeedEntitiesAsync(HappyKidsContext context, ILoggerFactory loggerFactory)
         {
             try

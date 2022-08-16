@@ -18,6 +18,9 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets existing client basket or creates new basket
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<ClientBasket>> GetClientBasket(string id)
         {

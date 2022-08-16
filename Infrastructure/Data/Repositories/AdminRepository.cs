@@ -19,6 +19,11 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Shows all users
+        /// Admin decides which user gets which role, which user will be banned etc.
+        /// See AdminController/GetAllUsers and users-list-component.ts for more details
+        /// </summary>
         public async Task<List<UserToReturnDto>> GetAllUsers(QueryParameters queryParameters)
         {
             var userRoles = await _context.UserRoles.Include(x => x.User).Include(x => x.Role)
@@ -52,16 +57,25 @@ namespace Infrastructure.Data.Repositories
             return await users.ToListAsync();       
         }
 
+        /// <summary>
+        /// This is for paging purposes, shows the total number of users
+        /// </summary>
         public async Task<int> GetCountForUsers()
         {
             return await _context.Users.CountAsync();
         }
 
+        /// <summary>
+        /// Gets the corresponding user based on id 
+        /// </summary>
         public async Task<ApplicationUser> FindUserById(int id)
         {
             return await _context.Users.Where(a => a.Id == id).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Enables Admin(s) to lock user
+        /// </summary>
         public async Task LockUser(int id)
         {
             var userFromDb = await FindUserById(id);
@@ -71,6 +85,9 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Enables Admin to unlock user
+        /// </summary>
         public async Task UnlockUser(int id)
         {
             var userFromDb = await FindUserById(id);
@@ -80,6 +97,9 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Shows which user has which role(s)
+        /// </summary>
         public async Task<List<ApplicationRole>> GetRolesAssociatedWithUsers()
         {
             var userRoles = await _context.UserRoles.ToListAsync();
@@ -92,6 +112,10 @@ namespace Infrastructure.Data.Repositories
             return roles;
         }
 
+        /// <summary>
+        /// This is used for statistical purposes and rendered in UI via google charts
+        /// See for example AdminController/ShowCountForEntities and statistics.component.ts for more details
+        /// </summary>
         public async Task<StatisticsDto> ShowCountForEntities()
         {
             var clientRoles = await _context.Roles.Where(x => x.Name == "Client").ToListAsync();
@@ -114,6 +138,10 @@ namespace Infrastructure.Data.Repositories
             return statistics;
         }
 
+        /// <summary>
+        /// This is used for statistical purposes and rendered in UI via google charts
+        /// See for example AdminController/GetNumberOfBuyersForEachPaymentOption and statistics.component.ts for more details
+        /// </summary>
         public async Task<IEnumerable<BuyersPaymentOptionsChart>> GetNumberOfBuyersForEachPaymentOption()
         {
             List<BuyersPaymentOptionsChart> list = new List<BuyersPaymentOptionsChart>();
@@ -138,6 +166,10 @@ namespace Infrastructure.Data.Repositories
             return list;
         }
 
+        /// <summary>
+        /// This is used for statistical purposes and rendered in UI via google charts
+        /// See for example AdminController/GetAllOrderStatusesForChildrenItems and statistics.component.ts for more details
+        /// </summary>
         public async Task<IEnumerable<ClientOrderStatusesChart>> GetAllOrderStatusesForChildrenItems()
         {
             List<ClientOrderStatusesChart> list = new List<ClientOrderStatusesChart>();
@@ -201,6 +233,10 @@ namespace Infrastructure.Data.Repositories
             return list;
         }
 
+        /// <summary>
+        /// This is used for statistical purposes and rendered in UI via google charts
+        /// See for example AdminController/GetAllOrderStatusesForBirthdayOrders and statistics.component.ts for more details
+        /// </summary>
         public async Task<IEnumerable<BirthdayOrdersStatusesChart>> GetAllOrderStatusesForBirthdayOrders()
         {
             List<BirthdayOrdersStatusesChart> list = new List<BirthdayOrdersStatusesChart>();

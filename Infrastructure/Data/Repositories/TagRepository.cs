@@ -15,7 +15,9 @@ namespace Infrastructure.Data.Repositories
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Shows all tags
+        /// </summary>
         public async Task<List<Tag>> GetAllTags(QueryParameters queryParameters)
         {
             IQueryable<Tag> tags = _context.Tags.AsQueryable().OrderBy(x => x.Name);
@@ -30,29 +32,39 @@ namespace Infrastructure.Data.Repositories
 
             return await tags.ToListAsync();
         }
-
+        /// <summary>
+        /// This is for paging purposes, shows the total number of all tags
+        /// </summary>
         public async Task<int> GetCountForTags()
         {
             return await _context.Tags.CountAsync();
         }
-
+        /// <summary>
+        /// Gets the corresponding tag based on id
+        /// </summary>
         public async Task<Tag> GetTagById(int id)
         {
             return await _context.Tags.FirstOrDefaultAsync(p => p.Id == id);
         }
-
+        /// <summary>
+        /// Creates tag
+        /// </summary>
         public async Task CreateTag(Tag tag)
         {
             _context.Tags.Add(tag);
             await _context.SaveChangesAsync();                    
         }
-
+        /// <summary>
+        /// Updates tag
+        /// </summary>
         public async Task UpdateTag(Tag tag)
         {
             _context.Entry(tag).State = EntityState.Modified;  
             await _context.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Deletes tag
+        /// </summary>
         public async Task DeleteTag(Tag tag)
         {
             _context.Tags.Remove(tag);
@@ -60,3 +72,11 @@ namespace Infrastructure.Data.Repositories
         }
     }
 }
+
+
+
+
+
+
+
+

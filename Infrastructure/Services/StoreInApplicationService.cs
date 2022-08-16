@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// Methods for saving, editing, and deleting files (pictures) inside application (wwwroot)
+    /// </summary>
     public class StoreInApplicationService : IFileStorageService
     {
         private readonly IWebHostEnvironment env;

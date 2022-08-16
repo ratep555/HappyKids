@@ -2,6 +2,10 @@ using System.Security.Claims;
 
 namespace API.Extensions
 {
+    /// <summary>
+    /// Static methods for retrieving username, userid, and email from JWT token
+    /// They are later on called within controllers, see for example ChildrenItemsController/CreateRate for more details
+    /// </summary>
     public static class ClaimsExtensions
     {
         public static string GetUsername(this ClaimsPrincipal user)

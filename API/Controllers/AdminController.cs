@@ -27,6 +27,9 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Renders the list of all users, so admin could do the manipulation
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<UserToReturnDto>>> GetAllUsers(
             [FromQuery] QueryParameters queryParameters)
@@ -39,6 +42,9 @@ namespace API.Controllers
             (queryParameters.Page, queryParameters.PageCount, count, list));
         }
 
+        /// <summary>
+        /// Enables admin to add/remove role from users
+        /// </summary>
         [HttpPost("edit-roles/{username}")]
         public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
         {
@@ -61,6 +67,9 @@ namespace API.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
+        /// <summary>
+        /// Enables unlocking the user
+        /// </summary>
         [HttpPut("unlock/{id}")]
         public async Task<ActionResult> UnlockUser(int id)
         {
@@ -76,6 +85,9 @@ namespace API.Controllers
            return NoContent();
         }
 
+        /// <summary>
+        /// Enables locking of user
+        /// </summary>
         [HttpPut("lock/{id}")]
         public async Task<ActionResult> LockUser(int id)
         {
@@ -104,6 +116,7 @@ namespace API.Controllers
             return _mapper.Map<List<RoleDto>>(list);
         }
 
+        // CHARTS
         [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpGet("statistics")]
         public async Task<ActionResult<StatisticsDto>> ShowCountForEntities()

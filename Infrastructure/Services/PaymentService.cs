@@ -9,6 +9,9 @@ using Stripe;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// Here we are creating/updating Stripe payment intent with the help of Stripe keys located in appsettings.json
+    /// </summary>
     public class PaymentService : IPaymentService
     {
         private readonly IBasketRepository _basketRepository;
@@ -21,7 +24,11 @@ namespace Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
-         public async Task<ClientBasket> CreatingOrUpdatingPaymentIntent(string basketId)
+        /// <summary>
+        /// Method creates/updates payment intent 
+        /// <param name="Amount">Stripe oes not take decimals, it takes numbers in long format, we have to cast everything to long.</param>
+        /// </summary>
+        public async Task<ClientBasket> CreatingOrUpdatingPaymentIntent(string basketId)
         {
             StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
 
@@ -78,7 +85,10 @@ namespace Infrastructure.Services
 
             return basket;
         }
-
+        
+        /// <summary>
+        /// Sets payment_intent.payment_failed status for Stripe payments
+        /// </summary>
         public async Task<ClientOrder> UpdatingOrderPaymentFailed(string paymentIntentId)
         {
             var order = await _unitOfWork.OrderRepository.FindOrderByPaymentIntentId(paymentIntentId);;
@@ -92,6 +102,9 @@ namespace Infrastructure.Services
             return order;        
         }
 
+        /// <summary>
+        /// Sets payment_intent.succeeded status for Stripe payments
+        /// </summary>
         public async Task<ClientOrder> UpdatingOrderPaymentSucceeded(string paymentIntentId)
         {
             var order = await _unitOfWork.OrderRepository.FindOrderByPaymentIntentId(paymentIntentId);;

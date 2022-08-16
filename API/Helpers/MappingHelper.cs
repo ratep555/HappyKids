@@ -22,6 +22,10 @@ using Core.Dtos.BlogsDtos;
 
 namespace API.Helpers
 {
+    /// <summary>
+    /// Mapping properties with the help of Automapper and manually
+    /// <param name="geometryFactory">NetTopologySuite is required since we are storing coordinates of our branches.</param>
+    /// </summary>
     public class MappingHelper : Profile
     {
         public MappingHelper(GeometryFactory geometryFactory)
@@ -162,6 +166,7 @@ namespace API.Helpers
             CreateMap<WarehouseCreateEditDto, Warehouse>();
         }
 
+        // Methods called when mapping manually
         private List<CategoryDto> MapForCategories(ChildrenItem childrenItem, ChildrenItemDto childrenItemDto)
         {
             var result = new List<CategoryDto>();

@@ -9,7 +9,7 @@ namespace Core.Dtos.BlogsDtos
         public int BlogId { get; set; }
         
 
-        [Required, MinLength(10), MaxLength(300)]
+        [Required, MaxLength(300)]
         public string CommentContent { get; set; }
     }
 }

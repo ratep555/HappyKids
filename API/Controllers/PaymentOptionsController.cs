@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling payment options for children item orders
+    /// </summary>
     public class PaymentOptionsController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;

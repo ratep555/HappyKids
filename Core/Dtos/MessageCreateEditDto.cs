@@ -6,12 +6,14 @@ namespace Core.Dtos
     {
         public int Id { get; set; }
 
-        [Required, MinLength(2), MaxLength(30)]
+        [Required, MinLength(2), MaxLength(255)]
         public string FirstLastName { get; set; }
 
-        [Required]
+        [Required, MaxLength(100)]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required, MaxLength(100)]
         public string Phone { get; set; }
         
 

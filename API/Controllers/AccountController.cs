@@ -39,12 +39,15 @@ namespace API.Controllers
             _googleAuthService = googleAuthService;
         }
 
+        /// <summary>
+        /// Client registration
+        /// </summary>
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.DisplayName)) return BadRequest("This name is taken");
+            if (await UserExists(registerDto.DisplayName)) return BadRequest("Bad request");
 
-            if (await CheckEmailExistsAsync(registerDto.Email)) return BadRequest("This email is taken");
+            if (await CheckEmailExistsAsync(registerDto.Email)) return BadRequest("Bad request");
 
             var user = _mapper.Map<ApplicationUser>(registerDto);
             user.UserName = registerDto.DisplayName;
@@ -72,6 +75,9 @@ namespace API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Admin creates new user with Manager role
+        /// </summary>
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("addmanager")]
         public async Task<ActionResult> RegisterManager(RegisterDto registerDto)
@@ -119,6 +125,9 @@ namespace API.Controllers
             };
         }
 
+        /// <summary>
+        /// Google sign in
+        /// </summary>
         [HttpPost("externallogin")]
 		public async Task<ActionResult<UserDto>> ExternalLogin([FromBody] ExternalAuthDto externalAuth)
 		{
@@ -168,6 +177,9 @@ namespace API.Controllers
             };
 		}
 
+        /// <summary>
+        /// Confirming email upon registration
+        /// </summary>
         [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery] string token)
         {
@@ -179,6 +191,9 @@ namespace API.Controllers
             return Redirect($"{_config["AngularAppUrl"]}/account/email-confirmation");
         }
 
+        /// <summary>
+        /// Gets activated if the user has forgot password
+        /// </summary>
         [HttpPost("forgotpassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
         {         
@@ -201,6 +216,9 @@ namespace API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Enables password reset
+        /// </summary>
         [HttpPost("resetpassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
@@ -218,6 +236,10 @@ namespace API.Controllers
             return BadRequest("Bad request!");
         }
 
+        /// <summary>
+        /// Gets client address, which is used in the billing process
+        /// See for example billing.component.ts for more details
+        /// </summary>
         [Authorize]
         [HttpGet("getaddress")]
         public async Task<ActionResult<ShippingAddressDto>> GetClientAddress()
@@ -227,6 +249,10 @@ namespace API.Controllers
             return _mapper.Map<ShippingAddressDto>(user.Address);
         }
 
+        /// <summary>
+        /// Enables client to update address during billing process
+        /// See for example billing-address.component.ts for more details
+        /// </summary>
         [Authorize]
         [HttpPut("updateaddress")]
         public async Task<ActionResult<ShippingAddressDto>> UpdateClientAddress(ShippingAddressDto address)
@@ -241,11 +267,17 @@ namespace API.Controllers
             return BadRequest("Problem updating the user");
         } 
 
+        /// <summary>
+        /// Checks if user exists
+        /// </summary>
         private async Task<bool> UserExists(string displayname)
         {
             return await _userManager.Users.AnyAsync(x => x.DisplayName == displayname.ToLower());
         }     
 
+        /// <summary>
+        /// Checks if email exists
+        /// </summary>
         private async Task<bool> CheckEmailExistsAsync(string email)
         {             
             return await _userManager.FindByEmailAsync(email) != null;

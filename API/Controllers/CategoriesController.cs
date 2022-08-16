@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling categories related to children items
+    /// </summary>
     public class CategoriesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,6 +24,9 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Showing list of all categories that can be associated with children item and/or dicount
+        /// </summary>      
         [HttpGet]
         public async Task<ActionResult<Pagination<CategoryDto>>> GetAllCategories(
                 [FromQuery] QueryParameters queryParameters)

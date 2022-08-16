@@ -35,6 +35,10 @@ namespace API.Controllers
             _emailService = emailService;
         }
 
+        /// <summary>
+        /// Showing list of all the birthday packages our company is currently offering
+        /// This is rendered in client view and also in the administrative (admin) part of the application
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<BirthdayPackageDto>>> GetAllBirtdayPackages(
             [FromQuery] QueryParameters queryParameters)
@@ -79,6 +83,10 @@ namespace API.Controllers
             return birthdayPackageDto;
         }
 
+        /// <summary>
+        /// We use this while editing birthday package, list of all selected and non selected kid activities/discounts in rendered
+        /// See birthdaypackage.service.ts and edit-birthdaypackage.component.ts for more details
+        /// </summary>
         [HttpGet("putget/{id}")]
         public async Task<ActionResult<BirthdayPackagePutGetDto>> PutGetBirthdayPackage(int id)
         {
@@ -115,6 +123,9 @@ namespace API.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Creates birthday package and updates it with disount
+        /// </summary>
         [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPost]
         public async Task<ActionResult> CreateBirthdayPackage(
@@ -133,6 +144,9 @@ namespace API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Updates birthday package, including resetting birthday package discounted price 
+        /// </summary>
         [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBirthdayPackage(int id, [FromForm] BirthdayPackageCreateEditDto birthdayPackageDto)
@@ -173,6 +187,9 @@ namespace API.Controllers
             return NoContent();
         }      
 
+        /// <summary>
+        /// Renders dropdown list with all kid activities, used while creating/updating birthday package
+        /// </summary>
         [HttpGet("kidactivities")]
         public async Task<ActionResult<IEnumerable<KidActivityDto>>> GetAllKidActivities()
         {

@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handling shipping options for children item orders
+    /// </summary>
     public class ShippingOptionsController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;

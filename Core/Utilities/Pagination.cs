@@ -2,6 +2,13 @@ using System.Collections.Generic;
 
 namespace Core.Utilities
 {
+    /// <summary>
+    /// Paging utility
+    /// <param name="Page">Current page.</param>
+    /// <param name="PageCount">Number of items per page.</param>
+    /// <param name="Count">Total number of items.</param>
+    /// <param name="Data">Data we wish to present in the UI.</param>
+    /// </summary>
     public class Pagination<T> where T : class
     {
         public Pagination(int page, int pageCount, int count, IEnumerable<T> data)

@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Handles ordering process, clients can order children items from our webshop
+    /// </summary>
     [Authorize]
     public class OrdersController : BaseApiController
     {
@@ -34,6 +37,9 @@ namespace API.Controllers
             _pdfService = pdfService;
         }
 
+        /// <summary>
+        /// Showing list of all orders for children items
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<ClientOrderToReturnDto>>> GetAllOrdersForChildrenItems(
                 [FromQuery] QueryParameters queryParameters)
@@ -48,6 +54,9 @@ namespace API.Controllers
                 (queryParameters.Page, queryParameters.PageCount, count, data));
         }
 
+        /// <summary>
+        /// Showing list of all orders for children items for registered user
+        /// </summary>
         [HttpGet("client")]
         public async Task<ActionResult<Pagination<ClientOrderToReturnDto>>> GetAllOrdersForChildrenItemsForClient(
                 [FromQuery] QueryParameters queryParameters)
@@ -96,6 +105,9 @@ namespace API.Controllers
             return clientOrderDto;
         } 
 
+        /// <summary>
+        /// Creates Cash on Delivery and General Card Slip order for childern item, including the corresponding pdf
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<ClientOrder>> CreateOrder(ClientOrderDto orderDto)
         {
@@ -109,9 +121,9 @@ namespace API.Controllers
 
             var address = _mapper.Map<ShippingAddress>(orderDto.ShippingAddress);
 
-            if (await _orderService.CheckIfBasketQuantityExceedsStackQuantity(orderDto.BasketId))
+            if (await _orderService.CheckIfBasketQuantityExceedsStockQuantity(orderDto.BasketId))
             {
-                return BadRequest("Quantity in your basket excceds item's stack quantity!");
+                return BadRequest("Quantity in your basket exceedes item's stock quantity!");
             }
 
             var order = await _orderService.CreateOrder(email, orderDto.ShippingOptionId, orderDto.PaymentOptionId,
@@ -149,6 +161,9 @@ namespace API.Controllers
            return Ok(order);
         }
 
+        /// <summary>
+        /// Creates Stripe Payment Order for childern item
+        /// </summary>
         [HttpPost("stripe")]
         public async Task<ActionResult<ClientOrder>> CreateOrderForStripe(ClientOrderDto orderDto)
         {
@@ -162,7 +177,7 @@ namespace API.Controllers
 
             var address = _mapper.Map<ShippingAddress>(orderDto.ShippingAddress);
 
-            if (await _orderService.CheckIfBasketQuantityExceedsStackQuantity(orderDto.BasketId))
+            if (await _orderService.CheckIfBasketQuantityExceedsStockQuantity(orderDto.BasketId))
             {
                 return BadRequest("Quantity in your basket excceds item's stack quantity!");
             }
@@ -177,6 +192,10 @@ namespace API.Controllers
            return Ok(order);
         }
 
+        /// <summary>
+        /// Admin and manager are updating order status
+        /// </summary>
+        [Authorize(Policy = "RequireAdminManagerRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateOrderByAdmin(int id, [FromBody] OrderEditDto orderDto)
         {

@@ -10,7 +10,10 @@ namespace Infrastructure.Data.Repositories
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Gets the coresponding discount based on id
+        /// See OrdersController/GetOrderById
+        /// </summary>
         public string GetCountryName(int id)
         {
             return _context.Countries.Where(x => x.Id == id).First().Name;

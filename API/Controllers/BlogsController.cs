@@ -26,7 +26,12 @@ namespace API.Controllers
             _fileStorageService = fileStorageService;
         }
 
-        // blogs
+        // BLOGS
+
+        /// <summary>
+        /// Showing list of all blogs
+        /// This is rendered in client view and also in the administrative (admin) part of the application        
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<BlogDto>>> GetAllBlogs([FromQuery] QueryParameters queryParameters)
         {
@@ -111,7 +116,11 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // blogcomments
+        // BLOGCOMMENTS
+
+        /// <summary>
+        /// Showing list of all blog comments related to certain blog
+        /// </summary>        
         [HttpGet("blogcomments/{blogId}")]
         public async Task<ActionResult<IEnumerable<BlogCommentDto>>> GetAllBlogComments(int blogId)
         {
@@ -122,6 +131,9 @@ namespace API.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Creates/updates blog comment
+        /// </summary>      
         [Authorize]
         [HttpPost("blogcomments")]
         public async Task<ActionResult<BlogCommentDto>> UpsertBlogComment([FromBody] BlogCommentCreateEditDto blogCommentDto)
@@ -154,6 +166,9 @@ namespace API.Controllers
             return Ok(commentToReturn);
         }
 
+        /// <summary>
+        /// Alolws user to delete hers/his blog comment
+        /// </summary>      
         [Authorize]
         [HttpDelete("blogcomments/{id}")]
         public async Task<ActionResult<int>> DeleteBlogComment(int id)

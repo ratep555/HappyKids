@@ -29,6 +29,9 @@ namespace API.Controllers
             _fileStorageService = fileStorageService;
         }
 
+        /// <summary>
+        /// Showing list of all kid activities which can be included in birthay packages
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<Pagination<KidActivityDto>>> GetAllKidActivities(
             [FromQuery] QueryParameters queryParameters)
